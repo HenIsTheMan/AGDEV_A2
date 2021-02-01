@@ -209,6 +209,7 @@
     <ClCompile Include="Src\FrustumCulling\FrustumCulling.cpp" />
     <ClCompile Include="Src\LOD\LOD.cpp" />
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
+    <ClCompile Include="Src\Lua\LuaManager.cpp" />
     <ClCompile Include="Src\Quadtree\Node.cpp" />
     <ClCompile Include="Src\Quadtree\NodeManager.cpp" />
     <ClCompile Include="Src\Quadtree\Region.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="Src\FrustumCulling\FrustumCulling.h" />
     <ClInclude Include="Src\LOD\LOD.h" />
     <ClInclude Include="Src\Lua\LuaHelpers.h" />
+    <ClInclude Include="Src\Lua\LuaManager.h" />
     <ClInclude Include="Src\Lua\Units\LuaTest1st.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest2nd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />

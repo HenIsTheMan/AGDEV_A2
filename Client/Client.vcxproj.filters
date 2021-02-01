@@ -26,6 +26,7 @@
     <ClCompile Include="Src\Collision\Collider\Collider.cpp" />
     <ClCompile Include="Src\Collision\Collider\ColliderManager.cpp" />
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
+    <ClCompile Include="Src\Lua\LuaManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
+    <ClInclude Include="Src\Lua\LuaManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
