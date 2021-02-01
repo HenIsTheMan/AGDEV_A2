@@ -48,6 +48,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_MATERIAL_H_INC
 #define AI_MATERIAL_H_INC
 
+#pragma warning(push)
+#pragma warning(disable: 26812)
+
 #include "types.h"
 
 #ifdef __cplusplus

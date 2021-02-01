@@ -5,10 +5,10 @@
 namespace{
 	void LuaTest1st(){
 		struct{
-			str name0;
-			str name1;
-			int val0;
-			double val1;
+			str name0 = str();
+			str name1 = str();
+			int val0 = 0;
+			double val1 = 0.0;
 		} foobar;
 
 		lua_State* const L = luaL_newstate();

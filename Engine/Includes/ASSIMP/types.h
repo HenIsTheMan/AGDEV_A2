@@ -48,6 +48,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_TYPES_H_INC
 #define AI_TYPES_H_INC
 
+#pragma warning(push)
+#pragma warning(disable: 26451)
+
 // Some runtime headers
 #include <sys/types.h>
 #include <stddef.h>

@@ -1,6 +1,15 @@
 #include "LuaManager.h"
 
 LuaManager::~LuaManager(){
+	if(im_ReadL != nullptr){
+		lua_close(im_ReadL);
+		im_ReadL = nullptr;
+	}
+
+	if(im_WriteL != nullptr){
+		lua_close(im_WriteL);
+		im_WriteL = nullptr;
+	}
 }
 
 void LuaManager::Init(){
