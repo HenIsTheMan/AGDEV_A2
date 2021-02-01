@@ -19,7 +19,7 @@ namespace{
 		luaL_openlibs(L);
 		lua_register(L, "HostFunc", HostFunc);
 
-		if(!LuaErrCheck(L, luaL_dofile(L, "Scripts/Test.lua"), true)){
+		if(!LuaErrCheck(L, luaL_dofile(L, "Scripts/Test5th.lua"), true)){
 			lua_getglobal(L, "Perform");
 
 			if(lua_isfunction(L, -1)){

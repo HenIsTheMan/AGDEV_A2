@@ -28,7 +28,7 @@ int main(const int&, const char* const* const&){
 
 	std::thread worker(&MainProcess);
 
-	LuaTest3rd();
+	LuaTest5th();
 
 	while(!endLoop){
 		if(Key(VK_ESCAPE)){
