@@ -64,6 +64,7 @@
     <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
     <ClInclude Include="Src\Lua\LuaManager.h" />
+    <ClInclude Include="Src\Lua\Units\LuaManagerTest.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

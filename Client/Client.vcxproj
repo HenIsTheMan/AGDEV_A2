@@ -238,6 +238,7 @@
     <ClInclude Include="Src\LOD\LOD.h" />
     <ClInclude Include="Src\Lua\LuaHelpers.h" />
     <ClInclude Include="Src\Lua\LuaManager.h" />
+    <ClInclude Include="Src\Lua\Units\LuaManagerTest.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest1st.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest2nd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
