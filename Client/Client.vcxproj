@@ -236,6 +236,7 @@
     <ClInclude Include="Src\FrustumCulling\FrustumCulling.h" />
     <ClInclude Include="Src\LOD\LOD.h" />
     <ClInclude Include="Src\Lua\LuaHelpers.h" />
+    <ClInclude Include="Src\Lua\Units\LuaTest1st.hpp" />
     <ClInclude Include="Src\ObjPool\ObjPool.h" />
     <ClInclude Include="Src\Quadtree\Node.h" />
     <ClInclude Include="Src\Quadtree\NodeManager.h" />

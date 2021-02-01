@@ -21,6 +21,7 @@ extern "C" {
 
 #include <functional>
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <stack>
 #include <thread>

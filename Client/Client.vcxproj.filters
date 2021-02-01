@@ -57,6 +57,7 @@
     <ClInclude Include="Src\Collision\Collider\Collider.h" />
     <ClInclude Include="Src\Collision\Collider\ColliderManager.h" />
     <ClInclude Include="Src\Lua\LuaHelpers.h" />
+    <ClInclude Include="Src\Lua\Units\LuaTest1st.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
