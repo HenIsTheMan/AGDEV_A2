@@ -1,5 +1,11 @@
 #pragma once
 
+extern "C" {
+	#include <Lua/lua.h>
+	#include <Lua/lauxlib.h>
+	#include <Lua/lualib.h>
+}
+
 #include <ASSIMP/Importer.hpp>
 #include <ASSIMP/scene.h>
 #include <ASSIMP/postprocess.h>
@@ -31,10 +37,13 @@ constexpr auto KEY_P = 80;
 
 #define STR(text) #text
 
-#pragma comment(lib, "assimp-vc142-mtd.lib")
-#pragma comment(lib, "freetype.lib")
-#pragma comment(lib, "glfw3.lib")
-#pragma comment(lib, "irrKlang.lib")
+#ifdef _WIN32
+	#pragma comment(lib, "assimp-vc142-mtd.lib")
+	#pragma comment(lib, "freetype.lib")
+	#pragma comment(lib, "glfw3.lib")
+	#pragma comment(lib, "irrKlang.lib")
+	#pragma comment(lib, "lua54.lib")
+#endif
 
 typedef const char* cstr;
 typedef unsigned int uint;
