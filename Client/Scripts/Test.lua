@@ -45,8 +45,7 @@ end
 ---[[
 function Perform(a, b)
 	print("[LUA] Perform("..a..", "..b..")\n");
-	c = HostFunc(a + 7, b * 4);
-	return c;
+	return HostFunc(a + 7, b * 4);
 end
 --]]
 

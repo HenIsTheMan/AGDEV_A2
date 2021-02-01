@@ -11,7 +11,7 @@ namespace{
 		const float c = a * b;
 		lua_pushnumber(L, c);
 
-		return 1; //??
+		return 1; //More??
 	}
 
 	void LuaTest5th(){
