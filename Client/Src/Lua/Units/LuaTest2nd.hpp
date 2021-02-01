@@ -12,7 +12,7 @@ namespace{
 		lua_State* const L = luaL_newstate();
 		luaL_openlibs(L);
 
-		if(!LuaErrCheck(L, luaL_dofile(L, "Scripts/Test.lua"), true)){
+		if(!LuaErrCheck(L, luaL_dofile(L, "Scripts/Test2nd.lua"), true)){
 			lua_getglobal(L, "foobar");
 
 			if(lua_istable(L, -1)){
