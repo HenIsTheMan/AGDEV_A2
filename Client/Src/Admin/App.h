@@ -20,6 +20,10 @@ public:
 private:
 	App();
 
+	bool Init1st() const;
+
+	bool TuneAppWindow() const;
+	bool TuneConsoleWindow() const;
 	bool TuneOptions(cstr const fPath) const;
 
 	bool fullscreen;

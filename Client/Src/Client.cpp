@@ -16,9 +16,7 @@ void MainProcess(){
 }
 
 int main(const int&, const char* const* const&){
-	if(!InitConsole()){
-		return -1;
-	}
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	std::thread worker(&MainProcess);
 
