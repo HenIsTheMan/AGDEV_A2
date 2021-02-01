@@ -19,7 +19,8 @@ public:
 	void PostRender() const;
 private:
 	App();
-	bool InitOptions() const;
+
+	bool TuneOptions(cstr const fPath) const;
 
 	bool fullscreen;
 	float elapsedTime;
@@ -31,6 +32,7 @@ private:
 	static GLFWwindow* win;
 
 	LuaManager* luaManager;
+	LPWIN32_FIND_DATA data;
 };
 
 template <class T>

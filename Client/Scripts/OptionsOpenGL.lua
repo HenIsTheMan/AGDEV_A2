@@ -1,5 +1,8 @@
 ---[[
 
+ptSize = 10.0;
+lineWidth = 4.0;
+
 enableOptionsOpenGL = {
 	enableStencilTest = true,
 	enableDepthTest = true,
@@ -10,8 +13,5 @@ enableOptionsOpenGL = {
 	enableFramebufferSRGB = false,
 	enableTexCubemapSeamless = true,
 }
-
-ptSize = 10.0;
-lineWidth = 4.0;
 
 --]]

@@ -2,6 +2,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "Vendor/stb_image.h"
 
+#include <atlstr.h>
+
 extern float dt;
 extern bool endLoop;
 extern int optimalWinXPos;
@@ -19,7 +21,8 @@ App::App():
 	elapsedTime(0.f),
 	lastFrameTime(0.f),
 	scene(),
-	luaManager(LuaManager::GetObjPtr())
+	luaManager(LuaManager::GetObjPtr()),
+	data(new WIN32_FIND_DATA())
 {
 	if(!InitAPI(win)){
 		(void)puts("Failed to init API\n");
@@ -34,6 +37,11 @@ App::~App(){
 		luaManager = nullptr;
 	}
 
+	if(data != nullptr){
+		delete data;
+		data = nullptr;
+	}
+
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
 }
 
@@ -41,58 +49,66 @@ bool App::Init(){
 	luaManager->Init();
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-	(void)InitOptions();
 	(void)scene.Init();
 
 	return true;
 }
 
-bool App::InitOptions() const{
-	const std::vector<bool> results = luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "enableOptionsOpenGL", {
-		"enableStencilTest",
-		"enableDepthTest",
-		"enableBlend",
-		"enableCullFace",
-		"enableProgPtSize",
-		"enableMultisample",
-		"enableFramebufferSRGB",
-		"enableTexCubemapSeamless",
-	}, true);
+bool App::TuneOptions(cstr const fPath) const{
+	static FILETIME lastWriteTime = {};
+	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, data);
 
-	const int resultsSize = (int)results.size();
-	for(int i = 0; i < resultsSize; ++i){
-		if(results[i]){
-			switch(i){
-				case 0:
-					glEnable(GL_STENCIL_TEST);
-					break;
-				case 1:
-					glEnable(GL_DEPTH_TEST);
-					break;
-				case 2:
-					glEnable(GL_BLEND);
-					break;
-				case 3:
-					glEnable(GL_CULL_FACE);
-					break;
-				case 4:
-					glEnable(GL_PROGRAM_POINT_SIZE);
-					break;
-				case 5:
-					glEnable(GL_MULTISAMPLE);
-					break;
-				case 6:
-					glEnable(GL_FRAMEBUFFER_SRGB);
-					break;
-				case 7:
-					glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-					break;
+	if(data->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
+		std::cout << "OpenGL options tuned.\n\n";
+
+		glPointSize(luaManager->Read<float>(fPath, "ptSize", true));
+		glLineWidth(luaManager->Read<float>(fPath, "lineWidth", true));
+
+		const std::vector<bool> results = luaManager->ReadFromTable<bool>(fPath, "enableOptionsOpenGL", {
+			"enableStencilTest",
+			"enableDepthTest",
+			"enableBlend",
+			"enableCullFace",
+			"enableProgPtSize",
+			"enableMultisample",
+			"enableFramebufferSRGB",
+			"enableTexCubemapSeamless",
+		}, true);
+
+		const int resultsSize = (int)results.size();
+		for(int i = 0; i < resultsSize; ++i){
+			if(results[i]){
+				switch(i){
+					case 0:
+						glEnable(GL_STENCIL_TEST);
+						break;
+					case 1:
+						glEnable(GL_DEPTH_TEST);
+						break;
+					case 2:
+						glEnable(GL_BLEND);
+						break;
+					case 3:
+						glEnable(GL_CULL_FACE);
+						break;
+					case 4:
+						glEnable(GL_PROGRAM_POINT_SIZE);
+						break;
+					case 5:
+						glEnable(GL_MULTISAMPLE);
+						break;
+					case 6:
+						glEnable(GL_FRAMEBUFFER_SRGB);
+						break;
+					case 7:
+						glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+						break;
+				}
 			}
 		}
-	}
 
-	glPointSize(luaManager->Read<float>("Scripts/OptionsOpenGL.lua", "ptSize", true));
-	glLineWidth(luaManager->Read<float>("Scripts/OptionsOpenGL.lua", "lineWidth", true));
+		lastWriteTime.dwLowDateTime = data->ftLastWriteTime.dwLowDateTime;
+	}
 
 	return true;
 }
@@ -102,6 +118,8 @@ void App::Update(){
 		endLoop = true;
 		return;
 	}
+
+	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
 
 	float currFrameTime = (float)glfwGetTime();
 	dt = currFrameTime - lastFrameTime;
