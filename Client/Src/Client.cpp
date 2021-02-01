@@ -4,8 +4,6 @@
 
 extern bool endLoop;
 
-#include "Lua/Units/LuaManagerTest.hpp"
-
 void MainProcess(){
 	App* app = App::GetObjPtr();
 	while(!endLoop){
@@ -21,8 +19,6 @@ int main(const int&, const char* const* const&){
 	if(!InitConsole()){
 		return -1;
 	}
-
-	LuaManagerTest();
 
 	std::thread worker(&MainProcess);
 

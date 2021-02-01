@@ -258,6 +258,7 @@
     <ClInclude Include="Src\World\Scene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Scripts\Test1st.lua" />
     <None Include="Scripts\Test2nd.lua" />
     <None Include="Scripts\Test3rd.lua" />
@@ -279,6 +280,7 @@
     <None Include="Shaders\Text.vertexS" />
     <None Include="Shaders\ViewingFrustum.fragS" />
     <None Include="Shaders\ViewingFrustum.vertexS" />
+    <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Src\ObjPool\ObjPool.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,8 @@
 #pragma once
 #include "../World/Scene.h"
 
+#include "../Lua/LuaManager.h"
+
 class App final: public Singleton<App>{
 	explicit App(const App&) = delete;
 	explicit App(App&&) noexcept = delete;
@@ -18,12 +20,17 @@ public:
 private:
 	App();
 	bool InitOptions() const;
+
 	bool fullscreen;
 	float elapsedTime;
 	float lastFrameTime;
+
 	Scene scene;
+
 	static const GLFWvidmode* mode;
 	static GLFWwindow* win;
+
+	LuaManager* luaManager;
 };
 
 template <class T>
