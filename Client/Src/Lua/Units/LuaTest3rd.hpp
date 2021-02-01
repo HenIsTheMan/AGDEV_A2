@@ -4,11 +4,6 @@
 
 namespace{
 	void LuaTest3rd(){
-		struct{
-			str myStr = str();
-			double myDouble = 0.0;
-		} foobar;
-
 		lua_State* const L = luaL_newstate();
 		luaL_openlibs(L);
 

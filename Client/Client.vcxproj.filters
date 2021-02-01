@@ -60,6 +60,7 @@
     <ClInclude Include="Src\Lua\Units\LuaTest1st.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest2nd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
+    <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -78,5 +79,6 @@
     <None Include="Src\ObjPool\ObjPool.inl" />
     <None Include="Shaders\ViewingFrustum.vertexS" />
     <None Include="Shaders\ViewingFrustum.fragS" />
+    <None Include="Scripts\Test.lua" />
   </ItemGroup>
 </Project>
