@@ -11,16 +11,21 @@ foobar["myStr"] = "Hi"
 foobar["myDouble"] = 4.0
 --]]
 
----[[
+--[[
 foobar = {
 	myStr = "Hi",
 	myDouble = 4.0
 }
 --]]
 
+function DoSth(a, b)
+	print("[LUA] DoSth("..a..", "..b..")\n");
+	return a * b;
+end
+
 --[[
 name = "Esteban"
-local Name = "Henry"
+local name = "Henry"
 
 val = 40
 local val = 4.0
