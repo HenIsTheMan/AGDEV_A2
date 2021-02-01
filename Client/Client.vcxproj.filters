@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Src\Admin\App.cpp" />
+    <ClCompile Include="Src\World\Cam.cpp" />
+    <ClCompile Include="Src\Client.cpp" />
+    <ClCompile Include="Src\World\Scene.cpp" />
+    <ClCompile Include="Src\Quadtree\Region.cpp" />
+    <ClCompile Include="Src\Entity\Entity.cpp" />
+    <ClCompile Include="Src\Entity\Entities\Gun.cpp" />
+    <ClCompile Include="Src\Entity\Entities\Scar.cpp" />
+    <ClCompile Include="Src\Entity\Entities\Shotgun.cpp" />
+    <ClCompile Include="Src\Entity\Entities\Sniper.cpp" />
+    <ClCompile Include="Src\Quadtree\Node.cpp" />
+    <ClCompile Include="Src\Entity\EntityManager.cpp" />
+    <ClCompile Include="Src\Shared\Meshes.cpp" />
+    <ClCompile Include="Src\World\ModelStack.cpp" />
+    <ClCompile Include="Src\LOD\LOD.cpp" />
+    <ClCompile Include="Src\Quadtree\RegionManager.cpp" />
+    <ClCompile Include="Src\Quadtree\NodeManager.cpp" />
+    <ClCompile Include="Src\Entity\EntityFactory.cpp" />
+    <ClCompile Include="Src\FrustumCulling\FrustumCulling.cpp" />
+    <ClCompile Include="Src\Collision\Collision.cpp" />
+    <ClCompile Include="Src\Collision\Collider\Colliders\BoxCollider.cpp" />
+    <ClCompile Include="Src\Collision\Collider\Colliders\SphereCollider.cpp" />
+    <ClCompile Include="Src\Collision\Collider\Collider.cpp" />
+    <ClCompile Include="Src\Collision\Collider\ColliderManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\Admin\App.h" />
+    <ClInclude Include="Src\World\Cam.h" />
+    <ClInclude Include="Src\World\Scene.h" />
+    <ClInclude Include="Src\Quadtree\Region.h" />
+    <ClInclude Include="Src\Entity\Entity.h" />
+    <ClInclude Include="Src\Entity\Entities\Gun.h" />
+    <ClInclude Include="Src\Entity\Entities\Scar.h" />
+    <ClInclude Include="Src\Entity\Entities\Shotgun.h" />
+    <ClInclude Include="Src\Entity\Entities\Sniper.h" />
+    <ClInclude Include="Src\Quadtree\Node.h" />
+    <ClInclude Include="Src\Entity\EntityManager.h" />
+    <ClInclude Include="Src\Shared\Meshes.h" />
+    <ClInclude Include="Src\World\ModelStack.h" />
+    <ClInclude Include="Src\LOD\LOD.h" />
+    <ClInclude Include="Src\Entity\EntityUpdate.hpp" />
+    <ClInclude Include="Src\Shared\RotateVecIn2D.hpp" />
+    <ClInclude Include="Src\Shared\Easing.hpp" />
+    <ClInclude Include="Src\Quadtree\RegionManager.h" />
+    <ClInclude Include="Src\Quadtree\NodeManager.h" />
+    <ClInclude Include="Src\ObjPool\ObjPool.h" />
+    <ClInclude Include="Src\Entity\EntityFactory.h" />
+    <ClInclude Include="Src\FrustumCulling\FrustumCulling.h" />
+    <ClInclude Include="Src\Collision\Collision.h" />
+    <ClInclude Include="Src\Shared\Axis.hpp" />
+    <ClInclude Include="Src\Collision\Collider\Colliders\BoxCollider.h" />
+    <ClInclude Include="Src\Collision\Collider\Colliders\SphereCollider.h" />
+    <ClInclude Include="Src\Collision\Collider\Collider.h" />
+    <ClInclude Include="Src\Collision\Collider\ColliderManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Blur.fragS" />
+    <None Include="Shaders\Forward.fragS" />
+    <None Include="Shaders\GeoPass.fragS" />
+    <None Include="Shaders\LightingPass.fragS" />
+    <None Include="Shaders\Normals.fragS" />
+    <None Include="Shaders\Screen.fragS" />
+    <None Include="Shaders\Text.fragS" />
+    <None Include="Shaders\Text.vertexS" />
+    <None Include="Shaders\Quad.vertexS" />
+    <None Include="Shaders\Normals.vertexS" />
+    <None Include="Shaders\GeoPass.vertexS" />
+    <None Include="Shaders\Forward.vertexS" />
+    <None Include="Shaders\Normals.geoS" />
+    <None Include="Src\ObjPool\ObjPool.inl" />
+    <None Include="Shaders\ViewingFrustum.vertexS" />
+    <None Include="Shaders\ViewingFrustum.fragS" />
+  </ItemGroup>
+</Project>
