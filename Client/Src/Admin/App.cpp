@@ -50,25 +50,48 @@ bool App::Init(){
 }
 
 bool App::InitOptions() const{
-	if(luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "optionsOpenGL", "enableStencilTest", true)){
-		glEnable(GL_STENCIL_TEST);
+	const std::vector<bool> results = luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "optionsOpenGL", {
+		"enableStencilTest",
+		"enableDepthTest",
+		"enableBlend",
+		"enableCullFace",
+		"enableProgPtSize",
+		"enableMultisample",
+		"enableFramebufferSRGB",
+		"enableTexCubemapSeamless",
+	}, true);
+
+	const int resultsSize = (int)results.size();
+	for(int i = 0; i < resultsSize; ++i){
+		if(results[i]){
+			switch(i){
+				case 0:
+					glEnable(GL_STENCIL_TEST);
+					break;
+				case 1:
+					glEnable(GL_DEPTH_TEST);
+					break;
+				case 2:
+					glEnable(GL_BLEND);
+					break;
+				case 3:
+					glEnable(GL_CULL_FACE);
+					break;
+				case 4:
+					glEnable(GL_PROGRAM_POINT_SIZE);
+					break;
+				case 5:
+					glEnable(GL_MULTISAMPLE);
+					break;
+				case 6:
+					glEnable(GL_FRAMEBUFFER_SRGB);
+					break;
+				case 7:
+					glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+					break;
+			}
+		}
 	}
-
-	if(luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "optionsOpenGL", "enableDepthTest", true)){
-		glEnable(GL_DEPTH_TEST);
-	}
-
-	glEnable(GL_BLEND);
-
-	glEnable(GL_CULL_FACE);
-
-	glEnable(GL_PROGRAM_POINT_SIZE);
-
-	//glEnable(GL_MULTISAMPLE);
-
-	//glEnable(GL_FRAMEBUFFER_SRGB);
-
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	return true;
 }
