@@ -2,7 +2,7 @@
 #include <Engine.h>
 #include "Admin/App.h"
 
-#include "Lua/Units/LuaTest4th.hpp"
+#include "Lua/Units/LuaTest5th.hpp"
 
 extern bool endLoop;
 
@@ -24,7 +24,7 @@ int main(const int&, const char* const* const&){
 
 	std::thread worker(&MainProcess);
 
-	LuaTest4th();
+	LuaTest5th();
 
 	while(!endLoop){
 		if(Key(VK_ESCAPE)){

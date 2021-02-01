@@ -25,6 +25,7 @@ function DoSth(a, b)
 end
 --]]
 
+--[[
 books = {};
 books[0] = {
 	myStr = "Hey",
@@ -39,6 +40,15 @@ function GetBook(index)
 	print("[LUA] DoSth("..index..")\n");
 	return books[index];
 end
+--]]
+
+---[[
+function Perform(a, b)
+	print("[LUA] Perform("..a..", "..b..")\n");
+	c = HostFunc(a + 7, b * 4);
+	return c;
+end
+--]]
 
 --[[
 name = "Esteban"

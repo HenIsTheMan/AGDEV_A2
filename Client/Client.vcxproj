@@ -240,6 +240,7 @@
     <ClInclude Include="Src\Lua\Units\LuaTest2nd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
+    <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
     <ClInclude Include="Src\ObjPool\ObjPool.h" />
     <ClInclude Include="Src\Quadtree\Node.h" />
     <ClInclude Include="Src\Quadtree\NodeManager.h" />

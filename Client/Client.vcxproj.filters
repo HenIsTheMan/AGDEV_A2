@@ -61,6 +61,7 @@
     <ClInclude Include="Src\Lua\Units\LuaTest2nd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
+    <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
