@@ -81,5 +81,7 @@
     <None Include="Shaders\ViewingFrustum.vertexS" />
     <None Include="Shaders\ViewingFrustum.fragS" />
     <None Include="Scripts\Test.lua" />
+    <None Include="Scripts\TestMisc.lua" />
+    <None Include="Scripts\Test1st.lua" />
   </ItemGroup>
 </Project>

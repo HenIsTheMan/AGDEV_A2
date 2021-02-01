@@ -256,6 +256,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Test.lua" />
+    <None Include="Scripts\Test1st.lua" />
+    <None Include="Scripts\TestMisc.lua" />
     <None Include="Shaders\Blur.fragS" />
     <None Include="Shaders\Forward.fragS" />
     <None Include="Shaders\Forward.vertexS" />

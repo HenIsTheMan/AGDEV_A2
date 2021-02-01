@@ -1,9 +1,5 @@
--- Test.lua
 
---[[
-a = 40 + math.sin(40.5)
-a = a + 400 * 4
---]]
+
 
 --[[
 foobar = {}
@@ -49,10 +45,3 @@ function Perform(a, b)
 end
 --]]
 
---[[
-name = "Esteban"
-local name = "Henry"
-
-val = 40
-local val = 4.0
---]]
