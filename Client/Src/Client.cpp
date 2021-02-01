@@ -18,6 +18,24 @@ void MainProcess(){
 int main(const int&, const char* const* const&){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	auto ConsoleEventHandler = [](const DWORD event){
+		LPCWSTR msg;
+		switch(event){
+			case CTRL_C_EVENT: msg = L"Ctrl + C"; break;
+			case CTRL_BREAK_EVENT: msg = L"Ctrl + BREAK"; break;
+			case CTRL_CLOSE_EVENT: msg = L"Closing prog..."; break;
+			case CTRL_LOGOFF_EVENT: case CTRL_SHUTDOWN_EVENT: msg = L"User is logging off..."; break;
+			default: msg = L"???";
+		}
+		MessageBox(NULL, msg, L"Nameless", MB_OK);
+		return TRUE;
+	};
+
+	if(!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleEventHandler, TRUE)){
+		(void)puts("Failed to install console event handler!\n");
+		return false;
+	}
+
 	std::thread worker(&MainProcess);
 
 	while(!endLoop){

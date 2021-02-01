@@ -23,7 +23,7 @@ private:
 	bool Init1st() const;
 
 	bool TuneAppWindow() const;
-	bool TuneConsoleWindow() const;
+	bool TuneConsoleWindow(cstr const fPath);
 	bool TuneOptions(cstr const fPath) const;
 
 	bool fullscreen;
@@ -36,7 +36,11 @@ private:
 	static GLFWwindow* win;
 
 	LuaManager* luaManager;
-	LPWIN32_FIND_DATA data;
+	LPWIN32_FIND_DATA dataConsoleWindow;
+	LPWIN32_FIND_DATA dataOptions;
+
+	HANDLE StdHandle;
+	CONSOLE_CURSOR_INFO cursorInfo;
 };
 
 template <class T>

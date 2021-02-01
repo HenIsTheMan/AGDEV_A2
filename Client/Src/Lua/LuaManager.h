@@ -17,7 +17,16 @@ public:
 	T Read(cstr const fPath, cstr const varName, const bool printErrMsg);
 
 	template <>
+	inline bool Read(cstr const fPath, cstr const varName, const bool printErrMsg);
+
+	template <>
 	inline float Read(cstr const fPath, cstr const varName, const bool printErrMsg);
+
+	template <>
+	inline int Read(cstr const fPath, cstr const varName, const bool printErrMsg);
+
+	template <>
+	inline cstr Read(cstr const fPath, cstr const varName, const bool printErrMsg);
 
 	template <class T>
 	T ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);

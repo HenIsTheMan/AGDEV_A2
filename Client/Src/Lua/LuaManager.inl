@@ -5,6 +5,18 @@ T LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg)
 }
 
 template <>
+bool LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, varName);
+		if(lua_isboolean(im_ReadL, -1)){
+			return lua_toboolean(im_ReadL, -1);
+		}
+	}
+
+	return false;
+}
+
+template <>
 float LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
 		lua_getglobal(im_ReadL, varName);
@@ -14,6 +26,30 @@ float LuaManager::Read(cstr const fPath, cstr const varName, const bool printErr
 	}
 
 	return 0.0f;
+}
+
+template <>
+int LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, varName);
+		if(lua_isinteger(im_ReadL, -1)){
+			return (int)lua_tointeger(im_ReadL, -1);
+		}
+	}
+
+	return 0;
+}
+
+template <>
+cstr LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, varName);
+		if(lua_isstring(im_ReadL, -1)){
+			return lua_tostring(im_ReadL, -1);
+		}
+	}
+
+	return cstr();
 }
 
 template <class T>

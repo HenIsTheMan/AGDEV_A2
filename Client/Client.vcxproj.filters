@@ -91,5 +91,6 @@
     <None Include="Scripts\Test5th.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Src\Lua\LuaManager.inl" />
+    <None Include="Scripts\ConsoleWindow.lua" />
   </ItemGroup>
 </Project>

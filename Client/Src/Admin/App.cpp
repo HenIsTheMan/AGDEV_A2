@@ -59,8 +59,12 @@ App::App():
 	lastFrameTime(0.f),
 	scene(),
 	luaManager(LuaManager::GetObjPtr()),
-	data(new WIN32_FIND_DATA())
+	dataConsoleWindow(new WIN32_FIND_DATA()),
+	dataOptions(new WIN32_FIND_DATA()),
+	StdHandle(GetStdHandle(DWORD(-11))),
+	cursorInfo({})
 {
+	GetConsoleCursorInfo(StdHandle, &cursorInfo);
 	(void)Init1st();
 	(void)Init();
 }
@@ -71,9 +75,14 @@ App::~App(){
 		luaManager = nullptr;
 	}
 
-	if(data != nullptr){
-		delete data;
-		data = nullptr;
+	if(dataConsoleWindow != nullptr){
+		delete dataConsoleWindow;
+		dataConsoleWindow = nullptr;
+	}
+
+	if(dataOptions != nullptr){
+		delete dataOptions;
+		dataOptions = nullptr;
 	}
 
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
@@ -137,43 +146,33 @@ bool App::TuneAppWindow() const{
 	return false;
 }
 
-bool App::TuneConsoleWindow() const{
-	SetConsoleTitle(L"Nameless Console");
-	system("Color 0A");
+bool App::TuneConsoleWindow(cstr const fPath){
+	static FILETIME lastWriteTime = {};
+	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, dataConsoleWindow);
 
-	HANDLE StdHandle = GetStdHandle(DWORD(-11));
-	CONSOLE_CURSOR_INFO cursorInfo;
-	GetConsoleCursorInfo(StdHandle, &cursorInfo);
-	cursorInfo.bVisible = 0;
-	SetConsoleCursorInfo(StdHandle, &cursorInfo);
+	if(dataConsoleWindow->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
+		std::cout << "Console Window tuned.\n\n";
 
-	auto ConsoleEventHandler = [](const DWORD event){
-		LPCWSTR msg;
-		switch(event){
-			case CTRL_C_EVENT: msg = L"Ctrl + C"; break;
-			case CTRL_BREAK_EVENT: msg = L"Ctrl + BREAK"; break;
-			case CTRL_CLOSE_EVENT: msg = L"Closing prog..."; break;
-			case CTRL_LOGOFF_EVENT: case CTRL_SHUTDOWN_EVENT: msg = L"User is logging off..."; break;
-			default: msg = L"???";
-		}
-		MessageBox(NULL, msg, L"Nameless", MB_OK);
-		return TRUE;
-	};
+		SetConsoleTitle((CStringW)(CString)luaManager->Read<cstr>(fPath, "consoleTitle", true));
+		system(luaManager->Read<cstr>(fPath, "color", true));
 
-	::ShowWindow(::GetConsoleWindow(), SW_SHOW);
-	if(!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleEventHandler, TRUE)){
-		(void)puts("Failed to install console event handler!\n");
-		return false;
+		cursorInfo.bVisible = luaManager->Read<bool>(fPath, "isCursorVisible", true);
+		SetConsoleCursorInfo(StdHandle, &cursorInfo);
+
+		::ShowWindow(::GetConsoleWindow(), luaManager->Read<int>(fPath, "showWindowInt", true));
+
+		lastWriteTime.dwLowDateTime = dataConsoleWindow->ftLastWriteTime.dwLowDateTime;
 	}
+
 	return true;
 }
 
 bool App::TuneOptions(cstr const fPath) const{
 	static FILETIME lastWriteTime = {};
-	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, data);
+	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, dataOptions);
 
-	if(data->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
-		std::cout << "OpenGL options tuned.\n\n";
+	if(dataOptions->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
+		std::cout << "OpenGL Options tuned.\n\n";
 
 		glPointSize(luaManager->Read<float>(fPath, "ptSize", true));
 		glLineWidth(luaManager->Read<float>(fPath, "lineWidth", true));
@@ -221,7 +220,7 @@ bool App::TuneOptions(cstr const fPath) const{
 			}
 		}
 
-		lastWriteTime.dwLowDateTime = data->ftLastWriteTime.dwLowDateTime;
+		lastWriteTime.dwLowDateTime = dataOptions->ftLastWriteTime.dwLowDateTime;
 	}
 
 	return true;
@@ -236,9 +235,9 @@ void App::Update(){
 	static bool yes = true;
 	if(yes){
 		(void)TuneAppWindow();
-		(void)TuneConsoleWindow();
 		yes = false;
 	}
+	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
 	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
 
 	float currFrameTime = (float)glfwGetTime();
