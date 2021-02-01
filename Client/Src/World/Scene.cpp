@@ -1130,7 +1130,7 @@ void Scene::GameRender(){
 	textChief.RenderText(textSP, {
 		"FPS: " + std::to_string(FPS).substr(0, std::to_string((int)FPS).length() + 3),
 		25.0f,
-		(float)winHeight * 0.05f,
+		(float)winHeight * 0.02f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,

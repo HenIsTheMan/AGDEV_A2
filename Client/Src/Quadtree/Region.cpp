@@ -208,6 +208,12 @@ void Region::CheckOutOfBounds(const bool movable, std::vector<Entity*>& entities
 			&& nodeEntity->pos.z + nodeEntity->scale.z <= origin[1] + halfSize[1]
 		)){ //If entity is not within region...
 			entitiesToRemove.emplace_back(nodeEntity);
+
+			const std::vector<Node*>& children = node->GetChildren();
+			const int childrenSize = (int)children.size();
+			for(int i = 0; i < childrenSize; ++i){
+				entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
+			}
 		}
 	}
 }

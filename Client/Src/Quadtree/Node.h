@@ -29,6 +29,7 @@ public:
 	bool GetVisible() const;
 	const Entity* GetEntity() const;
 	const Node* GetParent() const;
+	const std::vector<Node*>& GetChildren() const;
 	const glm::vec3& GetLocalTranslation() const;
 	const glm::quat& GetLocalRotation() const;
 	const glm::vec3& GetLocalDilation() const;

@@ -104,7 +104,7 @@ void Node::AddChild(Node* const child){
 }
 
 Node* Node::DetachChild(const Entity* const entity){
-	if(!children.size()){ //Optimization
+	if(children.empty()){ //Optimization
 		return nullptr;
 	}
 
@@ -125,7 +125,7 @@ Node* Node::DetachChild(const Entity* const entity){
 }
 
 Node* Node::FindChild(const Entity* const entity){
-	if(!children.size()){ //Optimization
+	if(children.empty()){ //Optimization
 		return nullptr;
 	}
 
@@ -172,6 +172,10 @@ const Entity* Node::GetEntity() const{
 
 const Node* Node::GetParent() const{
 	return parent;
+}
+
+const std::vector<Node*>& Node::GetChildren() const{
+	return children;
 }
 
 const glm::vec3& Node::GetLocalTranslation() const{

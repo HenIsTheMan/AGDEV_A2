@@ -26,7 +26,7 @@ Node* NodeManager::ActivateNode(){
 void NodeManager::DeactivateNode(Node* const node){
 	Node* const myParent = node->parent;
 	for(Node* const child: node->children){
-		child->parent = myParent;
+		DeactivateNode(child);
 	}
 
 	nodePool->DeactivateObj(node);

@@ -111,10 +111,15 @@ void EntityManager::Update(const Cam& cam){
 					movableEntity->life -= dt;
 
 					if(movableEntity->life <= 0.0f){
-						if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), movableEntity) == entitiesToRemove.end()){
-							entitiesToRemove.emplace_back(movableEntity);
-							movableNode = nullptr;
+						entitiesToRemove.emplace_back(movableEntity);
+
+						const std::vector<Node*>& children = movableNode->GetChildren();
+						const int childrenSize = (int)children.size();
+						for(int i = 0; i < childrenSize; ++i){
+							entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
 						}
+
+						movableNode = nullptr;
 						continue;
 					}
 
@@ -125,10 +130,15 @@ void EntityManager::Update(const Cam& cam){
 				}
 				case Entity::EntityType::EnemyBody: {
 					if(movableNode->CalcAmtOfChildren() == (size_t)0){
-						if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), movableEntity) == entitiesToRemove.end()){
-							entitiesToRemove.emplace_back(movableEntity);
-							movableNode = nullptr;
+						entitiesToRemove.emplace_back(movableEntity);
+
+						const std::vector<Node*>& children = movableNode->GetChildren();
+						const int childrenSize = (int)children.size();
+						for(int i = 0; i < childrenSize; ++i){
+							entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
 						}
+
+						movableNode = nullptr;
 						continue;
 					}
 
@@ -142,10 +152,15 @@ void EntityManager::Update(const Cam& cam){
 				}
 				case Entity::EntityType::EnemyPart: {
 					if(movableNode->GetParent() == nullptr){
-						if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), movableEntity) == entitiesToRemove.end()){
-							entitiesToRemove.emplace_back(movableEntity);
-							movableNode = nullptr;
+						entitiesToRemove.emplace_back(movableEntity);
+
+						const std::vector<Node*>& children = movableNode->GetChildren();
+						const int childrenSize = (int)children.size();
+						for(int i = 0; i < childrenSize; ++i){
+							entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
 						}
+
+						movableNode = nullptr;
 						continue;
 					}
 
@@ -196,76 +211,34 @@ void EntityManager::Update(const Cam& cam){
 							--nearbyMovableEntity->life;
 
 							if(nearbyMovableEntity->life <= 0.0f){
-								if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), nearbyMovableEntity) == entitiesToRemove.end()){
-									entitiesToRemove.emplace_back(nearbyMovableEntity);
-									nearbyMovableNode = nullptr;
+								entitiesToRemove.emplace_back(nearbyMovableEntity);
+
+								const std::vector<Node*>& children = nearbyMovableNode->GetChildren();
+								const int childrenSize = (int)children.size();
+								for(int i = 0; i < childrenSize; ++i){
+									entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
 								}
+
+								nearbyMovableNode = nullptr;
 								continue;
 							}
 
 							break;
 					}
 
-					if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), movableEntity) == entitiesToRemove.end()){
-						entitiesToRemove.emplace_back(movableEntity);
-						break;
+					entitiesToRemove.emplace_back(movableEntity);
+
+					const std::vector<Node*>& children = movableNode->GetChildren();
+					const int childrenSize = (int)children.size();
+					for(int i = 0; i < childrenSize; ++i){
+						entitiesToRemove.emplace_back(children[i]->RetrieveEntity());
 					}
+
+					break;
 				}
 			}
 		}
 	}
-	//*/
-
-	//* Naive way of detecting and resolving collisions
-	//const size_t size = movableNodes.size();
-	//for(size_t i = 0; i < size; ++i){
-	//	Node*& movableNode0 = movableNodes[i];
-	//	if(movableNode0 == nullptr){
-	//		continue;
-	//	}
-
-	//	for(size_t j = i + 1; j < size; ++j){
-	//		Node*& movableNode1 = movableNodes[j];
-	//		if(movableNode1 == nullptr){
-	//			continue;
-	//		}
-
-	//		Entity* const entity0 = movableNode0->RetrieveEntity();
-	//		Entity* const entity1 = movableNode1->RetrieveEntity();
-
-	//		if(entity0->type != entity1->type){
-	//			if(entity0->type == Entity::EntityType::Bullet){
-	//				if(Collision::DetectCollision(entity0, entity1)){
-	//					//switch(entity1->type){
-	//						//case Entity::EntityType::ThinObj:
-	//							entity1->colour = glm::vec4(PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), 0.5f);
-	//							//break;
-	//					//}
-
-	//					if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), entity0) == entitiesToRemove.end()){
-	//						entitiesToRemove.emplace_back(entity0);
-	//						movableNode0 = nullptr;
-	//						break;
-	//					}
-	//				}
-	//			} else if(entity1->type == Entity::EntityType::Bullet){
-	//				if(Collision::DetectCollision(entity1, entity0)){
-	//					//switch(entity0->type){
-	//						//case Entity::EntityType::ThinObj:
-	//							entity0->colour = glm::vec4(PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), 0.5f);
-	//							//break;
-	//					//}
-
-	//					if(std::find(entitiesToRemove.begin(), entitiesToRemove.end(), entity1) == entitiesToRemove.end()){
-	//						entitiesToRemove.emplace_back(entity1);
-	//						movableNode1 = nullptr;
-	//						break;
-	//					}
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
 	//*/
 
 	for(Entity* const entity: entitiesToRemove){
@@ -440,12 +413,10 @@ void EntityManager::DeactivateEntityProcedure(Entity* const entity){
 	if(std::find(removedEntities.begin(), removedEntities.end(), entity) == removedEntities.end()){
 		Node* const node = nodeManager->RetrieveRootNode()->DetachChild(entity);
 
-		if(node == nullptr){
-			return (void)printf("Var 'node' is nullptr!");
+		if(node != nullptr){ //If node it belongs to still exists...
+			regionManager->RetrieveRootRegion()->RemoveNode(node, entity->movable);
+			nodeManager->DeactivateNode(node);
 		}
-
-		regionManager->RetrieveRootRegion()->RemoveNode(node, entity->movable);
-		nodeManager->DeactivateNode(node);
 
 		removedEntities.insert(entity);
 	}
