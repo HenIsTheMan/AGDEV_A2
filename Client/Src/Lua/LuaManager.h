@@ -14,10 +14,22 @@ public:
 	void PrintFileContent(cstr const fPath);
 
 	template <class T>
+	T Read(cstr const fPath, cstr const varName, const bool printErrMsg);
+
+	template <>
+	inline float Read(cstr const fPath, cstr const varName, const bool printErrMsg);
+
+	template <class T>
 	T ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);
 
 	template <>
 	inline bool ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);
+
+	template <>
+	inline float ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);
+
+	template <>
+	inline int ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);
 
 	template <class T>
 	std::vector<T> ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);

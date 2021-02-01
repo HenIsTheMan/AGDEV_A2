@@ -319,6 +319,8 @@ RECENT REVISION HISTORY:
 //     want the zlib decoder to be available, #define STBI_SUPPORT_ZLIB
 //
 
+#pragma warning(push)
+#pragma warning(disable: 6011 6262 6308 28182)
 
 #ifndef STBI_NO_STDIO
 #include <stdio.h>

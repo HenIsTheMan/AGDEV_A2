@@ -43,14 +43,12 @@ bool App::Init(){
 
 	(void)InitOptions();
 	(void)scene.Init();
-	glPointSize(10.f);
-	glLineWidth(4.0f);
 
 	return true;
 }
 
 bool App::InitOptions() const{
-	const std::vector<bool> results = luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "optionsOpenGL", {
+	const std::vector<bool> results = luaManager->ReadFromTable<bool>("Scripts/OptionsOpenGL.lua", "enableOptionsOpenGL", {
 		"enableStencilTest",
 		"enableDepthTest",
 		"enableBlend",
@@ -92,6 +90,9 @@ bool App::InitOptions() const{
 			}
 		}
 	}
+
+	glPointSize(luaManager->Read<float>("Scripts/OptionsOpenGL.lua", "ptSize", true));
+	glLineWidth(luaManager->Read<float>("Scripts/OptionsOpenGL.lua", "lineWidth", true));
 
 	return true;
 }
