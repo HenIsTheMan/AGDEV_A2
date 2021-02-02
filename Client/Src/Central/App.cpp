@@ -156,7 +156,7 @@ void App::LateUpdate(){
 	sceneManager->LateUpdate();
 }
 
-void App::PreRender() const{
+void App::PreRender(){
 	glViewport(0, 0, 2048, 2048);
 
 	glViewport(0, 0, winWidth, winHeight);
@@ -171,7 +171,7 @@ void App::Render(){
 	sceneManager->Render();
 }
 
-void App::PostRender() const{
+void App::PostRender(){
 	sceneManager->PostRender();
 
 	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window

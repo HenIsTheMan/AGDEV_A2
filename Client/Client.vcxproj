@@ -264,7 +264,7 @@
     <ClInclude Include="Src\State\StateMachine.h" />
     <ClInclude Include="Src\Central\Cam.h" />
     <ClInclude Include="Src\Central\ModelStack.h" />
-    <ClInclude Include="Src\Central\Scene.hpp" />
+    <ClInclude Include="Src\Central\IScene.hpp" />
     <ClInclude Include="Src\Central\GameScene.h" />
   </ItemGroup>
   <ItemGroup>

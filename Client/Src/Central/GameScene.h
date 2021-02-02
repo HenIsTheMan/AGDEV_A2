@@ -17,17 +17,25 @@
 
 #include "../Shared/RotateVecIn2D.hpp"
 
-#include "Scene.hpp"
+#include "IScene.hpp"
 
 #define BIT(x) 1 << x
 
-class GameScene final: public Scene{
+class GameScene final: public IScene{
 public:
 	GameScene();
 	~GameScene();
-	void Init();
-	void Update();
-	void ForwardRender();
+
+	void EarlyInit() override;
+	void Init() override;
+
+	void FixedUpdate() override;
+	void Update() override;
+	void LateUpdate() override;
+
+	void PreRender() override;
+	void Render() override;
+	void PostRender() override;
 private:
 	Cam cam;
 	ISoundEngine* soundEngine;

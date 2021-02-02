@@ -454,9 +454,7 @@ void GameScene::CreateDecorations(){
 	}
 }
 
-void GameScene::Init(){
-	entityManager->isCamDetached = isCamDetached;
-
+void GameScene::EarlyInit(){
 	glGetIntegerv(GL_POLYGON_MODE, polyModes);
 
 	soundEngine = createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS & ~ESEO_PRINT_DEBUG_INFO_TO_DEBUGGER & ~ESEO_PRINT_DEBUG_INFO_TO_STDOUT);
@@ -465,8 +463,12 @@ void GameScene::Init(){
 	}
 	soundEngine->play2D("Audio/Music/Theme.mp3", true);
 	//soundEngine->setSoundVolume(0);
+}
 
+void GameScene::Init(){
 	InitEntities();
+
+	entityManager->isCamDetached = isCamDetached;
 
 	const std::vector<cstr> faces{
 		"Imgs/Skybox/Right.png",
@@ -496,6 +498,9 @@ void GameScene::Init(){
 	dLightFromBottom->diffuse = glm::vec3(0.5f, 0.0f, 0.0f);
 }
 
+void GameScene::FixedUpdate(){
+}
+
 void GameScene::Update(){
 	elapsedTime += dt;
 	if(winHeight){ //Avoid division by 0 when win is minimised
@@ -511,6 +516,48 @@ void GameScene::Update(){
 			GameUpdate();
 			break;
 	}
+}
+
+void GameScene::LateUpdate(){
+}
+
+void GameScene::PreRender(){
+	forwardSP.Use();
+
+	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
+	forwardSP.Set3fv("globalAmbient", Light::globalAmbient);
+	forwardSP.Set3fv("camPos", cam.GetPos());
+	forwardSP.Set1i("dAmt", 2);
+
+	DirectionalLight* directionalLightFromTop = (DirectionalLight*)dLightFromTop;
+	forwardSP.Set3fv("directionalLights[0].ambient", directionalLightFromTop->ambient);
+	forwardSP.Set3fv("directionalLights[0].diffuse", directionalLightFromTop->diffuse);
+	forwardSP.Set3fv("directionalLights[0].spec", directionalLightFromTop->spec);
+	forwardSP.Set3fv("directionalLights[0].dir", directionalLightFromTop->dir);
+
+	DirectionalLight* directionalLightFromBottom = (DirectionalLight*)dLightFromBottom;
+	forwardSP.Set3fv("directionalLights[1].ambient", directionalLightFromBottom->ambient);
+	forwardSP.Set3fv("directionalLights[1].diffuse", directionalLightFromBottom->diffuse);
+	forwardSP.Set3fv("directionalLights[1].spec", directionalLightFromBottom->spec);
+	forwardSP.Set3fv("directionalLights[1].dir", directionalLightFromBottom->dir);
+
+	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void GameScene::Render(){
+	switch(screen){
+		case Screen::MainMenu:
+			MainMenuRender();
+			break;
+		case Screen::Game:
+			GameRender();
+			break;
+	}
+}
+
+void GameScene::PostRender(){
+	glBlendFunc(GL_ONE, GL_ZERO);
 }
 
 void GameScene::MainMenuUpdate(){
@@ -1180,39 +1227,4 @@ void GameScene::GameRender(){
 	Mesh::vertexCount = 0;
 	Mesh::indexCount = 0;
 	Mesh::polygonCount = 0;
-}
-
-void GameScene::ForwardRender(){
-	forwardSP.Use();
-
-	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
-	forwardSP.Set3fv("globalAmbient", Light::globalAmbient);
-	forwardSP.Set3fv("camPos", cam.GetPos());
-	forwardSP.Set1i("dAmt", 2);
-
-	DirectionalLight* directionalLightFromTop = (DirectionalLight*)dLightFromTop;
-	forwardSP.Set3fv("directionalLights[0].ambient", directionalLightFromTop->ambient);
-	forwardSP.Set3fv("directionalLights[0].diffuse", directionalLightFromTop->diffuse);
-	forwardSP.Set3fv("directionalLights[0].spec", directionalLightFromTop->spec);
-	forwardSP.Set3fv("directionalLights[0].dir", directionalLightFromTop->dir);
-
-	DirectionalLight* directionalLightFromBottom = (DirectionalLight*)dLightFromBottom;
-	forwardSP.Set3fv("directionalLights[1].ambient", directionalLightFromBottom->ambient);
-	forwardSP.Set3fv("directionalLights[1].diffuse", directionalLightFromBottom->diffuse);
-	forwardSP.Set3fv("directionalLights[1].spec", directionalLightFromBottom->spec);
-	forwardSP.Set3fv("directionalLights[1].dir", directionalLightFromBottom->dir);
-
-	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	switch(screen){
-		case Screen::MainMenu:
-			MainMenuRender();
-			break;
-		case Screen::Game:
-			GameRender();
-			break;
-	}
-
-	glBlendFunc(GL_ONE, GL_ZERO);
 }

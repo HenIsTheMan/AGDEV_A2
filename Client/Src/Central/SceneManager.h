@@ -11,7 +11,7 @@ class SceneManager final: public Singleton<SceneManager>{
 public:
 	~SceneManager();
 
-	void AddScene(const SceneID ID, Scene* const scene);
+	void AddScene(const SceneID ID, IScene* const scene);
 
 	void EarlyInit();
 	void Init();
@@ -20,17 +20,17 @@ public:
 	void Update();
 	void LateUpdate();
 
-	void PreRender() const;
+	void PreRender();
 	void Render();
-	void PostRender() const;
+	void PostRender();
 
 	void SetCurrScene(const SceneID ID);
 	void SetNextScene(const SceneID ID);
 private:
-	Scene* im_CurrScene;
-	Scene* im_NextScene;
+	IScene* im_CurrScene;
+	IScene* im_NextScene;
 
-	std::map<SceneID, Scene*> im_Scenes;
+	std::map<SceneID, IScene*> im_Scenes;
 
 	SceneManager();
 };

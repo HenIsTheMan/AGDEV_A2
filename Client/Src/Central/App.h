@@ -21,9 +21,9 @@ public:
 	void Update();
 	void LateUpdate();
 
-	void PreRender() const;
+	void PreRender();
 	void Render();
-	void PostRender() const;
+	void PostRender();
 private:
 	App();
 

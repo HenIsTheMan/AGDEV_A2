@@ -10,10 +10,21 @@
 		__VA_ARGS__& operator=(const __VA_ARGS__&) = default; \
 		__VA_ARGS__& operator=(__VA_ARGS__&&) noexcept = default; \
 		\
-		~__VA_ARGS__() = default;
+		virtual ~__VA_ARGS__() = default;
 #endif
 
-class Scene{
+class IScene{
 public:
-	_6_DEFAULTED(Scene)
+	_6_DEFAULTED(IScene)
+
+	virtual void EarlyInit() = 0;
+	virtual void Init() = 0;
+
+	virtual void FixedUpdate() = 0;
+	virtual void Update() = 0;
+	virtual void LateUpdate() = 0;
+
+	virtual void PreRender() = 0;
+	virtual void Render() = 0;
+	virtual void PostRender() = 0;
 };
