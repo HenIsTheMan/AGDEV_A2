@@ -1,5 +1,4 @@
 #pragma once
-#include "../World/Scenes.h"
 
 #include "../Lua/LuaManager.h"
 
@@ -42,12 +41,6 @@ private:
 
 	HANDLE StdHandle;
 	CONSOLE_CURSOR_INFO cursorInfo;
-
-	Scenes* gameScene;
-
-	void (Scenes::*init)();
-	void (Scenes::*update)();
-	void (Scenes::*render)();
 };
 
 template <class T>

@@ -8,8 +8,8 @@
 
 #include "../Shared/Meshes.h"
 
-#include "../World/Cam.h"
-#include "../World/ModelStack.h"
+#include "../Central/Cam.h"
+#include "../Central/ModelStack.h"
 
 #include "../ObjPool/ObjPool.h"
 

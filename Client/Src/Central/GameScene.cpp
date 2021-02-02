@@ -1,4 +1,4 @@
-#include "Scenes.h"
+#include "GameScene.h"
 #include "Vendor/stb_image.h"
 
 #include "../Shared/Easing.hpp"
@@ -28,7 +28,7 @@ void SetUpCubemap(uint& cubemapRefID, const std::vector<cstr>& faces);
 
 glm::vec3 Light::globalAmbient = glm::vec3(.2f);
 
-Scenes::Scenes():
+GameScene::GameScene():
 	cam(glm::vec3(0.0f, 0.f, 0.0f), glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.f, 1.f, 0.0f), 0.0f, 1400.0f),
 	soundEngine(nullptr),
 	coinMusic({}),
@@ -120,7 +120,7 @@ Scenes::Scenes():
 {
 }
 
-Scenes::~Scenes(){
+GameScene::~GameScene(){
 	if(dLightFromTop){
 		delete dLightFromTop;
 		dLightFromTop = nullptr;
@@ -169,7 +169,7 @@ Scenes::~Scenes(){
 	regionManager = nullptr; //Deleted elsewhere
 }
 
-void Scenes::InitEntities(){
+void GameScene::InitEntities(){
 	entityManager->Init();
 	CreateEntities();
 	entityManager->SetUpRegionsForStationary();
@@ -182,7 +182,7 @@ void Scenes::InitEntities(){
 	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, 8900.0f * 8900.0f, models[(int)ModelType::Tree_Low]);
 }
 
-void Scenes::CreateEntities(){
+void GameScene::CreateEntities(){
 	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
 
 	EntityFactory* const entityFactory = entityManager->RetrieveEntityFactory();
@@ -309,7 +309,7 @@ void Scenes::CreateEntities(){
 	//*/
 }
 
-void Scenes::CreateTreesAndCubes(){
+void GameScene::CreateTreesAndCubes(){
 	Model* const treeHigh = models[(int)ModelType::Tree_High];
 	treeHigh->ReserveModelMatsForAll(2000);
 	treeHigh->ReserveColorsForAll(2000);
@@ -374,7 +374,7 @@ void Scenes::CreateTreesAndCubes(){
 	}
 }
 
-void Scenes::CreateDecorations(){
+void GameScene::CreateDecorations(){
 	Model* const flower = models[(int)ModelType::Flower];
 	flower->ReserveModelMatsForAll(2000);
 	flower->ReserveColorsForAll(2000);
@@ -454,7 +454,7 @@ void Scenes::CreateDecorations(){
 	}
 }
 
-void Scenes::Init(){
+void GameScene::Init(){
 	entityManager->isCamDetached = isCamDetached;
 
 	glGetIntegerv(GL_POLYGON_MODE, polyModes);
@@ -496,7 +496,7 @@ void Scenes::Init(){
 	dLightFromBottom->diffuse = glm::vec3(0.5f, 0.0f, 0.0f);
 }
 
-void Scenes::Update(){
+void GameScene::Update(){
 	elapsedTime += dt;
 	if(winHeight){ //Avoid division by 0 when win is minimised
 		cam.SetDefaultAspectRatio(float(winWidth) / float(winHeight));
@@ -513,7 +513,7 @@ void Scenes::Update(){
 	}
 }
 
-void Scenes::MainMenuUpdate(){
+void GameScene::MainMenuUpdate(){
 	POINT mousePos;
 	if(GetCursorPos(&mousePos)){
 		HWND hwnd = ::GetActiveWindow();
@@ -605,7 +605,7 @@ void Scenes::MainMenuUpdate(){
 	}
 }
 
-void Scenes::GameUpdate(){
+void GameScene::GameUpdate(){
 	const glm::vec3& camPos = cam.GetPos();
 	const glm::vec3& camFront = cam.CalcFront();
 	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
@@ -750,7 +750,7 @@ void Scenes::GameUpdate(){
 	}
 }
 
-void Scenes::MainMenuRender(){
+void GameScene::MainMenuRender(){
 	forwardSP.Set1i("nightVision", 0);
 
 	modelStack.PushModel({
@@ -805,7 +805,7 @@ void Scenes::MainMenuRender(){
 	glDepthFunc(GL_LESS);
 }
 
-void Scenes::GameRender(){
+void GameScene::GameRender(){
 	const glm::vec3 OGPos = cam.GetPos();
 	const glm::vec3 OGTarget = cam.GetTarget();
 	const glm::vec3 OGUp = cam.GetUp();
@@ -1182,7 +1182,7 @@ void Scenes::GameRender(){
 	Mesh::polygonCount = 0;
 }
 
-void Scenes::ForwardRender(){
+void GameScene::ForwardRender(){
 	forwardSP.Use();
 
 	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower

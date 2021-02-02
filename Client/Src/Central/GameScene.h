@@ -17,12 +17,14 @@
 
 #include "../Shared/RotateVecIn2D.hpp"
 
+#include "Scene.hpp"
+
 #define BIT(x) 1 << x
 
-class Scenes final{
+class GameScene final: public Scene{
 public:
-	Scenes();
-	~Scenes();
+	GameScene();
+	~GameScene();
 	void Init();
 	void Update();
 	void ForwardRender();

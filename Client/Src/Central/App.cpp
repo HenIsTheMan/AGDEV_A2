@@ -62,11 +62,7 @@ App::App():
 	dataConsoleWindow(new WIN32_FIND_DATA()),
 	dataOptions(new WIN32_FIND_DATA()),
 	StdHandle(GetStdHandle(DWORD(-11))),
-	cursorInfo({}),
-	gameScene(new Scenes()),
-	init(&Scenes::Init),
-	update(&Scenes::Update),
-	render(&Scenes::ForwardRender)
+	cursorInfo({})
 {
 	GetConsoleCursorInfo(StdHandle, &cursorInfo);
 
@@ -98,18 +94,11 @@ App::~App(){
 		dataOptions = nullptr;
 	}
 
-	if(gameScene != nullptr){
-		delete gameScene;
-		gameScene = nullptr;
-	}
-
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
 }
 
 bool App::Init(){
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-	(gameScene->*init)();
 
 	return true;
 }
@@ -315,8 +304,6 @@ void App::Update(){
 		}
 		toggleFullscreenBT = elapsedTime + .5f;
 	}
-
-	(gameScene->*update)();
 }
 
 void App::PreRender() const{
@@ -329,7 +316,6 @@ void App::PreRender() const{
 }
 
 void App::Render(){
-	(gameScene->*render)();
 }
 
 void App::PostRender() const{

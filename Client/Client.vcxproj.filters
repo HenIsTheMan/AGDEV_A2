@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\Admin\App.cpp" />
-    <ClCompile Include="Src\World\Cam.cpp" />
     <ClCompile Include="Src\Client.cpp" />
     <ClCompile Include="Src\Quadtree\Region.cpp" />
     <ClCompile Include="Src\Entity\Entity.cpp" />
@@ -13,7 +11,6 @@
     <ClCompile Include="Src\Quadtree\Node.cpp" />
     <ClCompile Include="Src\Entity\EntityManager.cpp" />
     <ClCompile Include="Src\Shared\Meshes.cpp" />
-    <ClCompile Include="Src\World\ModelStack.cpp" />
     <ClCompile Include="Src\LOD\LOD.cpp" />
     <ClCompile Include="Src\Quadtree\RegionManager.cpp" />
     <ClCompile Include="Src\Quadtree\NodeManager.cpp" />
@@ -27,11 +24,13 @@
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
     <ClCompile Include="Src\Lua\LuaManager.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
-    <ClCompile Include="Src\World\Scenes.cpp" />
+    <ClCompile Include="Src\Central\Cam.cpp" />
+    <ClCompile Include="Src\Central\GameScene.cpp" />
+    <ClCompile Include="Src\Central\ModelStack.cpp" />
+    <ClCompile Include="Src\Central\App.cpp" />
+    <ClCompile Include="Src\Central\SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Src\Admin\App.h" />
-    <ClInclude Include="Src\World\Cam.h" />
     <ClInclude Include="Src\Quadtree\Region.h" />
     <ClInclude Include="Src\Entity\Entity.h" />
     <ClInclude Include="Src\Entity\Entities\Gun.h" />
@@ -41,7 +40,6 @@
     <ClInclude Include="Src\Quadtree\Node.h" />
     <ClInclude Include="Src\Entity\EntityManager.h" />
     <ClInclude Include="Src\Shared\Meshes.h" />
-    <ClInclude Include="Src\World\ModelStack.h" />
     <ClInclude Include="Src\LOD\LOD.h" />
     <ClInclude Include="Src\Entity\EntityUpdate.hpp" />
     <ClInclude Include="Src\Shared\RotateVecIn2D.hpp" />
@@ -68,7 +66,12 @@
     <ClInclude Include="Src\State\State.h" />
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
-    <ClInclude Include="Src\World\Scenes.h" />
+    <ClInclude Include="Src\Central\Cam.h" />
+    <ClInclude Include="Src\Central\GameScene.h" />
+    <ClInclude Include="Src\Central\ModelStack.h" />
+    <ClInclude Include="Src\Central\Scene.hpp" />
+    <ClInclude Include="Src\Central\App.h" />
+    <ClInclude Include="Src\Central\SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -99,5 +102,6 @@
     <None Include="Scripts\AppWindow.lua" />
     <None Include="Src\State\StateMachine.inl" />
     <None Include="Src\State\States\.keep" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
