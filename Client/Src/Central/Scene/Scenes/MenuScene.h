@@ -5,7 +5,7 @@
 class MenuScene final: public SceneSupport{
 public:
 	MenuScene();
-	~MenuScene();
+	~MenuScene() = default;
 
 	void EarlyInit() override;
 	void Init() override;
@@ -17,5 +17,4 @@ public:
 	void PreRender() override;
 	void Render() override;
 	void PostRender() override;
-private:
 };

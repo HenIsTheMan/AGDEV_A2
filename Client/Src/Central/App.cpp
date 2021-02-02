@@ -13,8 +13,8 @@ extern bool endLoop;
 extern bool firstCall;
 extern float pitch;
 extern float yaw;
-extern float lastX;
-extern float lastY;
+extern float windowMouseX;
+extern float windowMouseY;
 extern float SENS;
 extern int optimalWinXPos;
 extern int optimalWinYPos;
@@ -35,11 +35,11 @@ static void CursorPosCallback(GLFWwindow*, double xPos, double yPos){
 	if(firstCall){
 		firstCall = 0;
 	} else{ //Add mouse movement offset between last frame and curr frame
-		yaw -= (float(xPos) - lastX) * SENS;
-		pitch -= (float(yPos) - lastY) * SENS;
+		yaw -= (float(xPos) - windowMouseX) * SENS;
+		pitch -= (float(yPos) - windowMouseY) * SENS;
 	}
-	lastX = float(xPos);
-	lastY = float(yPos);
+	windowMouseX = float(xPos);
+	windowMouseY = float(yPos);
 }
 
 static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods){ //For mouse buttons
