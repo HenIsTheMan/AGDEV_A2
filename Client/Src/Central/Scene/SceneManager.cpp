@@ -63,6 +63,9 @@ SceneManager::SceneManager():
 	im_Scenes()
 {
 	IScene* const startScene = new GameScene();
+
+	AddScene(SceneID::Menu, new MenuScene());
 	AddScene(SceneID::Game, startScene);
+
 	im_CurrScene = im_NextScene = startScene;
 }

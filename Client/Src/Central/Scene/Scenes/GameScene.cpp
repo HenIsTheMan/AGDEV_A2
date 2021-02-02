@@ -1153,56 +1153,5 @@ void GameScene::MainMenuUpdate(){
 }
 
 void GameScene::MainMenuRender(){
-	forwardSP.Set1i("nightVision", 0);
 
-	modelStack.PushModel({
-		modelStack.Scale(glm::vec3(float(winWidth) / 2.f, float(winHeight) / 2.f, 1.f)),
-	});
-		forwardSP.Set1i("noNormals", 1);
-		Meshes::meshes[(int)MeshType::Quad]->SetModel(modelStack.GetTopModel());
-		Meshes::meshes[(int)MeshType::Quad]->Render(forwardSP);
-		forwardSP.Set1i("noNormals", 0);
-	modelStack.PopModel();
-
-	glDepthFunc(GL_GREATER);
-
-	textChief.RenderText(textSP, {
-		"Play",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.2f,
-		textScaleFactors[0],
-		textColours[0],
-		0,
-		TextChief::TextAlignment::Center
-	});
-	textChief.RenderText(textSP, {
-		"Quit",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.1f,
-		textScaleFactors[1],
-		textColours[1],
-		0,
-		TextChief::TextAlignment::Center
-	});
-
-	textChief.RenderText(textSP, {
-		"ANOTHER",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.8f,
-		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
-		0,
-		TextChief::TextAlignment::Center
-	});
-	textChief.RenderText(textSP, {
-		"WORLD",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.6f,
-		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
-		0,
-		TextChief::TextAlignment::Center
-	});
-
-	glDepthFunc(GL_LESS);
 }
