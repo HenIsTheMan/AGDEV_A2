@@ -1,5 +1,6 @@
 #include "MenuScene.h"
 
+#include "../../App.h"
 #include "../SceneManager.h"
 
 extern bool endLoop;
@@ -16,6 +17,8 @@ MenuScene::MenuScene():
 
 void MenuScene::Enter(){
 	SceneSupport::Enter();
+
+	glfwSetInputMode(App::RetrieveWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
 	cam.SetTarget(glm::vec3(0.f));

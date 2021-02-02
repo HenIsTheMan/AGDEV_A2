@@ -24,6 +24,8 @@ public:
 	void PreRender();
 	void Render();
 	void PostRender();
+
+	static GLFWwindow* RetrieveWindow();
 private:
 	App();
 

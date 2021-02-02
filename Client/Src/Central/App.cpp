@@ -175,6 +175,10 @@ void App::PostRender(){
 	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }
 
+GLFWwindow* App::RetrieveWindow(){
+	return window;
+}
+
 App::App():
 	fullscreen(false),
 	elapsedTime(0.f),

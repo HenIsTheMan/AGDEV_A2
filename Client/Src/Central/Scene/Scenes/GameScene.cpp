@@ -1,6 +1,8 @@
 #include "GameScene.h"
 #include "Vendor/stb_image.h"
 
+#include "../../App.h"
+
 #include "../../../Shared/Easing.hpp"
 
 #include <glm/gtx/color_space.hpp>
@@ -136,6 +138,8 @@ GameScene::~GameScene(){
 
 void GameScene::Enter(){
 	SceneSupport::Enter();
+
+	glfwSetInputMode(App::RetrieveWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
 	cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
