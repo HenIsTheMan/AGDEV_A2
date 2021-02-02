@@ -30,6 +30,7 @@
     <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\GameScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\SceneSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -75,6 +76,7 @@
     <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
     <ClInclude Include="Src\Central\Scene\Scenes\GameScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
+    <ClInclude Include="Src\Central\Scene\SceneSupport.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

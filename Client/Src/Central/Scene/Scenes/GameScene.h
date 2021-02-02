@@ -1,26 +1,12 @@
 #pragma once
 
-#include "../../Cam.h"
+#include "../SceneSupport.h"
 
-#include "../../../Entity/Entities/Shotgun.h"
-#include "../../../Entity/Entities/Scar.h"
-#include "../../../Entity/Entities/Sniper.h"
+#ifndef BIT
+	#define BIT(x) 1 << x
+#endif
 
-#include "../../../Entity/EntityManager.h"
-
-#include "../../../Shared/Meshes.h"
-
-#include "../../ModelStack.h"
-
-#include "../../../LOD/LOD.h"
-
-#include "../../../Shared/RotateVecIn2D.hpp"
-
-#include "../IScene.hpp"
-
-#define BIT(x) 1 << x
-
-class GameScene final: public IScene{
+class GameScene final: public SceneSupport{
 public:
 	GameScene();
 	~GameScene();
@@ -36,16 +22,6 @@ public:
 	void Render() override;
 	void PostRender() override;
 private:
-	Cam cam;
-	ISoundEngine* soundEngine;
-	std::vector<ISound*> coinMusic;
-	std::vector<ISoundEffectControl*> coinSoundFX;
-	std::vector<ISound*> fireMusic;
-	std::vector<ISoundEffectControl*> fireSoundFX;
-	TextChief textChief;
-
-	int polyModes[2];
-
 	LOD treeLOD;
 
 	enum struct ModelType{
@@ -64,10 +40,6 @@ private:
 		Amt
 	};
 	Model* models[(int)ModelType::Amt];
-
-	ShaderProg forwardSP;
-	ShaderProg viewingFrustumSP;
-	ShaderProg textSP;
 
 	uint cubemapRefID;
 
@@ -96,9 +68,6 @@ private:
 	void CreateTreesAndCubes();
 	void CreateDecorations();
 
-	glm::mat4 view;
-	glm::mat4 projection;
-
 	EntityManager* entityManager;
 
 	NodeManager* nodeManager;
@@ -109,14 +78,11 @@ private:
 
 	bool isCamDetached;
 	bool shldRenderViewingFrustum;
-	float elapsedTime;
 
 	glm::vec3 frustumColor;
 
 	Light* dLightFromTop;
 	Light* dLightFromBottom;
-
-	ModelStack modelStack;
 
 	const Entity* myPlayer;
 };

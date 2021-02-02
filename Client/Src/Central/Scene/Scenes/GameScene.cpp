@@ -29,12 +29,6 @@ void SetUpCubemap(uint& cubemapRefID, const std::vector<cstr>& faces);
 glm::vec3 Light::globalAmbient = glm::vec3(.2f);
 
 GameScene::GameScene():
-	cam(glm::vec3(0.0f, 0.f, 0.0f), glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.f, 1.f, 0.0f), 0.0f, 1400.0f),
-	soundEngine(nullptr),
-	coinMusic({}),
-	coinSoundFX({}),
-	fireMusic({}),
-	fireSoundFX({}),
 	models{
 		new Model("ObjsAndMtls/Shotgun.obj", {
 			aiTextureType_DIFFUSE,
@@ -1058,100 +1052,4 @@ void GameScene::Render(){
 
 void GameScene::PostRender(){
 	glBlendFunc(GL_ONE, GL_ZERO);
-}
-
-void GameScene::MainMenuUpdate(){
-	POINT mousePos;
-	if(GetCursorPos(&mousePos)){
-		HWND hwnd = ::GetActiveWindow();
-		(void)ScreenToClient(hwnd, &mousePos);
-	} else{
-		(void)puts("Failed to get mouse pos relative to screen!");
-	}
-	static float buttonBT = 0.f;
-
-	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
-	cam.SetTarget(glm::vec3(0.f));
-	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
-	view = cam.LookAt();
-	projection = glm::ortho(-float(winWidth) / 2.f, float(winWidth) / 2.f, -float(winHeight) / 2.f, float(winHeight) / 2.f, .1f, 99999.0f);
-
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.77f
-		&& mousePos.y <= (float)winHeight * 0.83f){
-		if(textScaleFactors[0] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
-			textScaleFactors[0] = 1.1f;
-			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
-		}
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
-
-			if(guns[0]){
-				delete guns[0];
-				guns[0] = nullptr;
-			}
-			guns[0] = new Shotgun();
-			if(guns[1]){
-				delete guns[1];
-				guns[1] = nullptr;
-			}
-			guns[1] = new Scar();
-			if(guns[2]){
-				delete guns[2];
-				guns[2] = nullptr;
-			}
-			guns[2] = new Sniper();
-
-			screen = Screen::Game;
-
-			cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
-			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
-			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
-
-			const size_t& coinMusicSize = coinMusic.size();
-			for(size_t i = 0; i < coinMusicSize; ++i){
-				ISound* music = coinMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
-			const size_t& fireMusicSize = fireMusic.size();
-			for(size_t i = 0; i < fireMusicSize; ++i){
-				ISound* music = fireMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
-
-			buttonBT = elapsedTime + .3f;
-		}
-	} else{
-		textScaleFactors[0] = 1.f;
-		textColours[0] = glm::vec4(1.f);
-	}
-
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.87f
-		&& mousePos.y <= (float)winHeight * 0.93f){
-		if(textScaleFactors[1] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
-			textScaleFactors[1] = 1.1f;
-			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
-		}
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
-			endLoop = true;
-			buttonBT = elapsedTime + .3f;
-		}
-	} else{
-		textScaleFactors[1] = 1.f;
-		textColours[1] = glm::vec4(1.f);
-	}
-}
-
-void GameScene::MainMenuRender(){
-
 }

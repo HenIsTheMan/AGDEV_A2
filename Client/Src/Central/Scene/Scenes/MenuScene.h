@@ -1,16 +1,8 @@
 #pragma once
 
-#include "Graphics/Light.h"
+#include "../SceneSupport.h"
 
-#include "Graphics/TextChief.h"
-
-#include "../../Cam.h"
-
-#include "../../ModelStack.h"
-
-#include "../IScene.hpp"
-
-class MenuScene final: public IScene{
+class MenuScene final: public SceneSupport{
 public:
 	MenuScene();
 	~MenuScene();

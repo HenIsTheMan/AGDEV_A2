@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Central\App.cpp" />
+    <ClCompile Include="Src\Central\Scene\SceneSupport.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
     <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Client.cpp" />
@@ -226,6 +227,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
+    <ClInclude Include="Src\Central\Scene\SceneSupport.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
     <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
     <ClInclude Include="Src\Central\Scene\SceneManager.h" />
