@@ -106,22 +106,13 @@ bool App::Init1st() const{
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //For Mac OS X
 	#endif
 
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	const GLFWvidmode* const& mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	SetWindowPos(
-		GetConsoleWindow(),
-		0,
-		int((GetSystemMetrics(SM_CXFULLSCREEN) - float(mode->width - GetSystemMetrics(SM_CXFULLSCREEN)) / 2.f) * 5.f / 6.f),
-		0,
-		int((GetSystemMetrics(SM_CXFULLSCREEN) - float(mode->width - GetSystemMetrics(SM_CXFULLSCREEN)) / 2.f) / 6.f),
-		GetSystemMetrics(SM_CYFULLSCREEN),
-		0
-	);
-	optimalWinWidth = winWidth = int((GetSystemMetrics(SM_CXFULLSCREEN) - float(mode->width - GetSystemMetrics(SM_CXFULLSCREEN)) / 2.f) * 5.f / 6.f);
-	optimalWinHeight = winHeight = GetSystemMetrics(SM_CYFULLSCREEN) - int(float(mode->height - GetSystemMetrics(SM_CYFULLSCREEN)) / 2.f);
-	win = glfwCreateWindow(winWidth, winHeight, "Nameless Engine", nullptr, nullptr);
-	optimalWinXPos = int(float(mode->width - GetSystemMetrics(SM_CXFULLSCREEN)) / 2.f);
-	optimalWinYPos = int(float(mode->height - GetSystemMetrics(SM_CYFULLSCREEN)) / 2.f);
-	glfwSetWindowPos(win, optimalWinXPos, optimalWinYPos);
+	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "App Window", nullptr, nullptr);
+	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
+	glfwMaximizeWindow(win);
+	glfwShowWindow(win);
+	glfwGetWindowSize(win, &winWidth, &winHeight);
 
 	if(win == 0){ //Get a handle to the created window obj
 		(void)puts("Failed to create GLFW win\n");

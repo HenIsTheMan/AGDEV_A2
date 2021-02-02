@@ -18,6 +18,18 @@ void MainProcess(){
 int main(const int&, const char* const* const&){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
+	(void)SetLayeredWindowAttributes(GetConsoleWindow(), NULL, 230, LWA_ALPHA);
+
+	(void)SetWindowPos(
+		GetConsoleWindow(),
+		0,
+		0,
+		0,
+		GetSystemMetrics(SM_CXFULLSCREEN),
+		GetSystemMetrics(SM_CYFULLSCREEN),
+		0
+	);
+
 	auto ConsoleEventHandler = [](const DWORD event){
 		LPCWSTR msg;
 		switch(event){
