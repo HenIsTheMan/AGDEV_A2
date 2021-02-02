@@ -7,6 +7,9 @@ public:
 	MenuScene();
 	~MenuScene() = default;
 
+	void Enter() override;
+	void Exit() override;
+
 	void EarlyInit() override;
 	void Init() override;
 

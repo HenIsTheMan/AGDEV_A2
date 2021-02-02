@@ -28,6 +28,7 @@ void SetUpCubemap(uint& cubemapRefID, const std::vector<cstr>& faces);
 glm::vec3 Light::globalAmbient = glm::vec3(.2f);
 
 GameScene::GameScene():
+	SceneSupport(),
 	models{
 		new Model("ObjsAndMtls/Shotgun.obj", {
 			aiTextureType_DIFFUSE,
@@ -131,6 +132,14 @@ GameScene::~GameScene(){
 		entityManager = nullptr;
 	}
 	regionManager = nullptr; //Deleted elsewhere
+}
+
+void GameScene::Enter(){
+	SceneSupport::Enter();
+}
+
+void GameScene::Exit(){
+	SceneSupport::Exit();
 }
 
 void GameScene::InitEntities(){

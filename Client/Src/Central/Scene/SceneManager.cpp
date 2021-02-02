@@ -18,11 +18,15 @@ void SceneManager::AddScene(const SceneID ID, IScene* const scene){
 }
 
 void SceneManager::EarlyInit(){
-	im_CurrScene->EarlyInit();
+	for(std::pair<const SceneID, IScene*>& element: im_Scenes){
+		element.second->EarlyInit();
+	}
 }
 
 void SceneManager::Init(){
-	im_CurrScene->Init();
+	for(std::pair<const SceneID, IScene*>& element: im_Scenes){
+		element.second->Init();
+	}
 }
 
 void SceneManager::FixedUpdate(){
@@ -30,6 +34,14 @@ void SceneManager::FixedUpdate(){
 }
 
 void SceneManager::Update(){
+	if(im_NextScene != im_CurrScene){
+		if(im_CurrScene != nullptr){
+			im_CurrScene->Exit();
+		}
+		im_CurrScene = im_NextScene;
+		im_CurrScene->Enter();
+	}
+
 	im_CurrScene->Update();
 }
 
@@ -65,6 +77,5 @@ SceneManager::SceneManager():
 	AddScene(SceneID::Menu, new MenuScene());
 	AddScene(SceneID::Game, new GameScene());
 
-	SetCurrScene(SceneID::Menu);
 	SetNextScene(SceneID::Menu);
 }

@@ -17,6 +17,9 @@ class IScene{
 public:
 	_6_DEFAULTED(IScene)
 
+	virtual void Enter() = 0;
+	virtual void Exit() = 0;
+
 	virtual void EarlyInit() = 0;
 	virtual void Init() = 0;
 

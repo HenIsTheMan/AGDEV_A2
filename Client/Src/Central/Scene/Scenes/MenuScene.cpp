@@ -12,6 +12,18 @@ MenuScene::MenuScene():
 {
 }
 
+void MenuScene::Enter(){
+	SceneSupport::Enter();
+
+	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
+	cam.SetTarget(glm::vec3(0.f));
+	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
+}
+
+void MenuScene::Exit(){
+	SceneSupport::Exit();
+}
+
 void MenuScene::EarlyInit(){
 	SceneSupport::EarlyInit();
 }
@@ -27,9 +39,6 @@ void MenuScene::FixedUpdate(){
 void MenuScene::Update(){
 	SceneSupport::Update();
 
-	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
-	cam.SetTarget(glm::vec3(0.f));
-	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 	view = cam.LookAt();
 	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
 	static float buttonBT = 0.f;

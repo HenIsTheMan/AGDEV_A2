@@ -11,6 +11,9 @@ public:
 	GameScene();
 	~GameScene();
 
+	void Enter() override;
+	void Exit() override;
+
 	void EarlyInit() override;
 	void Init() override;
 

@@ -22,6 +22,9 @@ class SceneSupport: public IScene{ //Abstract class
 public:
 	~SceneSupport();
 
+	void Enter() override;
+	void Exit() override;
+
 	void EarlyInit() override;
 	void Init() override;
 
