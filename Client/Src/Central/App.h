@@ -36,7 +36,7 @@ private:
 	float lastFrameTime;
 
 	static const GLFWvidmode* mode;
-	static GLFWwindow* win;
+	static GLFWwindow* window;
 
 	LuaManager* luaManager;
 	LPWIN32_FIND_DATA dataAppWindow;

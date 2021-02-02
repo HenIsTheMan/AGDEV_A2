@@ -24,7 +24,7 @@ extern int windowWidth;
 extern int windowHeight;
 
 const GLFWvidmode* App::mode = nullptr;
-GLFWwindow* App::win = nullptr;
+GLFWwindow* App::window = nullptr;
 
 static void FramebufferSizeCallback(GLFWwindow*, int width, int height){ //Resize callback
 	windowWidth = width;
@@ -42,9 +42,9 @@ static void CursorPosCallback(GLFWwindow*, double xPos, double yPos){
 	lastY = float(yPos);
 }
 
-static void MouseButtonCallback(GLFWwindow* win, int button, int action, int mods){ //For mouse buttons
-	LMB = (bool)glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_LEFT);
-	RMB = (bool)glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_RIGHT);
+static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods){ //For mouse buttons
+	LMB = (bool)glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+	RMB = (bool)glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
 	leftRightMB = float(LMB - RMB);
 }
 
@@ -96,15 +96,15 @@ void App::EarlyInit(){
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "", nullptr, nullptr);
-	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
-	glfwGetWindowSize(win, &windowWidth, &windowHeight);
-	glfwMaximizeWindow(win);
+	window = glfwCreateWindow(mode->width / 2, mode->height / 2, "", nullptr, nullptr);
+	glfwSetWindowPos(window, mode->width / 4, mode->height / 4);
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+	glfwMaximizeWindow(window);
 
-	if(win == nullptr){
-		return (void)puts("Failed to create GLFW win\n");
+	if(window == nullptr){
+		return (void)puts("Failed to create GLFW window\n");
 	}
-	glfwMakeContextCurrent(win);
+	glfwMakeContextCurrent(window);
 
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
 		return (void)puts("Failed to init GLAD\n");
@@ -123,7 +123,7 @@ void App::FixedUpdate(){
 }
 
 void App::Update(){
-	if(glfwWindowShouldClose(App::win)){
+	if(glfwWindowShouldClose(App::window)){
 		endLoop = true;
 		return;
 	}
@@ -140,10 +140,10 @@ void App::Update(){
 	static float toggleFullscreenBT = 0.f;
 	if(Key(VK_F1) && toggleFullscreenBT <= elapsedTime){
 		if(fullscreen){
-			glfwSetWindowMonitor(win, 0, optimalWinXPos, optimalWinYPos, optimalWinWidth, optimalWinHeight, GLFW_DONT_CARE);
+			glfwSetWindowMonitor(window, 0, optimalWinXPos, optimalWinYPos, optimalWinWidth, optimalWinHeight, GLFW_DONT_CARE);
 			fullscreen = false;
 		} else{
-			glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
+			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
 			fullscreen = true;
 		}
 		toggleFullscreenBT = elapsedTime + .5f;
@@ -174,7 +174,7 @@ void App::Render(){
 void App::PostRender(){
 	sceneManager->PostRender();
 
-	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
+	glfwSwapBuffers(window); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
 	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }
 
@@ -211,31 +211,31 @@ bool App::TuneAppWindow(cstr const fPath) const{
 			if(results[i]){
 				switch(i){
 					case 0:
-						glfwSetFramebufferSizeCallback(win, &FramebufferSizeCallback);
+						glfwSetFramebufferSizeCallback(window, &FramebufferSizeCallback);
 						break;
 					case 1:
-						glfwSetCursorPosCallback(win, CursorPosCallback);
+						glfwSetCursorPosCallback(window, CursorPosCallback);
 						break;
 					case 2:
-						glfwSetMouseButtonCallback(win, MouseButtonCallback);
+						glfwSetMouseButtonCallback(window, MouseButtonCallback);
 						break;
 					case 3:
-						glfwSetScrollCallback(win, ScrollCallback);
+						glfwSetScrollCallback(window, ScrollCallback);
 						break;
 				}
 			} else{
 				switch(i){
 					case 0:
-						glfwSetFramebufferSizeCallback(win, nullptr);
+						glfwSetFramebufferSizeCallback(window, nullptr);
 						break;
 					case 1:
-						glfwSetCursorPosCallback(win, nullptr);
+						glfwSetCursorPosCallback(window, nullptr);
 						break;
 					case 2:
-						glfwSetMouseButtonCallback(win, nullptr);
+						glfwSetMouseButtonCallback(window, nullptr);
 						break;
 					case 3:
-						glfwSetScrollCallback(win, nullptr);
+						glfwSetScrollCallback(window, nullptr);
 						break;
 				}
 			}
@@ -244,12 +244,12 @@ bool App::TuneAppWindow(cstr const fPath) const{
 		glfwSwapInterval(luaManager->Read<int>(fPath, "swapInterval", true));
 
 		if(luaManager->Read<bool>(fPath, "showWindow", true)){
-			glfwShowWindow(win);
+			glfwShowWindow(window);
 		} else{
-			glfwHideWindow(win);
+			glfwHideWindow(window);
 		}
 
-		glfwSetWindowTitle(win, luaManager->Read<cstr>(fPath, "windowTitle", true));
+		glfwSetWindowTitle(window, luaManager->Read<cstr>(fPath, "windowTitle", true));
 
 		lastWriteTime.dwLowDateTime = dataAppWindow->ftLastWriteTime.dwLowDateTime;
 	}
