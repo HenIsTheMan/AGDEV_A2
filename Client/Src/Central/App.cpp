@@ -79,6 +79,9 @@ App::~App(){
 		sceneManager = nullptr;
 	}
 
+	stbi_image_free(logo0[0].pixels);
+	stbi_image_free(logo1[0].pixels);
+
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
 }
 
@@ -116,6 +119,9 @@ void App::EarlyInit(){
 void App::Init(){
 	GetConsoleCursorInfo(StdHandle, &cursorInfo);
 	sceneManager->Init();
+
+	logo0[0].pixels = stbi_load("Imgs/ReticleScar.png", &logo0[0].width, &logo0[0].height, 0, 0);
+	logo1[0].pixels = stbi_load("Imgs/ReticleShotgun.png", &logo1[0].width, &logo1[0].height, 0, 0);
 }
 
 void App::FixedUpdate(){
@@ -189,7 +195,9 @@ App::App():
 	dataOptions(new WIN32_FIND_DATA()),
 	StdHandle(GetStdHandle(DWORD(-11))),
 	cursorInfo({}),
-	sceneManager(SceneManager::GetObjPtr())
+	sceneManager(SceneManager::GetObjPtr()),
+	logo0(),
+	logo1()
 {
 }
 
@@ -251,6 +259,18 @@ bool App::TuneAppWindow(cstr const fPath) const{
 		}
 
 		glfwSetWindowTitle(window, luaManager->Read<cstr>(fPath, "windowTitle", true));
+
+		switch(luaManager->Read<int>(fPath, "windowIcon", true)){
+			case -1:
+				glfwSetWindowIcon(window, 0, nullptr);
+				break;
+			case 0:
+				glfwSetWindowIcon(window, 1, logo0);
+				break;
+			case 1:
+				glfwSetWindowIcon(window, 1, logo1);
+				break;
+		}
 
 		lastWriteTime.dwLowDateTime = dataAppWindow->ftLastWriteTime.dwLowDateTime;
 	}

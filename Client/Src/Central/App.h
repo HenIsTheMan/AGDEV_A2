@@ -47,6 +47,8 @@ private:
 
 	HANDLE StdHandle;
 	CONSOLE_CURSOR_INFO cursorInfo;
+	GLFWimage logo0[1];
+	GLFWimage logo1[1];
 
 	SceneManager* sceneManager;
 };

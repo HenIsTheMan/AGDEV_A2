@@ -10,3 +10,5 @@ swapInterval = 0
 showWindow = true;
 
 windowTitle = "Nameless App Window";
+
+windowIcon = 1;
