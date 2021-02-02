@@ -71,7 +71,7 @@ void SceneSupport::Init(){
 	static bool is1st = true;
 
 	if(is1st){
-		soundEngine->play2D("Audio/Music/Theme.mp3", true);
+		BGM = soundEngine->play2D("Audio/Music/Theme.mp3", true, true);
 
 		is1st = false;
 	}
@@ -119,7 +119,8 @@ SceneSupport::SceneSupport():
 	viewingFrustumSP{"Shaders/ViewingFrustum.vertexS", "Shaders/ViewingFrustum.fragS"},
 	textSP{"Shaders/Text.vertexS", "Shaders/Text.fragS"},
 	luaManager(LuaManager::GetObjPtr()),
-	dataAudio(new WIN32_FIND_DATA())
+	dataAudio(new WIN32_FIND_DATA()),
+	BGM(nullptr)
 {
 }
 
@@ -130,6 +131,7 @@ void SceneSupport::TuneAudio(cstr const fPath){
 	if(dataAudio->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
 		std::cout << "Audio Settings tuned.\n\n";
 
+		BGM->setIsPaused(luaManager->Read<bool>(fPath, "isPausedBGM", true));
 		soundEngine->setSoundVolume(luaManager->Read<float>(fPath, "soundVol", true));
 		soundEngine->setRolloffFactor(luaManager->Read<float>(fPath, "rolloffFactor", true));
 		soundEngine->setDopplerEffectParameters(

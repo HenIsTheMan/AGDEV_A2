@@ -60,6 +60,7 @@ protected:
 
 	LuaManager* luaManager;
 	LPWIN32_FIND_DATA dataAudio;
+	ISound* BGM;
 
 	SceneSupport();
 
