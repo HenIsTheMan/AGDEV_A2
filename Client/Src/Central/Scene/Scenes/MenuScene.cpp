@@ -36,8 +36,9 @@ void MenuScene::Update(){
 
 	if(windowMouseX >= (float)windowWidth * 0.47f
 		&& windowMouseX <= (float)windowWidth * 0.53f
-		&& windowMouseY >= (float)windowHeight * 0.77f
-		&& windowMouseY <= (float)windowHeight * 0.83f){
+		&& windowMouseY >= (float)windowHeight * 0.84f
+		&& windowMouseY <= (float)windowHeight * 0.88f
+	){
 		if(textScaleFactors[0] != 1.1f){
 			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
 			textScaleFactors[0] = 1.1f;
@@ -59,8 +60,9 @@ void MenuScene::Update(){
 
 	if(windowMouseX >= (float)windowWidth * 0.47f
 		&& windowMouseX <= (float)windowWidth * 0.53f
-		&& windowMouseY >= (float)windowHeight * 0.87f
-		&& windowMouseY <= (float)windowHeight * 0.93f){
+		&& windowMouseY >= (float)windowHeight * 0.91f
+		&& windowMouseY <= (float)windowHeight * 0.95f
+	){
 		if(textScaleFactors[1] != 1.1f){
 			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
 			textScaleFactors[1] = 1.1f;
@@ -117,8 +119,8 @@ void MenuScene::Render(){
 			texts[i],
 			(float)windowWidth * 0.5f,
 			(float)windowHeight * textScaleFactors[0] * 0.07f * float(size - 1 - (float)i) + (float)windowHeight * 0.05f,
-			textScaleFactors[0],
-			textColours[0],
+			textScaleFactors[i],
+			textColours[i],
 			0,
 			TextChief::TextAlignment::Center
 		});
