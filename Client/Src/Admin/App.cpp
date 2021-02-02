@@ -59,6 +59,7 @@ App::App():
 	lastFrameTime(0.f),
 	scene(),
 	luaManager(LuaManager::GetObjPtr()),
+	dataAppWindow(new WIN32_FIND_DATA()),
 	dataConsoleWindow(new WIN32_FIND_DATA()),
 	dataOptions(new WIN32_FIND_DATA()),
 	StdHandle(GetStdHandle(DWORD(-11))),
@@ -73,6 +74,11 @@ App::~App(){
 	if(luaManager != nullptr){
 		luaManager->Destroy();
 		luaManager = nullptr;
+	}
+
+	if(dataAppWindow != nullptr){
+		delete dataAppWindow;
+		dataAppWindow = nullptr;
 	}
 
 	if(dataConsoleWindow != nullptr){
@@ -123,17 +129,64 @@ bool App::Init1st() const{
 		(void)puts("Failed to init GLAD\n");
 		return false;
 	}
-	glfwSetFramebufferSizeCallback(win, &FramebufferSizeCallback);
-	glfwSetCursorPosCallback(win, CursorPosCallback);
-	glfwSetMouseButtonCallback(win, MouseButtonCallback);
-	//glfwSetScrollCallback(win, ScrollCallback);
-
-	glfwSwapInterval(0);
 
 	return true;
 }
 
-bool App::TuneAppWindow() const{
+bool App::TuneAppWindow(cstr const fPath) const{
+	static FILETIME lastWriteTime = {};
+	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, dataAppWindow);
+
+	if(dataAppWindow->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
+		std::cout << "App Window tuned.\n\n";
+
+		const std::vector<bool> results = luaManager->ReadFromTable<bool>(fPath, "callbackFlags", {
+			"shldSetFramebufferSizeCallback",
+			"shldSetCursorPosCallback",
+			"shldSetMouseButtonCallback",
+			"shldSetScrollCallback",
+		}, true);
+
+		const int resultsSize = (int)results.size();
+		for(int i = 0; i < resultsSize; ++i){
+			if(results[i]){
+				switch(i){
+					case 0:
+						glfwSetFramebufferSizeCallback(win, &FramebufferSizeCallback);
+						break;
+					case 1:
+						glfwSetCursorPosCallback(win, CursorPosCallback);
+						break;
+					case 2:
+						glfwSetMouseButtonCallback(win, MouseButtonCallback);
+						break;
+					case 3:
+						glfwSetScrollCallback(win, ScrollCallback);
+						break;
+				}
+			} else{
+				switch(i){
+					case 0:
+						glfwSetFramebufferSizeCallback(win, nullptr);
+						break;
+					case 1:
+						glfwSetCursorPosCallback(win, nullptr);
+						break;
+					case 2:
+						glfwSetMouseButtonCallback(win, nullptr);
+						break;
+					case 3:
+						glfwSetScrollCallback(win, nullptr);
+						break;
+				}
+			}
+		}
+
+		glfwSwapInterval(luaManager->Read<int>(fPath, "swapInterval", true));
+
+		lastWriteTime.dwLowDateTime = dataAppWindow->ftLastWriteTime.dwLowDateTime;
+	}
+
 	return false;
 }
 
@@ -223,11 +276,7 @@ void App::Update(){
 		return;
 	}
 
-	static bool yes = true;
-	if(yes){
-		(void)TuneAppWindow();
-		yes = false;
-	}
+	(void)TuneAppWindow("Scripts/AppWindow.lua");
 	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
 	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
 

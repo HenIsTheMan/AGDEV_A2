@@ -22,7 +22,7 @@ private:
 
 	bool Init1st() const;
 
-	bool TuneAppWindow() const;
+	bool TuneAppWindow(cstr const fPath) const;
 	bool TuneConsoleWindow(cstr const fPath);
 	bool TuneOptions(cstr const fPath) const;
 
@@ -36,6 +36,7 @@ private:
 	static GLFWwindow* win;
 
 	LuaManager* luaManager;
+	LPWIN32_FIND_DATA dataAppWindow;
 	LPWIN32_FIND_DATA dataConsoleWindow;
 	LPWIN32_FIND_DATA dataOptions;
 
