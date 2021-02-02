@@ -131,6 +131,11 @@ void SceneSupport::TuneAudio(cstr const fPath){
 		std::cout << "Audio Settings tuned.\n\n";
 
 		soundEngine->setSoundVolume(luaManager->Read<float>(fPath, "soundVol", true));
+		soundEngine->setRolloffFactor(luaManager->Read<float>(fPath, "rolloffFactor", true));
+		soundEngine->setDopplerEffectParameters(
+			luaManager->Read<float>(fPath, "dopplerFactorDopplerEffect", true),
+			luaManager->Read<float>(fPath, "distFactorDopplerEffect", true)
+		);
 
 		lastWriteTime.dwLowDateTime = dataAudio->ftLastWriteTime.dwLowDateTime;
 	}
