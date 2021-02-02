@@ -131,9 +131,9 @@ void EntityFactory::CreateCoin(const EntityCreationAttribs& attribs){
 	boxCollider->SetPos(entity->pos);
 	boxCollider->SetScale(entity->scale);
 
-	ISound* const myMusic = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(entity->pos.x, entity->pos.y, entity->pos.z), true, true, true, ESM_AUTO_DETECT, true);
+	ISound* const myMusic = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(entity->pos.x, entity->pos.y, entity->pos.z), true, true, false, ESM_AUTO_DETECT, true);
 	if(myMusic != nullptr){
-		myMusic->setMinDistance(3.0f);
+		myMusic->setMinDistance(15.0f);
 		myMusic->setVolume(LuaManager::GetObjPtr()->Read<float>("Scripts/Audio.lua", "coinVol", true));
 		myMusic->setIsPaused(false);
 	} else{

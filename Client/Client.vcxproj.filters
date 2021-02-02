@@ -112,5 +112,6 @@
     <None Include="cpp.hint" />
     <None Include="Scripts\Models.lua" />
     <None Include="Scripts\Audio.lua" />
+    <None Include="Scripts\CoinAudio3D.lua" />
   </ItemGroup>
 </Project>
