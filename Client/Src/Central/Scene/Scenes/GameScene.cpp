@@ -144,6 +144,28 @@ void GameScene::Enter(){
 	cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
 	cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
 	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
+
+	for(int i = 0; i < 3; ++i){
+		Gun*& gun = guns[i];
+
+		if(gun != nullptr){
+			delete gun;
+		}
+
+		switch(i){
+			case 0:
+				gun = new Shotgun();
+				break;
+			case 1:
+				gun = new Scar();
+				break;
+			case 2:
+				gun = new Sniper();
+				break;
+		}
+	}
+
+	currGun = guns[0];
 }
 
 void GameScene::Exit(){
@@ -219,13 +241,6 @@ void GameScene::Update(){
 		isPressedM = false;
 	}
 
-	static float polyModeBT = 0.f;
-	if(Key(VK_F2) && polyModeBT <= elapsedTime){
-		polyModes[0] += polyModes[0] == GL_FILL ? -2 : 1;
-		glPolygonMode(GL_FRONT_AND_BACK, polyModes[0]);
-		polyModeBT = elapsedTime + .5f;
-	}
-
 	const glm::vec3 camAttachedPos = myPlayer->GetPos() + glm::vec3(0.0f, myPlayer->GetScale().y * 0.5f, 0.0f);
 	if(isCamDetached){
 		cam.UpdateDetached(GLFW_KEY_E, GLFW_KEY_Q, GLFW_KEY_A, GLFW_KEY_D, GLFW_KEY_W, GLFW_KEY_S);
@@ -253,6 +268,7 @@ void GameScene::Update(){
 		}
 
 		if(currGun){ //Control shooting and reloading of currGun
+			std::cout << "here\n";
 			if(LMB){
 				currGun->Shoot(elapsedTime, cam.GetPos(), cam.CalcFront(), soundEngine);
 			}

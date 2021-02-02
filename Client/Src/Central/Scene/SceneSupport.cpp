@@ -75,6 +75,13 @@ void SceneSupport::Update(){
 		cam.ResetAspectRatio();
 	}
 
+	static float polyModeBT = 0.f;
+	if(Key(VK_F2) && polyModeBT <= elapsedTime){
+		polyModes[0] += polyModes[0] == GL_FILL ? -2 : 1;
+		glPolygonMode(GL_FRONT_AND_BACK, polyModes[0]);
+		polyModeBT = elapsedTime + .5f;
+	}
+
 	const glm::vec3& camPos = cam.GetPos();
 	const glm::vec3& camFront = cam.CalcFront();
 	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
