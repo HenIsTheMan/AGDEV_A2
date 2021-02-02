@@ -132,21 +132,18 @@ void App::Update(){
 	(void)TuneAppWindow("Scripts/AppWindow.lua");
 	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
 
-	float currFrameTime = (float)glfwGetTime();
+	const float currFrameTime = (float)glfwGetTime();
 	dt = currFrameTime - lastFrameTime;
 	lastFrameTime = currFrameTime;
 
 	elapsedTime += dt;
-	static float toggleFullscreenBT = 0.f;
-	if(Key(VK_F1) && toggleFullscreenBT <= elapsedTime){
-		if(fullscreen){
-			glfwSetWindowMonitor(window, 0, optimalWinXPos, optimalWinYPos, optimalWinWidth, optimalWinHeight, GLFW_DONT_CARE);
-			fullscreen = false;
-		} else{
-			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
-			fullscreen = true;
-		}
-		toggleFullscreenBT = elapsedTime + .5f;
+
+	static bool isF1 = false;
+	if(!isF1 && Key(VK_F1)){
+		glfwSetWindowMonitor(window, glfwGetWindowMonitor(window) ? nullptr : glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
+		isF1 = true;
+	} else if(isF1 && !Key(VK_F1)){
+		isF1 = false;
 	}
 
 	sceneManager->Update();
