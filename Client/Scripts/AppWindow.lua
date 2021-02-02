@@ -6,3 +6,5 @@ callbackFlags = {
 }
 
 swapInterval = 0
+
+showWindow = true;

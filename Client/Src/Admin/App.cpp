@@ -66,6 +66,8 @@ App::App():
 	cursorInfo({})
 {
 	GetConsoleCursorInfo(StdHandle, &cursorInfo);
+	luaManager->Init();
+	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
 	(void)Init1st();
 	(void)Init();
 }
@@ -95,7 +97,6 @@ App::~App(){
 }
 
 bool App::Init(){
-	luaManager->Init();
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 	(void)scene.Init();
@@ -105,26 +106,26 @@ bool App::Init(){
 
 bool App::Init1st() const{
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	#ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //For Mac OS X
 	#endif
-
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+
 	const GLFWvidmode* const& mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "App Window", nullptr, nullptr);
 	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
-	glfwMaximizeWindow(win);
-	glfwShowWindow(win);
 	glfwGetWindowSize(win, &winWidth, &winHeight);
+	glfwMaximizeWindow(win);
 
-	if(win == 0){ //Get a handle to the created window obj
+	if(win == nullptr){
 		(void)puts("Failed to create GLFW win\n");
 		return false;
 	}
-	glfwMakeContextCurrent(win); //Make context of the window the main context on the curr thread
+	glfwMakeContextCurrent(win);
+
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
 		(void)puts("Failed to init GLAD\n");
 		return false;
@@ -183,6 +184,12 @@ bool App::TuneAppWindow(cstr const fPath) const{
 		}
 
 		glfwSwapInterval(luaManager->Read<int>(fPath, "swapInterval", true));
+
+		if(luaManager->Read<bool>(fPath, "showWindow", true)){
+			glfwShowWindow(win);
+		} else{
+			glfwHideWindow(win);
+		}
 
 		lastWriteTime.dwLowDateTime = dataAppWindow->ftLastWriteTime.dwLowDateTime;
 	}
@@ -276,8 +283,8 @@ void App::Update(){
 		return;
 	}
 
-	(void)TuneAppWindow("Scripts/AppWindow.lua");
 	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
+	(void)TuneAppWindow("Scripts/AppWindow.lua");
 	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
 
 	float currFrameTime = (float)glfwGetTime();
