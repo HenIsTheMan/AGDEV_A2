@@ -195,7 +195,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Central\App.cpp" />
-    <ClCompile Include="Src\Central\SceneManager.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Client.cpp" />
     <ClCompile Include="Src\Collision\Collider\Collider.cpp" />
     <ClCompile Include="Src\Collision\Collider\ColliderManager.cpp" />
@@ -221,12 +222,13 @@
     <ClCompile Include="Src\State\State.cpp" />
     <ClCompile Include="Src\Central\Cam.cpp" />
     <ClCompile Include="Src\Central\ModelStack.cpp" />
-    <ClCompile Include="Src\Central\GameScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
-    <ClInclude Include="Src\Central\SceneID.hpp" />
-    <ClInclude Include="Src\Central\SceneManager.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
+    <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
+    <ClInclude Include="Src\Central\Scene\SceneManager.h" />
     <ClInclude Include="Src\Collision\Collider\Collider.h" />
     <ClInclude Include="Src\Collision\Collider\ColliderManager.h" />
     <ClInclude Include="Src\Collision\Collider\Colliders\BoxCollider.h" />
@@ -264,8 +266,8 @@
     <ClInclude Include="Src\State\StateMachine.h" />
     <ClInclude Include="Src\Central\Cam.h" />
     <ClInclude Include="Src\Central\ModelStack.h" />
-    <ClInclude Include="Src\Central\IScene.hpp" />
-    <ClInclude Include="Src\Central\GameScene.h" />
+    <ClInclude Include="Src\Central\Scene\IScene.hpp" />
+    <ClInclude Include="Src\Central\Scene\Scenes\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

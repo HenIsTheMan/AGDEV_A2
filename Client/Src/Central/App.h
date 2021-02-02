@@ -2,7 +2,7 @@
 
 #include "../Lua/LuaManager.h"
 
-#include "SceneManager.h"
+#include "Scene/SceneManager.h"
 
 class App final: public Singleton<App>{
 	explicit App(const App&) = delete;

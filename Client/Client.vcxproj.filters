@@ -25,10 +25,11 @@
     <ClCompile Include="Src\Lua\LuaManager.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
     <ClCompile Include="Src\Central\Cam.cpp" />
-    <ClCompile Include="Src\Central\GameScene.cpp" />
     <ClCompile Include="Src\Central\ModelStack.cpp" />
     <ClCompile Include="Src\Central\App.cpp" />
-    <ClCompile Include="Src\Central\SceneManager.cpp" />
+    <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\GameScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -67,12 +68,13 @@
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
     <ClInclude Include="Src\Central\Cam.h" />
-    <ClInclude Include="Src\Central\GameScene.h" />
     <ClInclude Include="Src\Central\ModelStack.h" />
     <ClInclude Include="Src\Central\App.h" />
-    <ClInclude Include="Src\Central\SceneManager.h" />
-    <ClInclude Include="Src\Central\SceneID.hpp" />
-    <ClInclude Include="Src\Central\IScene.hpp" />
+    <ClInclude Include="Src\Central\Scene\IScene.hpp" />
+    <ClInclude Include="Src\Central\Scene\SceneManager.h" />
+    <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
+    <ClInclude Include="Src\Central\Scene\Scenes\GameScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

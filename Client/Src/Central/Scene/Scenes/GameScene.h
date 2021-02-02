@@ -1,23 +1,23 @@
 #pragma once
 #include <Engine.h>
 
-#include "Cam.h"
+#include "../../Cam.h"
 
-#include "../Entity/Entities/Shotgun.h"
-#include "../Entity/Entities/Scar.h"
-#include "../Entity/Entities/Sniper.h"
+#include "../../../Entity/Entities/Shotgun.h"
+#include "../../../Entity/Entities/Scar.h"
+#include "../../../Entity/Entities/Sniper.h"
 
-#include "../Entity/EntityManager.h"
+#include "../../../Entity/EntityManager.h"
 
-#include "../Shared/Meshes.h"
+#include "../../../Shared/Meshes.h"
 
-#include "ModelStack.h"
+#include "../../ModelStack.h"
 
-#include "../LOD/LOD.h"
+#include "../../../LOD/LOD.h"
 
-#include "../Shared/RotateVecIn2D.hpp"
+#include "../../../Shared/RotateVecIn2D.hpp"
 
-#include "IScene.hpp"
+#include "../IScene.hpp"
 
 #define BIT(x) 1 << x
 
@@ -85,24 +85,11 @@ private:
 	int currSlot;
 	ItemType inv[5];
 
-	enum struct Screen: int{
-		MainMenu,
-		Game,
-		Amt
-	};
-
-	Screen screen;
 	float textScaleFactors[2];
 	glm::vec4 textColours[2];
 	Gun* currGun;
 	Gun* guns[3];
 	glm::vec4 reticleColour;
-
-	void MainMenuUpdate();
-	void GameUpdate();
-
-	void MainMenuRender();
-	void GameRender();
 
 	void InitEntities();
 

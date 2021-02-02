@@ -4,7 +4,9 @@
 
 #include "SceneID.hpp"
 
-#include "GameScene.h"
+#include "IScene.hpp"
+
+#include <unordered_map>
 
 class SceneManager final: public Singleton<SceneManager>{
 	friend Singleton<SceneManager>;
@@ -30,7 +32,7 @@ private:
 	IScene* im_CurrScene;
 	IScene* im_NextScene;
 
-	std::map<SceneID, IScene*> im_Scenes;
+	std::unordered_map<SceneID, IScene*> im_Scenes;
 
 	SceneManager();
 };

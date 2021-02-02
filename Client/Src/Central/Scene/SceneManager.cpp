@@ -1,5 +1,8 @@
 #include "SceneManager.h"
 
+#include "Scenes/MenuScene.h"
+#include "Scenes/GameScene.h"
+
 SceneManager::~SceneManager(){
 	for(std::pair<const SceneID, IScene*>& element: im_Scenes){
 		IScene*& scene = element.second;

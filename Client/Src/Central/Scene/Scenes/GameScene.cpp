@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "Vendor/stb_image.h"
 
-#include "../Shared/Easing.hpp"
+#include "../../../Shared/Easing.hpp"
 
 #include <glm/gtx/color_space.hpp>
 #include <glm/gtx/norm.hpp>
@@ -508,151 +508,6 @@ void GameScene::Update(){
 		cam.ResetAspectRatio();
 	}
 
-	switch(screen){
-		case Screen::MainMenu:
-			MainMenuUpdate();
-			break;
-		case Screen::Game:
-			GameUpdate();
-			break;
-	}
-}
-
-void GameScene::LateUpdate(){
-}
-
-void GameScene::PreRender(){
-	forwardSP.Use();
-
-	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
-	forwardSP.Set3fv("globalAmbient", Light::globalAmbient);
-	forwardSP.Set3fv("camPos", cam.GetPos());
-	forwardSP.Set1i("dAmt", 2);
-
-	DirectionalLight* directionalLightFromTop = (DirectionalLight*)dLightFromTop;
-	forwardSP.Set3fv("directionalLights[0].ambient", directionalLightFromTop->ambient);
-	forwardSP.Set3fv("directionalLights[0].diffuse", directionalLightFromTop->diffuse);
-	forwardSP.Set3fv("directionalLights[0].spec", directionalLightFromTop->spec);
-	forwardSP.Set3fv("directionalLights[0].dir", directionalLightFromTop->dir);
-
-	DirectionalLight* directionalLightFromBottom = (DirectionalLight*)dLightFromBottom;
-	forwardSP.Set3fv("directionalLights[1].ambient", directionalLightFromBottom->ambient);
-	forwardSP.Set3fv("directionalLights[1].diffuse", directionalLightFromBottom->diffuse);
-	forwardSP.Set3fv("directionalLights[1].spec", directionalLightFromBottom->spec);
-	forwardSP.Set3fv("directionalLights[1].dir", directionalLightFromBottom->dir);
-
-	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void GameScene::Render(){
-	switch(screen){
-		case Screen::MainMenu:
-			MainMenuRender();
-			break;
-		case Screen::Game:
-			GameRender();
-			break;
-	}
-}
-
-void GameScene::PostRender(){
-	glBlendFunc(GL_ONE, GL_ZERO);
-}
-
-void GameScene::MainMenuUpdate(){
-	POINT mousePos;
-	if(GetCursorPos(&mousePos)){
-		HWND hwnd = ::GetActiveWindow();
-		(void)ScreenToClient(hwnd, &mousePos);
-	} else{
-		(void)puts("Failed to get mouse pos relative to screen!");
-	}
-	static float buttonBT = 0.f;
-
-	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
-	cam.SetTarget(glm::vec3(0.f));
-	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
-	view = cam.LookAt();
-	projection = glm::ortho(-float(winWidth) / 2.f, float(winWidth) / 2.f, -float(winHeight) / 2.f, float(winHeight) / 2.f, .1f, 99999.0f);
-
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.77f
-		&& mousePos.y <= (float)winHeight * 0.83f){
-		if(textScaleFactors[0] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
-			textScaleFactors[0] = 1.1f;
-			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
-		}
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
-
-			if(guns[0]){
-				delete guns[0];
-				guns[0] = nullptr;
-			}
-			guns[0] = new Shotgun();
-			if(guns[1]){
-				delete guns[1];
-				guns[1] = nullptr;
-			}
-			guns[1] = new Scar();
-			if(guns[2]){
-				delete guns[2];
-				guns[2] = nullptr;
-			}
-			guns[2] = new Sniper();
-
-			screen = Screen::Game;
-
-			cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
-			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
-			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
-
-			const size_t& coinMusicSize = coinMusic.size();
-			for(size_t i = 0; i < coinMusicSize; ++i){
-				ISound* music = coinMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
-			const size_t& fireMusicSize = fireMusic.size();
-			for(size_t i = 0; i < fireMusicSize; ++i){
-				ISound* music = fireMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
-
-			buttonBT = elapsedTime + .3f;
-		}
-	} else{
-		textScaleFactors[0] = 1.f;
-		textColours[0] = glm::vec4(1.f);
-	}
-
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.87f
-		&& mousePos.y <= (float)winHeight * 0.93f){
-		if(textScaleFactors[1] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
-			textScaleFactors[1] = 1.1f;
-			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
-		}
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
-			endLoop = true;
-			buttonBT = elapsedTime + .3f;
-		}
-	} else{
-		textScaleFactors[1] = 1.f;
-		textColours[1] = glm::vec4(1.f);
-	}
-}
-
-void GameScene::GameUpdate(){
 	const glm::vec3& camPos = cam.GetPos();
 	const glm::vec3& camFront = cam.CalcFront();
 	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
@@ -761,7 +616,7 @@ void GameScene::GameUpdate(){
 		|| glm::any(glm::epsilonNotEqual(playerFacingDir, prevPlayerFacingDir, glm::epsilon<float>()))
 		|| glm::epsilonNotEqual(angularFOV, prevAngularFOV, glm::epsilon<float>())
 		|| glm::epsilonNotEqual(camAspectRatio, prevCamAspectRatio, glm::epsilon<float>())
-	){
+		){
 		const glm::vec3& playerPos = myPlayer->GetPos();
 		const float yMin = -FLT_MAX;
 		const float yMax = terrainYScale * 4.0f;
@@ -797,62 +652,34 @@ void GameScene::GameUpdate(){
 	}
 }
 
-void GameScene::MainMenuRender(){
-	forwardSP.Set1i("nightVision", 0);
-
-	modelStack.PushModel({
-		modelStack.Scale(glm::vec3(float(winWidth) / 2.f, float(winHeight) / 2.f, 1.f)),
-	});
-		forwardSP.Set1i("noNormals", 1);
-		Meshes::meshes[(int)MeshType::Quad]->SetModel(modelStack.GetTopModel());
-		Meshes::meshes[(int)MeshType::Quad]->Render(forwardSP);
-		forwardSP.Set1i("noNormals", 0);
-	modelStack.PopModel();
-
-	glDepthFunc(GL_GREATER);
-
-	textChief.RenderText(textSP, {
-		"Play",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.2f,
-		textScaleFactors[0],
-		textColours[0],
-		0,
-		TextChief::TextAlignment::Center
-	});
-	textChief.RenderText(textSP, {
-		"Quit",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.1f,
-		textScaleFactors[1],
-		textColours[1],
-		0,
-		TextChief::TextAlignment::Center
-	});
-
-	textChief.RenderText(textSP, {
-		"ANOTHER",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.8f,
-		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
-		0,
-		TextChief::TextAlignment::Center
-	});
-	textChief.RenderText(textSP, {
-		"WORLD",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.6f,
-		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
-		0,
-		TextChief::TextAlignment::Center
-	});
-
-	glDepthFunc(GL_LESS);
+void GameScene::LateUpdate(){
 }
 
-void GameScene::GameRender(){
+void GameScene::PreRender(){
+	forwardSP.Use();
+
+	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
+	forwardSP.Set3fv("globalAmbient", Light::globalAmbient);
+	forwardSP.Set3fv("camPos", cam.GetPos());
+	forwardSP.Set1i("dAmt", 2);
+
+	DirectionalLight* directionalLightFromTop = (DirectionalLight*)dLightFromTop;
+	forwardSP.Set3fv("directionalLights[0].ambient", directionalLightFromTop->ambient);
+	forwardSP.Set3fv("directionalLights[0].diffuse", directionalLightFromTop->diffuse);
+	forwardSP.Set3fv("directionalLights[0].spec", directionalLightFromTop->spec);
+	forwardSP.Set3fv("directionalLights[0].dir", directionalLightFromTop->dir);
+
+	DirectionalLight* directionalLightFromBottom = (DirectionalLight*)dLightFromBottom;
+	forwardSP.Set3fv("directionalLights[1].ambient", directionalLightFromBottom->ambient);
+	forwardSP.Set3fv("directionalLights[1].diffuse", directionalLightFromBottom->diffuse);
+	forwardSP.Set3fv("directionalLights[1].spec", directionalLightFromBottom->spec);
+	forwardSP.Set3fv("directionalLights[1].dir", directionalLightFromBottom->dir);
+
+	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void GameScene::Render(){
 	const glm::vec3 OGPos = cam.GetPos();
 	const glm::vec3 OGTarget = cam.GetTarget();
 	const glm::vec3 OGUp = cam.GetUp();
@@ -1227,4 +1054,155 @@ void GameScene::GameRender(){
 	Mesh::vertexCount = 0;
 	Mesh::indexCount = 0;
 	Mesh::polygonCount = 0;
+}
+
+void GameScene::PostRender(){
+	glBlendFunc(GL_ONE, GL_ZERO);
+}
+
+void GameScene::MainMenuUpdate(){
+	POINT mousePos;
+	if(GetCursorPos(&mousePos)){
+		HWND hwnd = ::GetActiveWindow();
+		(void)ScreenToClient(hwnd, &mousePos);
+	} else{
+		(void)puts("Failed to get mouse pos relative to screen!");
+	}
+	static float buttonBT = 0.f;
+
+	cam.SetPos(glm::vec3(0.f, 0.f, 5.f));
+	cam.SetTarget(glm::vec3(0.f));
+	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
+	view = cam.LookAt();
+	projection = glm::ortho(-float(winWidth) / 2.f, float(winWidth) / 2.f, -float(winHeight) / 2.f, float(winHeight) / 2.f, .1f, 99999.0f);
+
+	if(mousePos.x >= (float)winWidth * 0.47f
+		&& mousePos.x <= (float)winWidth * 0.53f
+		&& mousePos.y >= (float)winHeight * 0.77f
+		&& mousePos.y <= (float)winHeight * 0.83f){
+		if(textScaleFactors[0] != 1.1f){
+			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
+			textScaleFactors[0] = 1.1f;
+			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
+		}
+		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
+			soundEngine->play2D("Audio/Sounds/Select.wav", false);
+
+			if(guns[0]){
+				delete guns[0];
+				guns[0] = nullptr;
+			}
+			guns[0] = new Shotgun();
+			if(guns[1]){
+				delete guns[1];
+				guns[1] = nullptr;
+			}
+			guns[1] = new Scar();
+			if(guns[2]){
+				delete guns[2];
+				guns[2] = nullptr;
+			}
+			guns[2] = new Sniper();
+
+			screen = Screen::Game;
+
+			cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
+			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
+			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
+
+			const size_t& coinMusicSize = coinMusic.size();
+			for(size_t i = 0; i < coinMusicSize; ++i){
+				ISound* music = coinMusic[i];
+				if(music && music->getIsPaused()){
+					music->setIsPaused(false);
+				}
+			}
+			const size_t& fireMusicSize = fireMusic.size();
+			for(size_t i = 0; i < fireMusicSize; ++i){
+				ISound* music = fireMusic[i];
+				if(music && music->getIsPaused()){
+					music->setIsPaused(false);
+				}
+			}
+
+			buttonBT = elapsedTime + .3f;
+		}
+	} else{
+		textScaleFactors[0] = 1.f;
+		textColours[0] = glm::vec4(1.f);
+	}
+
+	if(mousePos.x >= (float)winWidth * 0.47f
+		&& mousePos.x <= (float)winWidth * 0.53f
+		&& mousePos.y >= (float)winHeight * 0.87f
+		&& mousePos.y <= (float)winHeight * 0.93f){
+		if(textScaleFactors[1] != 1.1f){
+			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
+			textScaleFactors[1] = 1.1f;
+			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
+		}
+		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
+			soundEngine->play2D("Audio/Sounds/Select.wav", false);
+			endLoop = true;
+			buttonBT = elapsedTime + .3f;
+		}
+	} else{
+		textScaleFactors[1] = 1.f;
+		textColours[1] = glm::vec4(1.f);
+	}
+}
+
+void GameScene::MainMenuRender(){
+	forwardSP.Set1i("nightVision", 0);
+
+	modelStack.PushModel({
+		modelStack.Scale(glm::vec3(float(winWidth) / 2.f, float(winHeight) / 2.f, 1.f)),
+	});
+		forwardSP.Set1i("noNormals", 1);
+		Meshes::meshes[(int)MeshType::Quad]->SetModel(modelStack.GetTopModel());
+		Meshes::meshes[(int)MeshType::Quad]->Render(forwardSP);
+		forwardSP.Set1i("noNormals", 0);
+	modelStack.PopModel();
+
+	glDepthFunc(GL_GREATER);
+
+	textChief.RenderText(textSP, {
+		"Play",
+		(float)winWidth * 0.5f,
+		(float)winHeight * 0.2f,
+		textScaleFactors[0],
+		textColours[0],
+		0,
+		TextChief::TextAlignment::Center
+	});
+	textChief.RenderText(textSP, {
+		"Quit",
+		(float)winWidth * 0.5f, 
+		(float)winHeight * 0.1f,
+		textScaleFactors[1],
+		textColours[1],
+		0,
+		TextChief::TextAlignment::Center
+	});
+
+	textChief.RenderText(textSP, {
+		"ANOTHER",
+		(float)winWidth * 0.5f, 
+		(float)winHeight * 0.8f,
+		4.0f,
+		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
+		0,
+		TextChief::TextAlignment::Center
+	});
+	textChief.RenderText(textSP, {
+		"WORLD",
+		(float)winWidth * 0.5f,
+		(float)winHeight * 0.6f,
+		4.0f,
+		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
+		0,
+		TextChief::TextAlignment::Center
+	});
+
+	glDepthFunc(GL_LESS);
 }
