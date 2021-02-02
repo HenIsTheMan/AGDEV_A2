@@ -136,6 +136,10 @@ GameScene::~GameScene(){
 
 void GameScene::Enter(){
 	SceneSupport::Enter();
+
+	cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
+	cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
+	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 }
 
 void GameScene::Exit(){

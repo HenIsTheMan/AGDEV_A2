@@ -2,6 +2,8 @@
 
 #include "../SceneSupport.h"
 
+class SceneManager;
+
 class MenuScene final: public SceneSupport{
 public:
 	MenuScene();

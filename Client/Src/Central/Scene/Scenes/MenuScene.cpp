@@ -1,5 +1,7 @@
 #include "MenuScene.h"
 
+#include "../SceneManager.h"
+
 extern bool endLoop;
 extern float windowMouseX;
 extern float windowMouseY;
@@ -53,12 +55,11 @@ void MenuScene::Update(){
 			textScaleFactors[0] = 1.1f;
 			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
 		}
+
 		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
 			soundEngine->play2D("Audio/Sounds/Select.wav", false);
 
-			cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
-			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
-			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
+			SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
 
 			buttonBT = elapsedTime + .3f;
 		}
@@ -77,9 +78,12 @@ void MenuScene::Update(){
 			textScaleFactors[1] = 1.1f;
 			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
 		}
+
 		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
 			soundEngine->play2D("Audio/Sounds/Select.wav", false);
+
 			endLoop = true;
+
 			buttonBT = elapsedTime + .3f;
 		}
 	} else{
