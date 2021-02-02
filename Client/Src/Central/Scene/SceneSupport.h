@@ -18,6 +18,8 @@
 
 #include "IScene.hpp"
 
+#include "../../Lua/LuaManager.h"
+
 class SceneSupport: public IScene{ //Abstract class
 public:
 	~SceneSupport();
@@ -56,5 +58,10 @@ protected:
 	static float textScaleFactors[2];
 	static glm::vec4 textColours[2];
 
+	LuaManager* luaManager;
+	LPWIN32_FIND_DATA dataAudio;
+
 	SceneSupport();
+
+	void TuneAudio(cstr const fPath);
 };

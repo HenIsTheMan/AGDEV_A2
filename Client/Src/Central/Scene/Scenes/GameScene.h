@@ -2,8 +2,6 @@
 
 #include "../SceneSupport.h"
 
-#include "../../../Lua/LuaManager.h"
-
 #ifndef BIT
 	#define BIT(x) 1 << x
 #endif

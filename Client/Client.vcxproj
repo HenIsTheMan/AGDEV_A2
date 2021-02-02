@@ -274,6 +274,7 @@
   <ItemGroup>
     <None Include="cpp.hint" />
     <None Include="Scripts\AppWindow.lua" />
+    <None Include="Scripts\Audio.lua" />
     <None Include="Scripts\ConsoleWindow.lua" />
     <None Include="Scripts\Models.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
