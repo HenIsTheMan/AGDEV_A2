@@ -22,16 +22,16 @@ void StateMachine<T, Type>::AddState(State* const state){
 template <class T, typename Type>
 void StateMachine<T, Type>::CheckForStateTransition(Type* const entity){
 	assert(entity && "entity must be initialized!");
-	assert(entity->im_Attribs.im_NextState && "entity->im_Attribs.im_NextState must be initialized!");
+	assert(entity->nextState && "entity->nextState must be initialized!");
 
-	if(entity->im_Attribs.im_CurrState != entity->im_Attribs.im_NextState){
-		if(entity->im_Attribs.im_CurrState){
-			entity->im_Attribs.im_CurrState->Exit(entity);
-			entity->im_Attribs.im_CurrState = entity->im_Attribs.im_NextState;
-			entity->im_Attribs.im_CurrState->Enter(entity);
+	if(entity->currState != entity->nextState){
+		if(entity->currState){
+			entity->currState->Exit(entity);
+			entity->currState = entity->nextState;
+			entity->currState->Enter(entity);
 		} else{
-			entity->im_Attribs.im_CurrState = entity->im_Attribs.im_NextState;
-			entity->im_Attribs.im_CurrState->Enter(entity);
+			entity->currState = entity->nextState;
+			entity->currState->Enter(entity);
 		}
 	}
 }
@@ -39,9 +39,9 @@ void StateMachine<T, Type>::CheckForStateTransition(Type* const entity){
 template <class T, typename Type>
 void StateMachine<T, Type>::UpdateCurrState(Type* const entity, const double dt){
 	assert(entity && "entity must be initialized!");
-	assert(entity->im_Attribs.im_CurrState && "entity->im_Attribs.im_CurrState must be initialized!");
+	assert(entity->currState && "entity->currState must be initialized!");
 
-	entity->im_Attribs.im_CurrState->Update(entity, dt);
+	entity->currState->Update(entity, dt);
 }
 
 template <class T, typename Type>

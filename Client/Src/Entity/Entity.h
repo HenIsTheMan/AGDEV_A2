@@ -4,6 +4,13 @@
 
 #include "../Collision/Collider/Collider.h"
 
+#include "../State/State.h"
+
+enum struct StateID: int;
+
+template <class T, typename Type>
+class StateMachine;
+
 class Entity final{
 	template <class T>
 	friend class ObjPool;
@@ -72,4 +79,8 @@ private:
 	float zMax;
 
 	glm::vec3 prevPos;
+
+	StateMachine<StateID, Entity>* stateMachine = nullptr;
+	State* currState = nullptr;
+	State* nsextState = nullptr;
 };
