@@ -77,6 +77,12 @@ Entity::Entity():
 	zMin(0.0f),
 	zMax(0.0f),
 
-	prevPos(glm::vec3())
+	prevPos(glm::vec3()),
+
+	stateMachine(nullptr),
+	currState(nullptr),
+	nsextState(nullptr),
+
+	audio3D(nullptr)
 {
 }

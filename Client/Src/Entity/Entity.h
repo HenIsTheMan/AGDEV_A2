@@ -80,7 +80,9 @@ private:
 
 	glm::vec3 prevPos;
 
-	StateMachine<StateID, Entity>* stateMachine = nullptr;
-	State* currState = nullptr;
-	State* nsextState = nullptr;
+	StateMachine<StateID, Entity>* stateMachine;
+	State* currState;
+	State* nsextState;
+
+	ISound* audio3D;
 };

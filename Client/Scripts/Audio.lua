@@ -1,4 +1,4 @@
-isPausedBGM = true
+isPausedBGM = false
 
 soundVol = 0.7 -- 0.0 - 1.0
 
