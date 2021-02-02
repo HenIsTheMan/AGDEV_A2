@@ -27,6 +27,7 @@
     <ClCompile Include="Src\Collision\Collider\ColliderManager.cpp" />
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
     <ClCompile Include="Src\Lua\LuaManager.cpp" />
+    <ClCompile Include="Src\State\State.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
@@ -65,6 +66,10 @@
     <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
     <ClInclude Include="Src\Lua\LuaManager.h" />
     <ClInclude Include="Src\Lua\Units\LuaManagerTest.hpp" />
+    <ClInclude Include="Src\State\State.h" />
+    <ClInclude Include="Src\State\StateID.hpp" />
+    <ClInclude Include="Src\State\StateMachine.h" />
+    <ClInclude Include="Src\State\States\StateMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -93,5 +98,7 @@
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Scripts\ConsoleWindow.lua" />
     <None Include="Scripts\AppWindow.lua" />
+    <None Include="Src\State\StateMachine.inl" />
+    <None Include="Src\State\States\StateMenu.inl" />
   </ItemGroup>
 </Project>

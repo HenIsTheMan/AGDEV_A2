@@ -115,7 +115,7 @@ bool App::Init1st() const{
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
 	const GLFWvidmode* const& mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "App Window", nullptr, nullptr);
+	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "", nullptr, nullptr);
 	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
 	glfwGetWindowSize(win, &winWidth, &winHeight);
 	glfwMaximizeWindow(win);
@@ -190,6 +190,8 @@ bool App::TuneAppWindow(cstr const fPath) const{
 		} else{
 			glfwHideWindow(win);
 		}
+
+		glfwSetWindowTitle(win, luaManager->Read<cstr>(fPath, "windowTitle", true));
 
 		lastWriteTime.dwLowDateTime = dataAppWindow->ftLastWriteTime.dwLowDateTime;
 	}

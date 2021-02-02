@@ -215,6 +215,7 @@
     <ClCompile Include="Src\Quadtree\Region.cpp" />
     <ClCompile Include="Src\Quadtree\RegionManager.cpp" />
     <ClCompile Include="Src\Shared\Meshes.cpp" />
+    <ClCompile Include="Src\State\State.cpp" />
     <ClCompile Include="Src\World\Cam.cpp" />
     <ClCompile Include="Src\World\ModelStack.cpp" />
     <ClCompile Include="Src\World\Scene.cpp" />
@@ -253,6 +254,10 @@
     <ClInclude Include="Src\Shared\Easing.hpp" />
     <ClInclude Include="Src\Shared\Meshes.h" />
     <ClInclude Include="Src\Shared\RotateVecIn2D.hpp" />
+    <ClInclude Include="Src\State\State.h" />
+    <ClInclude Include="Src\State\StateID.hpp" />
+    <ClInclude Include="Src\State\StateMachine.h" />
+    <ClInclude Include="Src\State\States\StateMenu.h" />
     <ClInclude Include="Src\World\Cam.h" />
     <ClInclude Include="Src\World\ModelStack.h" />
     <ClInclude Include="Src\World\Scene.h" />
@@ -284,6 +289,8 @@
     <None Include="Shaders\ViewingFrustum.vertexS" />
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Src\ObjPool\ObjPool.inl" />
+    <None Include="Src\State\StateMachine.inl" />
+    <None Include="Src\State\States\StateMenu.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

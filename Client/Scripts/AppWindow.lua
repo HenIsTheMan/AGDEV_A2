@@ -8,3 +8,5 @@ callbackFlags = {
 swapInterval = 0
 
 showWindow = true;
+
+windowTitle = "Nameless App Window";
