@@ -22,6 +22,8 @@ void MenuScene::FixedUpdate(){
 }
 
 void MenuScene::Update(){
+	SceneSupport::Update();
+
 	POINT mousePos;
 	if(GetCursorPos(&mousePos)){
 		HWND hwnd = ::GetActiveWindow();

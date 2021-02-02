@@ -17,10 +17,9 @@ float terrainZScale = 12000.f;
 
 extern bool LMB;
 extern bool RMB;
-extern bool endLoop;
+extern float dt;
 extern float leftRightMB;
 extern float angularFOV;
-extern float dt;
 extern int windowWidth;
 extern int windowHeight;
 
@@ -457,15 +456,7 @@ void GameScene::FixedUpdate(){
 }
 
 void GameScene::Update(){
-	elapsedTime += dt;
-	if(windowHeight){ //Avoid division by 0 when win is minimised
-		cam.SetDefaultAspectRatio(float(windowWidth) / float(windowHeight));
-		cam.ResetAspectRatio();
-	}
-
-	const glm::vec3& camPos = cam.GetPos();
-	const glm::vec3& camFront = cam.CalcFront();
-	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
+	SceneSupport::Update();
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();

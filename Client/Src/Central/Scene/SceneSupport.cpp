@@ -1,5 +1,9 @@
 #include "SceneSupport.h"
 
+extern float dt;
+extern int windowWidth;
+extern int windowHeight;
+
 SceneSupport::~SceneSupport(){
 	if(soundEngine != nullptr){
 		soundEngine->drop();
@@ -24,6 +28,15 @@ void SceneSupport::FixedUpdate(){
 }
 
 void SceneSupport::Update(){
+	elapsedTime += dt;
+	if(windowHeight){ //Avoid division by 0 when win is minimised
+		cam.SetDefaultAspectRatio(float(windowWidth) / float(windowHeight));
+		cam.ResetAspectRatio();
+	}
+
+	const glm::vec3& camPos = cam.GetPos();
+	const glm::vec3& camFront = cam.CalcFront();
+	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
 }
 
 void SceneSupport::LateUpdate(){
