@@ -3,7 +3,12 @@
 #include "../../App.h"
 #include "../SceneManager.h"
 
+#include "../../Easing.hpp"
+
+#include <glm/gtx/color_space.hpp>
+
 extern bool endLoop;
+extern float dt;
 extern float windowMouseX;
 extern float windowMouseY;
 extern int windowWidth;
@@ -11,7 +16,13 @@ extern int windowHeight;
 extern float leftRightMB;
 
 StartScene::StartScene():
-	SceneSupport()
+	SceneSupport(),
+	customHue(0.0f),
+	textScale(1.0f),
+	textStartScale(1.5f),
+	textEndScale(0.9f),
+	textOffsetX(0.0f),
+	textOffsetY(0.0f)
 {
 }
 
@@ -46,15 +57,24 @@ void StartScene::Update(){
 
 	view = cam.LookAt();
 	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
-	static float buttonBT = 0.f;
 
-	if(leftRightMB > 0.f && buttonBT <= elapsedTime){
+	if(leftRightMB > 0.f){
 		soundEngine->play2D("Audio/Sounds/Select.wav", false);
 
 		SceneManager::GetObjPtr()->SetNextScene(SceneID::Menu);
-
-		buttonBT = elapsedTime + .3f;
+		return;
 	}
+
+	customHue += (float)dt * 40.0f;
+	if(customHue >= 360.0f){
+		customHue = 0.0f;
+	}
+
+	textOffsetX = sinf(elapsedTime * 4.0f) * 4.0f;
+	textOffsetY = cosf(elapsedTime * 4.0f) * 4.0f;
+
+	const float lerpFactor = EaseInQuint(cosf(elapsedTime * 4.0f) * 0.5f + 0.5f);
+	textScale = (1.0f - lerpFactor) * textStartScale + lerpFactor * textEndScale;
 }
 
 void StartScene::LateUpdate(){
@@ -88,19 +108,29 @@ void StartScene::Render(){
 
 	textChief.RenderText(textSP, {
 		"ANOTHER",
-		(float)windowWidth * 0.5f, 
-		(float)windowHeight * 0.8f,
+		(float)windowWidth * 0.5f + textOffsetX, 
+		(float)windowHeight * 0.8f + textOffsetY,
 		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
+		glm::vec4(glm::rgbColor(glm::vec3(360.0f - customHue, 1.0f, 1.0f)), 1.f),
 		0,
 		TextChief::TextAlignment::Center
 	});
 	textChief.RenderText(textSP, {
 		"WORLD",
-		(float)windowWidth * 0.5f,
-		(float)windowHeight * 0.6f,
+		(float)windowWidth * 0.5f + textOffsetX,
+		(float)windowHeight * 0.6f + textOffsetY,
 		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
+		glm::vec4(glm::rgbColor(glm::vec3(customHue, 1.0f, 1.0f)), 1.f),
+		0,
+		TextChief::TextAlignment::Center
+	});
+
+	textChief.RenderText(textSP, {
+		"Click anywhere to continue...",
+		(float)windowWidth * 0.5f,
+		(float)windowHeight * 0.1f,
+		textScale,
+		glm::vec4(1.0f),
 		0,
 		TextChief::TextAlignment::Center
 	});

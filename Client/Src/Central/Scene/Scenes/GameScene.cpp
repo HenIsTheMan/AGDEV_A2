@@ -5,7 +5,6 @@
 
 #include "../../../Shared/Easing.hpp"
 
-#include <glm/gtx/color_space.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/epsilon.hpp>
 

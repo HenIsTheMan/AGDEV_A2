@@ -22,4 +22,13 @@ public:
 	void PreRender() override;
 	void Render() override;
 	void PostRender() override;
+private:
+	float customHue;
+
+	float textOffsetX;
+	float textOffsetY;
+
+	float textScale;
+	float textStartScale;
+	float textEndScale;
 };

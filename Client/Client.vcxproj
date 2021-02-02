@@ -228,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
+    <ClInclude Include="Src\Central\Easing.hpp" />
     <ClInclude Include="Src\Central\Scene\SceneSupport.h" />
     <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
     <ClInclude Include="Src\Central\Scene\SceneManager.h" />
