@@ -19,10 +19,10 @@
 
 #define BIT(x) 1 << x
 
-class Scene final{
+class GameScene final{
 public:
-	Scene();
-	~Scene();
+	GameScene();
+	~GameScene();
 	bool Init();
 	void Update(GLFWwindow* const& win);
 	void ForwardRender();

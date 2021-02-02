@@ -219,8 +219,8 @@
     <ClCompile Include="Src\Shared\Meshes.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
     <ClCompile Include="Src\World\Cam.cpp" />
+    <ClCompile Include="Src\World\GameScene.cpp" />
     <ClCompile Include="Src\World\ModelStack.cpp" />
-    <ClCompile Include="Src\World\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
@@ -259,10 +259,9 @@
     <ClInclude Include="Src\State\State.h" />
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
-    <ClInclude Include="Src\State\States\StateMenu.h" />
     <ClInclude Include="Src\World\Cam.h" />
+    <ClInclude Include="Src\World\GameScene.h" />
     <ClInclude Include="Src\World\ModelStack.h" />
-    <ClInclude Include="Src\World\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AppWindow.lua" />
@@ -292,7 +291,7 @@
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Src\ObjPool\ObjPool.inl" />
     <None Include="Src\State\StateMachine.inl" />
-    <None Include="Src\State\States\StateMenu.inl" />
+    <None Include="Src\State\States\.keep" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

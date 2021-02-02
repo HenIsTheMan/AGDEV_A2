@@ -4,7 +4,6 @@
     <ClCompile Include="Src\Admin\App.cpp" />
     <ClCompile Include="Src\World\Cam.cpp" />
     <ClCompile Include="Src\Client.cpp" />
-    <ClCompile Include="Src\World\Scene.cpp" />
     <ClCompile Include="Src\Quadtree\Region.cpp" />
     <ClCompile Include="Src\Entity\Entity.cpp" />
     <ClCompile Include="Src\Entity\Entities\Gun.cpp" />
@@ -28,11 +27,11 @@
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
     <ClCompile Include="Src\Lua\LuaManager.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
+    <ClCompile Include="Src\World\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
     <ClInclude Include="Src\World\Cam.h" />
-    <ClInclude Include="Src\World\Scene.h" />
     <ClInclude Include="Src\Quadtree\Region.h" />
     <ClInclude Include="Src\Entity\Entity.h" />
     <ClInclude Include="Src\Entity\Entities\Gun.h" />
@@ -69,7 +68,7 @@
     <ClInclude Include="Src\State\State.h" />
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
-    <ClInclude Include="Src\State\States\StateMenu.h" />
+    <ClInclude Include="Src\World\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -99,6 +98,6 @@
     <None Include="Scripts\ConsoleWindow.lua" />
     <None Include="Scripts\AppWindow.lua" />
     <None Include="Src\State\StateMachine.inl" />
-    <None Include="Src\State\States\StateMenu.inl" />
+    <None Include="Src\State\States\.keep" />
   </ItemGroup>
 </Project>

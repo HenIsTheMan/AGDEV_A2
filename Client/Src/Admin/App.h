@@ -1,5 +1,5 @@
 #pragma once
-#include "../World/Scene.h"
+#include "../World/GameScene.h"
 
 #include "../Lua/LuaManager.h"
 
@@ -30,7 +30,7 @@ private:
 	float elapsedTime;
 	float lastFrameTime;
 
-	Scene scene;
+	GameScene scene;
 
 	static const GLFWvidmode* mode;
 	static GLFWwindow* win;

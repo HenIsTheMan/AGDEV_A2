@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "GameScene.h"
 #include "Vendor/stb_image.h"
 
 #include "../Shared/Easing.hpp"
@@ -28,7 +28,7 @@ void SetUpCubemap(uint& cubemapRefID, const std::vector<cstr>& faces);
 
 glm::vec3 Light::globalAmbient = glm::vec3(.2f);
 
-Scene::Scene():
+GameScene::GameScene():
 	cam(glm::vec3(0.0f, 0.f, 0.0f), glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.f, 1.f, 0.0f), 0.0f, 1400.0f),
 	soundEngine(nullptr),
 	coinMusic({}),
@@ -120,7 +120,7 @@ Scene::Scene():
 {
 }
 
-Scene::~Scene(){
+GameScene::~GameScene(){
 	if(dLightFromTop){
 		delete dLightFromTop;
 		dLightFromTop = nullptr;
@@ -169,7 +169,7 @@ Scene::~Scene(){
 	regionManager = nullptr; //Deleted elsewhere
 }
 
-void Scene::InitEntities(){
+void GameScene::InitEntities(){
 	entityManager->Init();
 	CreateEntities();
 	entityManager->SetUpRegionsForStationary();
@@ -182,7 +182,7 @@ void Scene::InitEntities(){
 	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, 8900.0f * 8900.0f, models[(int)ModelType::Tree_Low]);
 }
 
-void Scene::CreateEntities(){
+void GameScene::CreateEntities(){
 	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
 
 	EntityFactory* const entityFactory = entityManager->RetrieveEntityFactory();
@@ -309,7 +309,7 @@ void Scene::CreateEntities(){
 	//*/
 }
 
-void Scene::CreateTreesAndCubes(){
+void GameScene::CreateTreesAndCubes(){
 	Model* const treeHigh = models[(int)ModelType::Tree_High];
 	treeHigh->ReserveModelMatsForAll(2000);
 	treeHigh->ReserveColorsForAll(2000);
@@ -374,7 +374,7 @@ void Scene::CreateTreesAndCubes(){
 	}
 }
 
-void Scene::CreateDecorations(){
+void GameScene::CreateDecorations(){
 	Model* const flower = models[(int)ModelType::Flower];
 	flower->ReserveModelMatsForAll(2000);
 	flower->ReserveColorsForAll(2000);
@@ -454,7 +454,7 @@ void Scene::CreateDecorations(){
 	}
 }
 
-bool Scene::Init(){
+bool GameScene::Init(){
 	entityManager->isCamDetached = isCamDetached;
 
 	glGetIntegerv(GL_POLYGON_MODE, polyModes);
@@ -498,7 +498,7 @@ bool Scene::Init(){
 	return true;
 }
 
-void Scene::Update(GLFWwindow* const& win){
+void GameScene::Update(GLFWwindow* const& win){
 	elapsedTime += dt;
 	if(winHeight){ //Avoid division by 0 when win is minimised
 		cam.SetDefaultAspectRatio(float(winWidth) / float(winHeight));
@@ -515,7 +515,7 @@ void Scene::Update(GLFWwindow* const& win){
 	}
 }
 
-void Scene::MainMenuUpdate(GLFWwindow* const& win){
+void GameScene::MainMenuUpdate(GLFWwindow* const& win){
 	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	POINT mousePos;
@@ -611,7 +611,7 @@ void Scene::MainMenuUpdate(GLFWwindow* const& win){
 	}
 }
 
-void Scene::GameUpdate(GLFWwindow* const& win){
+void GameScene::GameUpdate(GLFWwindow* const& win){
 	const glm::vec3& camPos = cam.GetPos();
 	const glm::vec3& camFront = cam.CalcFront();
 	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
@@ -756,7 +756,7 @@ void Scene::GameUpdate(GLFWwindow* const& win){
 	}
 }
 
-void Scene::MainMenuRender(){
+void GameScene::MainMenuRender(){
 	forwardSP.Set1i("nightVision", 0);
 
 	modelStack.PushModel({
@@ -811,7 +811,7 @@ void Scene::MainMenuRender(){
 	glDepthFunc(GL_LESS);
 }
 
-void Scene::GameRender(){
+void GameScene::GameRender(){
 	const glm::vec3 OGPos = cam.GetPos();
 	const glm::vec3 OGTarget = cam.GetTarget();
 	const glm::vec3 OGUp = cam.GetUp();
@@ -1188,7 +1188,7 @@ void Scene::GameRender(){
 	Mesh::polygonCount = 0;
 }
 
-void Scene::ForwardRender(){
+void GameScene::ForwardRender(){
 	forwardSP.Use();
 
 	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
