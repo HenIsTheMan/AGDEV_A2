@@ -236,7 +236,9 @@ void GameScene::Update(){
 					break;
 				case ItemType::Sniper:
 					if(angularFOV != 15.0f){
-						soundEngine->play2D("Audio/Sounds/Scope.wav", false);
+						ISound* const sound = soundEngine->play2D("Audio/Sounds/Scope.wav", false, true);
+						sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "scopeVol", true));
+						sound->setIsPaused(false);
 					}
 					angularFOV = 15.0f;
 					break;
@@ -246,7 +248,6 @@ void GameScene::Update(){
 		}
 
 		if(currGun){ //Control shooting and reloading of currGun
-			std::cout << "here\n";
 			if(LMB){
 				currGun->Shoot(elapsedTime, cam.GetPos(), cam.CalcFront(), soundEngine);
 			}
@@ -866,7 +867,18 @@ void GameScene::CreateEntities(){
 			-1,
 		});
 
-		ISound* music = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, true, true, ESM_AUTO_DETECT, true);
+		ISound* myMusic = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, true, true, ESM_AUTO_DETECT, true);
+		if(myMusic){
+			myMusic->setMinDistance(2.f);
+			myMusic->setVolume(1);
+			//music.emplace_back(myMusic);
+		} else{
+			(void)puts("Failed to init music!\n");
+		}
+
+		myMusic->setIsPaused(false);
+
+		/*ISound* music = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, false, true, ESM_AUTO_DETECT, true);
 		if(music){
 			music->setMinDistance(3.f);
 			music->setVolume(5);
@@ -877,7 +889,7 @@ void GameScene::CreateEntities(){
 			}
 		} else{
 			(void)puts("Failed to init music!\n");
-		}
+		}*/
 	}
 	//*/
 }

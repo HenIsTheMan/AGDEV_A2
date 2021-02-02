@@ -63,13 +63,18 @@ void MenuScene::Update(){
 		&& windowMouseY <= (float)windowHeight * 0.88f
 	){
 		if(textScaleFactors[0] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
+			ISound* const sound = soundEngine->play2D("Audio/Sounds/Pop.flac", false, true);
+			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "popVol", true));
+			sound->setIsPaused(false);
+
 			textScaleFactors[0] = 1.1f;
 			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
 		}
 
 		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
+			ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
+			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
+			sound->setIsPaused(false);
 
 			SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
 
@@ -87,13 +92,18 @@ void MenuScene::Update(){
 		&& windowMouseY <= (float)windowHeight * 0.95f
 	){
 		if(textScaleFactors[1] != 1.1f){
-			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
+			ISound* const sound = soundEngine->play2D("Audio/Sounds/Pop.flac", false, true);
+			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "popVol", true));
+			sound->setIsPaused(false);
+
 			textScaleFactors[1] = 1.1f;
 			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
 		}
 
 		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			soundEngine->play2D("Audio/Sounds/Select.wav", false);
+			ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
+			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
+			sound->setIsPaused(false);
 
 			endLoop = true;
 

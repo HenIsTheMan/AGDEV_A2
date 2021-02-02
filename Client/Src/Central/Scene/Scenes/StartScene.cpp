@@ -59,7 +59,9 @@ void StartScene::Update(){
 	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
 
 	if(leftRightMB > 0.f){
-		soundEngine->play2D("Audio/Sounds/Select.wav", false);
+		ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
+		sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
+		sound->setIsPaused(false);
 
 		SceneManager::GetObjPtr()->SetNextScene(SceneID::Menu);
 		return;

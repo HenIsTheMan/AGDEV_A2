@@ -69,6 +69,7 @@ void SceneSupport::EarlyInit(){
 
 void SceneSupport::Init(){
 	BGM = soundEngine->play2D("Audio/Music/Theme.mp3", true, true);
+	BGM->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "BGMVol", true));
 }
 
 void SceneSupport::FixedUpdate(){
