@@ -150,293 +150,13 @@ void GameScene::Exit(){
 	SceneSupport::Exit();
 }
 
-void GameScene::InitEntities(){
-	entityManager->Init();
-	CreateEntities();
-	entityManager->SetUpRegionsForStationary();
-
-	CreateTreesAndCubes();
-	CreateDecorations();
-
-	treeLOD.SetDistSquaredAndModel(DetailLvl::High, 4900.0f * 4900.0f,  models[(int)ModelType::Tree_High]);
-	treeLOD.SetDistSquaredAndModel(DetailLvl::Medium, 6900.0f * 6900.0f,  models[(int)ModelType::Tree_Medium]);
-	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, 8900.0f * 8900.0f, models[(int)ModelType::Tree_Low]);
-}
-
-void GameScene::CreateEntities(){
-	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
-
-	EntityFactory* const entityFactory = entityManager->RetrieveEntityFactory();
-
-	//* Create Player
-	myPlayer = entityFactory->CreatePlayer({
-		glm::vec3(),
-		glm::vec3(50.0f, 200.0f, 50.0f),
-		glm::vec4(1.0f),
-		-1,
-	});
-
-	assert(myPlayer != nullptr && "Var 'myPlayer' is nullptr");
-	//*/
-
-	//* Create thin obj
-	const float xyScaleThinObj = 200.0f;
-	entityFactory->CreateThinObj({
-		glm::vec3(
-			0.0f,
-			terrainYScale * myTerrain->GetHeightAtPt(0.0f, 0.25f, false) + xyScaleThinObj,
-			terrainZScale * 0.25f
-		),
-		glm::vec3(xyScaleThinObj, xyScaleThinObj, 0.001f),
-		glm::vec4(1.0f, 1.0f, 1.0f, 0.5f),
-		-1,
-	});
-	//*/
-
-	//* Create enemy
-	const float xyScaleEnemyBody = 400.0f;
-	const Entity* const enemyBody = entityFactory->CreateEnemyBody({
-		glm::vec3(
-			0.0f,
-			terrainYScale * 2.0f,
-			terrainZScale * 0.4f
-		),
-		glm::vec3(xyScaleEnemyBody, xyScaleEnemyBody, 5.0f),
-		glm::vec4(0.3f, 0.3f, 0.3f, 0.4f),
-		-1,
-	});
-
-	const Entity* enemyParts[6]{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
-	Node* const rootNode = nodeManager->RetrieveRootNode();
-
-	for(int i = 0; i < 6; ++i){
-		const Entity*& enemyPart = enemyParts[i];
-		enemyPart = entityFactory->CreateEnemyPart({
-			glm::vec3(),
-			glm::vec3(),
-			glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
-			-1,
-		});
-
-		Node* const enemyPartNode = rootNode->DetachChild(enemyPart);
-		Node* const enemyBodyNode = rootNode->FindChild(enemyBody);
-		enemyBodyNode->AddChild(enemyPartNode);
-
-		enemyPartNode->SetUseLocalRotationUpdate(true);
-		enemyPartNode->SetLocalDilation(glm::vec3(0.5f));
-		switch(i){
-			case 0:
-				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
-				break;
-			case 1:
-				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
-				break;
-			case 2:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
-				break;
-			case 3:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
-				break;
-			case 4:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
-				break;
-			case 5:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
-				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
-				break;
-		}
-	}
-	//*/
-
-	//* Create coins
-	for(short i = 0; i < 20; ++i){
-		const float scaleFactor = 70.0f;
-		const float offsetFactor = 5.0f;
-		const float xPos = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor, terrainXScale * 0.5f - offsetFactor);
-		const float zPos = PseudorandMinMax(offsetFactor, terrainZScale * 0.5f - offsetFactor);
-		const glm::vec3 pos = glm::vec3(
-			xPos,
-			terrainYScale * myTerrain->GetHeightAtPt(xPos / terrainXScale, zPos / terrainZScale, false) + scaleFactor,
-			zPos
-		);
-		entityFactory->CreateCoin({
-			pos,
-			glm::vec3(scaleFactor),
-			glm::vec4(1.0f),
-			-1,
-		});
-
-		ISound* music = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, true, true, ESM_AUTO_DETECT, true);
-		if(music){
-			music->setMinDistance(3.f);
-			music->setVolume(5);
-
-			ISoundEffectControl* soundFX = music->getSoundEffectControl();
-			if(!soundFX){
-				(void)puts("No soundFX support!\n");
-			}
-		} else{
-			(void)puts("Failed to init music!\n");
-		}
-	}
-	//*/
-}
-
-void GameScene::CreateTreesAndCubes(){
-	Model* const treeHigh = models[(int)ModelType::Tree_High];
-	treeHigh->ReserveModelMatsForAll(2000);
-	treeHigh->ReserveColorsForAll(2000);
-	treeHigh->ReserveDiffuseTexIndicesForAll(2000);
-
-	Model* const treeMedium = models[(int)ModelType::Tree_Medium];
-	treeMedium->ReserveModelMatsForAll(2000);
-	treeMedium->ReserveColorsForAll(2000);
-	treeMedium->ReserveDiffuseTexIndicesForAll(2000);
-
-	Model* const treeLow = models[(int)ModelType::Tree_Low];
-	treeLow->ReserveModelMatsForAll(2000);
-	treeLow->ReserveColorsForAll(2000);
-	treeLow->ReserveDiffuseTexIndicesForAll(2000);
-
-	Mesh* const cubeMesh = Meshes::meshes[(int)MeshType::Cube];
-	cubeMesh->ReserveModelMats(2000);
-	cubeMesh->ReserveColors(2000);
-	cubeMesh->ReserveDiffuseTexIndices(2000);
-
-	for(int i = 0; i < 2000; ++i){
-		const float offsetFactor = 100.0f;
-		const float xPos = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor, terrainXScale * 0.5f - offsetFactor);
-		const float zPos = PseudorandMinMax(-terrainZScale * 0.5f + offsetFactor, -offsetFactor);
-		const glm::vec3 pos = glm::vec3(
-			xPos,
-			terrainYScale * static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain])->GetHeightAtPt(xPos / terrainXScale, zPos / terrainZScale, false),
-			zPos
-		);
-
-		modelStack.PushModel({
-			modelStack.Translate(pos),
-			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
-			modelStack.Scale(glm::vec3((float)PseudorandMinMax(210, 400), (float)PseudorandMinMax(180, 300), (float)PseudorandMinMax(210, 400)))
-		});
-			const glm::mat4& modelMat = modelStack.GetTopModel();
-			const glm::vec3& color = glm::vec3(PseudorandMinMax(0.25f, 1.0f), 0.0f, 0.0f);
-			const int diffuseTexIndex = 0;
-
-			treeHigh->AddModelMatForAll(modelMat);
-			treeHigh->AddColorForAll(color);
-			treeHigh->AddDiffuseTexIndexForAll(diffuseTexIndex);
-
-			treeMedium->AddModelMatForAll(modelMat);
-			treeMedium->AddColorForAll(color);
-			treeMedium->AddDiffuseTexIndexForAll(diffuseTexIndex);
-
-			treeLow->AddModelMatForAll(modelMat);
-			treeLow->AddColorForAll(color);
-			treeLow->AddDiffuseTexIndexForAll(diffuseTexIndex);
-		modelStack.PopModel();
-
-		modelStack.PushModel({
-			modelStack.Translate(pos + glm::vec3(0.0f, PseudorandMinMax(1600.0f, 2000.0f), 0.0f)),
-			modelStack.QuatRotate(glm::quat(glm::vec3((float)PseudorandMinMax(0, 360), (float)PseudorandMinMax(0, 360), (float)PseudorandMinMax(0, 360)))),
-			modelStack.Scale(glm::vec3((float)PseudorandMinMax(35, 55))),
-		});
-			cubeMesh->AddModelMat(modelStack.GetTopModel());
-			cubeMesh->AddColor(glm::vec4(1.0f));
-			cubeMesh->AddDiffuseTexIndex(PseudorandMinMax(0, 11));
-		modelStack.PopModel();
-	}
-}
-
-void GameScene::CreateDecorations(){
-	Model* const flower = models[(int)ModelType::Flower];
-	flower->ReserveModelMatsForAll(2000);
-	flower->ReserveColorsForAll(2000);
-	flower->ReserveDiffuseTexIndicesForAll(2000);
-
-	Model* const grass = models[(int)ModelType::Grass];
-	grass->ReserveModelMatsForAll(2000);
-	grass->ReserveColorsForAll(2000);
-	grass->ReserveDiffuseTexIndicesForAll(2000);
-
-	Model* const rock = models[(int)ModelType::Rock];
-	rock->ReserveModelMatsForAll(2000);
-	rock->ReserveColorsForAll(2000);
-	rock->ReserveDiffuseTexIndicesForAll(2000);
-
-	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
-
-	for(int i = 0; i < 2000; ++i){
-		const float offsetFactor0 = 50.0f;
-		const float xPos0 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor0, terrainXScale * 0.5f - offsetFactor0);
-		const float zPos0 = PseudorandMinMax(offsetFactor0, terrainZScale * 0.5f - offsetFactor0);
-		const glm::vec3 pos0 = glm::vec3(
-			xPos0,
-			terrainYScale * myTerrain->GetHeightAtPt(xPos0 / terrainXScale, zPos0 / terrainZScale, false),
-			zPos0
-		);
-
-		const float offsetFactor1 = 55.0f;
-		const float xPos1 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor1, terrainXScale * 0.5f - offsetFactor1);
-		const float zPos1 = PseudorandMinMax(offsetFactor1, terrainZScale * 0.5f - offsetFactor1);
-		const glm::vec3 pos1 = glm::vec3(
-			xPos1,
-			terrainYScale * myTerrain->GetHeightAtPt(xPos1 / terrainXScale, zPos1 / terrainZScale, false),
-			zPos1
-		);
-
-		const float offsetFactor2 = 80.0f;
-		const float xPos2 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor2, terrainXScale * 0.5f - offsetFactor2);
-		const float zPos2 = PseudorandMinMax(offsetFactor2, terrainZScale * 0.5f - offsetFactor2);
-		const glm::vec3 pos2 = glm::vec3(
-			xPos2,
-			terrainYScale * myTerrain->GetHeightAtPt(xPos2 / terrainXScale, zPos2 / terrainZScale, false),
-			zPos2
-		);
-
-		const glm::vec3 color = glm::vec3(PseudorandMinMax(0.1f, 1.0f), PseudorandMinMax(0.1f, 1.0f), PseudorandMinMax(0.1f, 1.0f));
-
-		modelStack.PushModel({
-			modelStack.Translate(pos0),
-			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
-			modelStack.Scale(glm::vec3(140.0f))
-		});
-			flower->AddModelMatForAll(modelStack.GetTopModel());
-			flower->AddColorForAll(color);
-			flower->AddDiffuseTexIndexForAll(-1);
-		modelStack.PopModel();
-
-		modelStack.PushModel({
-			modelStack.Translate(pos1),
-			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
-			modelStack.Scale(glm::vec3(140.0f))
-		});
-			grass->AddModelMatForAll(modelStack.GetTopModel());
-			grass->AddColorForAll(color);
-			grass->AddDiffuseTexIndexForAll(-1);
-		modelStack.PopModel();
-
-		modelStack.PushModel({
-			modelStack.Translate(pos2),
-			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
-			modelStack.Scale(glm::vec3((float)PseudorandMinMax(60, 90)))
-		});
-			rock->AddModelMatForAll(modelStack.GetTopModel());
-			rock->AddColorForAll(color);
-			rock->AddDiffuseTexIndexForAll(-1);
-		modelStack.PopModel();
-	}
-}
-
 void GameScene::EarlyInit(){
 	SceneSupport::EarlyInit();
 }
 
 void GameScene::Init(){
+	SceneSupport::Init();
+
 	InitEntities();
 
 	entityManager->isCamDetached = isCamDetached;
@@ -470,6 +190,7 @@ void GameScene::Init(){
 }
 
 void GameScene::FixedUpdate(){
+	SceneSupport::FixedUpdate();
 }
 
 void GameScene::Update(){
@@ -616,9 +337,12 @@ void GameScene::Update(){
 }
 
 void GameScene::LateUpdate(){
+	SceneSupport::LateUpdate();
 }
 
 void GameScene::PreRender(){
+	SceneSupport::PreRender();
+
 	forwardSP.Use();
 
 	forwardSP.Set1f("shininess", 32.f); //More light scattering if lower
@@ -643,6 +367,8 @@ void GameScene::PreRender(){
 }
 
 void GameScene::Render(){
+	SceneSupport::Render();
+
 	const glm::vec3 OGPos = cam.GetPos();
 	const glm::vec3 OGTarget = cam.GetTarget();
 	const glm::vec3 OGUp = cam.GetUp();
@@ -1020,5 +746,289 @@ void GameScene::Render(){
 }
 
 void GameScene::PostRender(){
+	SceneSupport::PostRender();
+
 	glBlendFunc(GL_ONE, GL_ZERO);
+}
+
+void GameScene::InitEntities(){
+	entityManager->Init();
+	CreateEntities();
+	entityManager->SetUpRegionsForStationary();
+
+	CreateTreesAndCubes();
+	CreateDecorations();
+
+	treeLOD.SetDistSquaredAndModel(DetailLvl::High, 4900.0f * 4900.0f,  models[(int)ModelType::Tree_High]);
+	treeLOD.SetDistSquaredAndModel(DetailLvl::Medium, 6900.0f * 6900.0f,  models[(int)ModelType::Tree_Medium]);
+	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, 8900.0f * 8900.0f, models[(int)ModelType::Tree_Low]);
+}
+
+void GameScene::CreateEntities(){
+	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
+
+	EntityFactory* const entityFactory = entityManager->RetrieveEntityFactory();
+
+	//* Create Player
+	myPlayer = entityFactory->CreatePlayer({
+		glm::vec3(),
+		glm::vec3(50.0f, 200.0f, 50.0f),
+		glm::vec4(1.0f),
+		-1,
+	});
+
+	assert(myPlayer != nullptr && "Var 'myPlayer' is nullptr");
+	//*/
+
+	//* Create thin obj
+	const float xyScaleThinObj = 200.0f;
+	entityFactory->CreateThinObj({
+		glm::vec3(
+			0.0f,
+			terrainYScale * myTerrain->GetHeightAtPt(0.0f, 0.25f, false) + xyScaleThinObj,
+			terrainZScale * 0.25f
+		),
+		glm::vec3(xyScaleThinObj, xyScaleThinObj, 0.001f),
+		glm::vec4(1.0f, 1.0f, 1.0f, 0.5f),
+		-1,
+	});
+	//*/
+
+	//* Create enemy
+	const float xyScaleEnemyBody = 400.0f;
+	const Entity* const enemyBody = entityFactory->CreateEnemyBody({
+		glm::vec3(
+			0.0f,
+			terrainYScale * 2.0f,
+			terrainZScale * 0.4f
+		),
+		glm::vec3(xyScaleEnemyBody, xyScaleEnemyBody, 5.0f),
+		glm::vec4(0.3f, 0.3f, 0.3f, 0.4f),
+		-1,
+	});
+
+	const Entity* enemyParts[6]{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+	Node* const rootNode = nodeManager->RetrieveRootNode();
+
+	for(int i = 0; i < 6; ++i){
+		const Entity*& enemyPart = enemyParts[i];
+		enemyPart = entityFactory->CreateEnemyPart({
+			glm::vec3(),
+			glm::vec3(),
+			glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+			-1,
+		});
+
+		Node* const enemyPartNode = rootNode->DetachChild(enemyPart);
+		Node* const enemyBodyNode = rootNode->FindChild(enemyBody);
+		enemyBodyNode->AddChild(enemyPartNode);
+
+		enemyPartNode->SetUseLocalRotationUpdate(true);
+		enemyPartNode->SetLocalDilation(glm::vec3(0.5f));
+		switch(i){
+			case 0:
+				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
+				break;
+			case 1:
+				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
+				break;
+			case 2:
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
+				break;
+			case 3:
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
+				break;
+			case 4:
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
+				break;
+			case 5:
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
+				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
+				break;
+		}
+	}
+	//*/
+
+	//* Create coins
+	for(short i = 0; i < 20; ++i){
+		const float scaleFactor = 70.0f;
+		const float offsetFactor = 5.0f;
+		const float xPos = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor, terrainXScale * 0.5f - offsetFactor);
+		const float zPos = PseudorandMinMax(offsetFactor, terrainZScale * 0.5f - offsetFactor);
+		const glm::vec3 pos = glm::vec3(
+			xPos,
+			terrainYScale * myTerrain->GetHeightAtPt(xPos / terrainXScale, zPos / terrainZScale, false) + scaleFactor,
+			zPos
+		);
+		entityFactory->CreateCoin({
+			pos,
+			glm::vec3(scaleFactor),
+			glm::vec4(1.0f),
+			-1,
+		});
+
+		ISound* music = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, true, true, ESM_AUTO_DETECT, true);
+		if(music){
+			music->setMinDistance(3.f);
+			music->setVolume(5);
+
+			ISoundEffectControl* soundFX = music->getSoundEffectControl();
+			if(!soundFX){
+				(void)puts("No soundFX support!\n");
+			}
+		} else{
+			(void)puts("Failed to init music!\n");
+		}
+	}
+	//*/
+}
+
+void GameScene::CreateTreesAndCubes(){
+	Model* const treeHigh = models[(int)ModelType::Tree_High];
+	treeHigh->ReserveModelMatsForAll(2000);
+	treeHigh->ReserveColorsForAll(2000);
+	treeHigh->ReserveDiffuseTexIndicesForAll(2000);
+
+	Model* const treeMedium = models[(int)ModelType::Tree_Medium];
+	treeMedium->ReserveModelMatsForAll(2000);
+	treeMedium->ReserveColorsForAll(2000);
+	treeMedium->ReserveDiffuseTexIndicesForAll(2000);
+
+	Model* const treeLow = models[(int)ModelType::Tree_Low];
+	treeLow->ReserveModelMatsForAll(2000);
+	treeLow->ReserveColorsForAll(2000);
+	treeLow->ReserveDiffuseTexIndicesForAll(2000);
+
+	Mesh* const cubeMesh = Meshes::meshes[(int)MeshType::Cube];
+	cubeMesh->ReserveModelMats(2000);
+	cubeMesh->ReserveColors(2000);
+	cubeMesh->ReserveDiffuseTexIndices(2000);
+
+	for(int i = 0; i < 2000; ++i){
+		const float offsetFactor = 100.0f;
+		const float xPos = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor, terrainXScale * 0.5f - offsetFactor);
+		const float zPos = PseudorandMinMax(-terrainZScale * 0.5f + offsetFactor, -offsetFactor);
+		const glm::vec3 pos = glm::vec3(
+			xPos,
+			terrainYScale * static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain])->GetHeightAtPt(xPos / terrainXScale, zPos / terrainZScale, false),
+			zPos
+		);
+
+		modelStack.PushModel({
+			modelStack.Translate(pos),
+			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
+			modelStack.Scale(glm::vec3((float)PseudorandMinMax(210, 400), (float)PseudorandMinMax(180, 300), (float)PseudorandMinMax(210, 400)))
+		});
+			const glm::mat4& modelMat = modelStack.GetTopModel();
+			const glm::vec3& color = glm::vec3(PseudorandMinMax(0.25f, 1.0f), 0.0f, 0.0f);
+			const int diffuseTexIndex = 0;
+
+			treeHigh->AddModelMatForAll(modelMat);
+			treeHigh->AddColorForAll(color);
+			treeHigh->AddDiffuseTexIndexForAll(diffuseTexIndex);
+
+			treeMedium->AddModelMatForAll(modelMat);
+			treeMedium->AddColorForAll(color);
+			treeMedium->AddDiffuseTexIndexForAll(diffuseTexIndex);
+
+			treeLow->AddModelMatForAll(modelMat);
+			treeLow->AddColorForAll(color);
+			treeLow->AddDiffuseTexIndexForAll(diffuseTexIndex);
+		modelStack.PopModel();
+
+		modelStack.PushModel({
+			modelStack.Translate(pos + glm::vec3(0.0f, PseudorandMinMax(1600.0f, 2000.0f), 0.0f)),
+			modelStack.QuatRotate(glm::quat(glm::vec3((float)PseudorandMinMax(0, 360), (float)PseudorandMinMax(0, 360), (float)PseudorandMinMax(0, 360)))),
+			modelStack.Scale(glm::vec3((float)PseudorandMinMax(35, 55))),
+		});
+			cubeMesh->AddModelMat(modelStack.GetTopModel());
+			cubeMesh->AddColor(glm::vec4(1.0f));
+			cubeMesh->AddDiffuseTexIndex(PseudorandMinMax(0, 11));
+		modelStack.PopModel();
+	}
+}
+
+void GameScene::CreateDecorations(){
+	Model* const flower = models[(int)ModelType::Flower];
+	flower->ReserveModelMatsForAll(2000);
+	flower->ReserveColorsForAll(2000);
+	flower->ReserveDiffuseTexIndicesForAll(2000);
+
+	Model* const grass = models[(int)ModelType::Grass];
+	grass->ReserveModelMatsForAll(2000);
+	grass->ReserveColorsForAll(2000);
+	grass->ReserveDiffuseTexIndicesForAll(2000);
+
+	Model* const rock = models[(int)ModelType::Rock];
+	rock->ReserveModelMatsForAll(2000);
+	rock->ReserveColorsForAll(2000);
+	rock->ReserveDiffuseTexIndicesForAll(2000);
+
+	Terrain* const myTerrain = static_cast<Terrain*>(Meshes::meshes[(int)MeshType::Terrain]);
+
+	for(int i = 0; i < 2000; ++i){
+		const float offsetFactor0 = 50.0f;
+		const float xPos0 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor0, terrainXScale * 0.5f - offsetFactor0);
+		const float zPos0 = PseudorandMinMax(offsetFactor0, terrainZScale * 0.5f - offsetFactor0);
+		const glm::vec3 pos0 = glm::vec3(
+			xPos0,
+			terrainYScale * myTerrain->GetHeightAtPt(xPos0 / terrainXScale, zPos0 / terrainZScale, false),
+			zPos0
+		);
+
+		const float offsetFactor1 = 55.0f;
+		const float xPos1 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor1, terrainXScale * 0.5f - offsetFactor1);
+		const float zPos1 = PseudorandMinMax(offsetFactor1, terrainZScale * 0.5f - offsetFactor1);
+		const glm::vec3 pos1 = glm::vec3(
+			xPos1,
+			terrainYScale * myTerrain->GetHeightAtPt(xPos1 / terrainXScale, zPos1 / terrainZScale, false),
+			zPos1
+		);
+
+		const float offsetFactor2 = 80.0f;
+		const float xPos2 = PseudorandMinMax(-terrainXScale * 0.5f + offsetFactor2, terrainXScale * 0.5f - offsetFactor2);
+		const float zPos2 = PseudorandMinMax(offsetFactor2, terrainZScale * 0.5f - offsetFactor2);
+		const glm::vec3 pos2 = glm::vec3(
+			xPos2,
+			terrainYScale * myTerrain->GetHeightAtPt(xPos2 / terrainXScale, zPos2 / terrainZScale, false),
+			zPos2
+		);
+
+		const glm::vec3 color = glm::vec3(PseudorandMinMax(0.1f, 1.0f), PseudorandMinMax(0.1f, 1.0f), PseudorandMinMax(0.1f, 1.0f));
+
+		modelStack.PushModel({
+			modelStack.Translate(pos0),
+			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
+			modelStack.Scale(glm::vec3(140.0f))
+		});
+			flower->AddModelMatForAll(modelStack.GetTopModel());
+			flower->AddColorForAll(color);
+			flower->AddDiffuseTexIndexForAll(-1);
+		modelStack.PopModel();
+
+		modelStack.PushModel({
+			modelStack.Translate(pos1),
+			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
+			modelStack.Scale(glm::vec3(140.0f))
+		});
+			grass->AddModelMatForAll(modelStack.GetTopModel());
+			grass->AddColorForAll(color);
+			grass->AddDiffuseTexIndexForAll(-1);
+		modelStack.PopModel();
+
+		modelStack.PushModel({
+			modelStack.Translate(pos2),
+			modelStack.Rotate(glm::vec4(0.f, 1.f, 0.f, PseudorandMinMax(0.0f, 360.0f))),
+			modelStack.Scale(glm::vec3((float)PseudorandMinMax(60, 90)))
+		});
+			rock->AddModelMatForAll(modelStack.GetTopModel());
+			rock->AddColorForAll(color);
+			rock->AddDiffuseTexIndexForAll(-1);
+		modelStack.PopModel();
+	}
 }

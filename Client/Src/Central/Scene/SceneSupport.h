@@ -36,25 +36,25 @@ public:
 	void Render() override;
 	void PostRender() override;
 protected:
-	Cam cam;
-	ISoundEngine* soundEngine;
-	TextChief textChief;
+	static float elapsedTime;
+
+	static Cam cam;
+	static ISoundEngine* soundEngine;
+	static TextChief textChief;
 
 	ShaderProg forwardSP;
 	ShaderProg viewingFrustumSP;
 	ShaderProg textSP;
 
-	glm::mat4 view;
-	glm::mat4 projection;
+	static glm::mat4 view;
+	static glm::mat4 projection;
 
-	float elapsedTime;
+	static ModelStack modelStack;
 
-	ModelStack modelStack;
+	static int polyModes[2];
 
-	int polyModes[2];
-
-	float textScaleFactors[2];
-	glm::vec4 textColours[2];
+	static float textScaleFactors[2];
+	static glm::vec4 textColours[2];
 
 	SceneSupport();
 };
