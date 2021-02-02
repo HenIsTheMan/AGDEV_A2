@@ -35,6 +35,10 @@ void MenuScene::EarlyInit(){
 
 void MenuScene::Init(){
 	SceneSupport::Init();
+
+	Meshes::meshes[(int)MeshType::SpaceSpriteAni]->AddTexMap({"Imgs/SpaceSpriteSheet.png", Mesh::TexType::Diffuse, 0});
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::SpaceSpriteAni])->AddAni("SpaceSpriteAni", 0, 152);
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::SpaceSpriteAni])->Play("SpaceSpriteAni", -1, 2.0f);
 }
 
 void MenuScene::FixedUpdate(){
@@ -65,6 +69,7 @@ void MenuScene::Update(){
 			SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
 
 			buttonBT = elapsedTime + .3f;
+			return;
 		}
 	} else{
 		textScaleFactors[0] = 1.f;
@@ -93,6 +98,8 @@ void MenuScene::Update(){
 		textScaleFactors[1] = 1.f;
 		textColours[1] = glm::vec4(1.f);
 	}
+
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::SpaceSpriteAni])->Update();
 }
 
 void MenuScene::LateUpdate(){
@@ -117,8 +124,8 @@ void MenuScene::Render(){
 		modelStack.Scale(glm::vec3(float(windowWidth) / 2.f, float(windowHeight) / 2.f, 1.f)),
 	});
 		forwardSP.Set1i("noNormals", 1);
-		Meshes::meshes[(int)MeshType::Quad]->SetModel(modelStack.GetTopModel());
-		Meshes::meshes[(int)MeshType::Quad]->Render(forwardSP);
+		Meshes::meshes[(int)MeshType::SpaceSpriteAni]->SetModel(modelStack.GetTopModel());
+		Meshes::meshes[(int)MeshType::SpaceSpriteAni]->Render(forwardSP);
 		forwardSP.Set1i("noNormals", 0);
 	modelStack.PopModel();
 
