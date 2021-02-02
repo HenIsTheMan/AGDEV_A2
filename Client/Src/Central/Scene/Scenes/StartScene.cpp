@@ -3,7 +3,7 @@
 #include "../../App.h"
 #include "../SceneManager.h"
 
-#include "../../Easing.hpp"
+#include "../../../Shared/Easing.hpp"
 
 #include <glm/gtx/color_space.hpp>
 

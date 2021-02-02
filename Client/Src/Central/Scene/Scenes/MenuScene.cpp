@@ -3,6 +3,8 @@
 #include "../../App.h"
 #include "../SceneManager.h"
 
+#include <glm/gtx/color_space.hpp>
+
 extern bool endLoop;
 extern float windowMouseX;
 extern float windowMouseY;
@@ -11,7 +13,10 @@ extern int windowHeight;
 extern float leftRightMB;
 
 MenuScene::MenuScene():
-	SceneSupport()
+	SceneSupport(),
+	hue(0.0f),
+	textOffsetX(0.0f),
+	textOffsetY(0.0f)
 {
 }
 
@@ -99,7 +104,17 @@ void MenuScene::Update(){
 		textColours[1] = glm::vec4(1.f);
 	}
 
+	textOffsetX = sinf(elapsedTime * 4.0f) * 4.0f;
+	textOffsetY = -cosf(elapsedTime * 4.0f) * 4.0f;
+
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::SpaceSpriteAni])->Update();
+
+	static float hueChangeBT = 0.0f;
+	if(hueChangeBT <= elapsedTime){
+		hue = PseudorandMinMax(0.0f, 360.0f);
+
+		hueChangeBT = elapsedTime + 0.4f;
+	}
 }
 
 void MenuScene::LateUpdate(){
@@ -150,20 +165,11 @@ void MenuScene::Render(){
 	}
 
 	textChief.RenderText(textSP, {
-		"ANOTHER",
-		(float)windowWidth * 0.5f, 
-		(float)windowHeight * 0.8f,
+		"ANOTHER WORLD",
+		(float)windowWidth * 0.5f + textOffsetX, 
+		(float)windowHeight * 0.7f + textOffsetY,
 		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
-		0,
-		TextChief::TextAlignment::Center
-	});
-	textChief.RenderText(textSP, {
-		"WORLD",
-		(float)windowWidth * 0.5f,
-		(float)windowHeight * 0.6f,
-		4.0f,
-		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
+		glm::vec4(glm::rgbColor(glm::vec3(hue, 1.0f, 1.0f)), 1.f),
 		0,
 		TextChief::TextAlignment::Center
 	});

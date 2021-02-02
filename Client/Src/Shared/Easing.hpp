@@ -1,9 +1,17 @@
 #pragma once
 
-#include <Core.h>
+#include "Core.h"
+
+static float EaseInQuint(const float x){
+	return x * x * x * x * x;
+}
+
+static float EaseInOutSine(const float x){
+	return -(cosf(glm::pi<float>() * x) - 1.0f) * 0.5f;
+}
 
 static float EaseInOutCubic(const float x){
-	return x < 0.5f ? 4.0f * x * x * x : 1.0f - (float)glm::pow(-2.0f * x + 2.0f, 3.0f) * 0.5f;
+	return x < 0.5f ? 4.0f * x * x * x : 1.0f - powf(-2.0f * x + 2.0f, 3.0f) * 0.5f;
 }
 
 static float EaseOutBounce(float x){

@@ -1,6 +1,6 @@
 isPausedBGM = true
 
-soundVol = 1.0 -- 0.0 - 1.0
+soundVol = 0.7 -- 0.0 - 1.0
 
 rolloffFactor = 4.0 -- 0.0 - 10.0
 
