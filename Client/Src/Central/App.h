@@ -24,7 +24,6 @@ public:
 	void PreRender() const;
 	void Render();
 	void PostRender() const;
-
 private:
 	App();
 

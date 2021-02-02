@@ -109,6 +109,8 @@ void App::EarlyInit(){
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
 		return (void)puts("Failed to init GLAD\n");
 	}
+
+	sceneManager->EarlyInit();
 }
 
 void App::Init(){
@@ -117,6 +119,7 @@ void App::Init(){
 }
 
 void App::FixedUpdate(){
+	sceneManager->FixedUpdate();
 }
 
 void App::Update(){
@@ -145,9 +148,12 @@ void App::Update(){
 		}
 		toggleFullscreenBT = elapsedTime + .5f;
 	}
+
+	sceneManager->Update();
 }
 
 void App::LateUpdate(){
+	sceneManager->LateUpdate();
 }
 
 void App::PreRender() const{
@@ -157,12 +163,17 @@ void App::PreRender() const{
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(1.f, 0.82f, 0.86f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	sceneManager->PreRender();
 }
 
 void App::Render(){
+	sceneManager->Render();
 }
 
 void App::PostRender() const{
+	sceneManager->PostRender();
+
 	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
 	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }
