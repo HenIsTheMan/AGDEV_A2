@@ -21,8 +21,8 @@ extern bool endLoop;
 extern float leftRightMB;
 extern float angularFOV;
 extern float dt;
-extern int winWidth;
-extern int winHeight;
+extern int windowWidth;
+extern int windowHeight;
 
 void SetUpCubemap(uint& cubemapRefID, const std::vector<cstr>& faces);
 
@@ -67,9 +67,6 @@ GameScene::GameScene():
 			aiTextureType_DIFFUSE,
 		}),
 	},
-	forwardSP{"Shaders/Forward.vertexS", "Shaders/Forward.fragS"},
-	viewingFrustumSP{"Shaders/ViewingFrustum.vertexS", "Shaders/ViewingFrustum.fragS"},
-	textSP{"Shaders/Text.vertexS", "Shaders/Text.fragS"},
 	cubemapRefID(0),
 	currSlot(0),
 	inv{
@@ -79,15 +76,6 @@ GameScene::GameScene():
 		ItemType::None,
 		ItemType::None,
 	},
-	screen(Screen::MainMenu),
-	textScaleFactors{
-		1.f,
-		1.f,
-	},
-	textColours{
-		glm::vec4(1.f),
-		glm::vec4(1.f),
-	},
 	currGun(nullptr),
 	guns{
 		nullptr,
@@ -95,16 +83,11 @@ GameScene::GameScene():
 		nullptr,
 	},
 	reticleColour(glm::vec4(1.f)),
-	view(glm::mat4(1.f)),
-	projection(glm::mat4(1.f)),
 	shldUpdateEntityManager(true),
 	shldRenderEntityManager(true),
 	isCamDetached(true),
 	shldRenderViewingFrustum(false),
-	elapsedTime(0.f),
 	frustumColor(glm::vec3(1.0f)),
-	modelStack(),
-	polyModes(),
 	dLightFromTop(nullptr),
 	dLightFromBottom(nullptr),
 	entityManager(EntityManager::GetObjPtr()),
@@ -142,18 +125,6 @@ GameScene::~GameScene(){
 			delete models[i];
 			models[i] = nullptr;
 		}
-	}
-
-	const size_t& coinMusicSize = coinMusic.size();
-	for(size_t i = 0; i < coinMusicSize; ++i){
-		coinMusic[i]->drop();
-	}
-	const size_t& fireMusicSize = fireMusic.size();
-	for(size_t i = 0; i < fireMusicSize; ++i){
-		fireMusic[i]->drop();
-	}
-	if(soundEngine){
-		soundEngine->drop();
 	}
 
 	if(entityManager != nullptr){
@@ -293,9 +264,6 @@ void GameScene::CreateEntities(){
 			if(!soundFX){
 				(void)puts("No soundFX support!\n");
 			}
-			coinSoundFX.emplace_back(soundFX);
-
-			coinMusic.emplace_back(music);
 		} else{
 			(void)puts("Failed to init music!\n");
 		}
@@ -449,14 +417,7 @@ void GameScene::CreateDecorations(){
 }
 
 void GameScene::EarlyInit(){
-	glGetIntegerv(GL_POLYGON_MODE, polyModes);
-
-	soundEngine = createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS & ~ESEO_PRINT_DEBUG_INFO_TO_DEBUGGER & ~ESEO_PRINT_DEBUG_INFO_TO_STDOUT);
-	if(!soundEngine){
-		(void)puts("Failed to init soundEngine!\n");
-	}
-	soundEngine->play2D("Audio/Music/Theme.mp3", true);
-	//soundEngine->setSoundVolume(0);
+	SceneSupport::EarlyInit();
 }
 
 void GameScene::Init(){
@@ -497,8 +458,8 @@ void GameScene::FixedUpdate(){
 
 void GameScene::Update(){
 	elapsedTime += dt;
-	if(winHeight){ //Avoid division by 0 when win is minimised
-		cam.SetDefaultAspectRatio(float(winWidth) / float(winHeight));
+	if(windowHeight){ //Avoid division by 0 when win is minimised
+		cam.SetDefaultAspectRatio(float(windowWidth) / float(windowHeight));
 		cam.ResetAspectRatio();
 	}
 
@@ -816,7 +777,7 @@ void GameScene::Render(){
 	cam.SetTarget(glm::vec3(0.f));
 	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 	view = cam.LookAt();
-	projection = glm::ortho(-float(winWidth) / 2.f, float(winWidth) / 2.f, -float(winHeight) / 2.f, float(winHeight) / 2.f, .1f, 99999.0f);
+	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
 	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
 
 	if(!isCamDetached){
@@ -825,7 +786,7 @@ void GameScene::Render(){
 			for(short i = 0; i < 5; ++i){
 				forwardSP.Set1i("noNormals", 1);
 				modelStack.PushModel({
-					modelStack.Translate(glm::vec3(float(i) * 100.f - 200.f, -float(winHeight) / 2.3f, -10.f)),
+					modelStack.Translate(glm::vec3(float(i) * 100.f - 200.f, -float(windowHeight) / 2.3f, -10.f)),
 				});
 				switch(inv[i]){
 					case ItemType::Shotgun:
@@ -881,7 +842,7 @@ void GameScene::Render(){
 
 			modelStack.PushModel({
 				modelStack.Translate(glm::vec3(0.f, 0.f, -9.f)),
-				modelStack.Scale(glm::vec3(float(winHeight) * 0.7f, float(winHeight) * 0.7f, 1.f)),
+				modelStack.Scale(glm::vec3(float(windowHeight) * 0.7f, float(windowHeight) * 0.7f, 1.f)),
 			});
 				forwardSP.Set1i("customDiffuseTexIndex", 1);
 				quadMesh->SetModel(modelStack.GetTopModel());
@@ -889,7 +850,7 @@ void GameScene::Render(){
 			modelStack.PopModel();
 			modelStack.PushModel({
 				modelStack.Translate(glm::vec3(0.f, 0.f, -9.1f)),
-				modelStack.Scale(glm::vec3(float(winWidth) / 2.f, float(winHeight) / 2.f, 1.f)),
+				modelStack.Scale(glm::vec3(float(windowWidth) / 2.f, float(windowHeight) / 2.f, 1.f)),
 			});
 				forwardSP.Set1i("customDiffuseTexIndex", -1);
 				forwardSP.Set1i("useCustomColour", 1);
@@ -907,7 +868,7 @@ void GameScene::Render(){
 			///Render inv slots
 			for(short i = 0; i < 5; ++i){
 				modelStack.PushModel({
-					modelStack.Translate(glm::vec3(float(i) * 100.f - 200.f, -float(winHeight) / 2.3f, -10.f)),
+					modelStack.Translate(glm::vec3(float(i) * 100.f - 200.f, -float(windowHeight) / 2.3f, -10.f)),
 					modelStack.Scale(glm::vec3(50.f, 50.f, 1.f)),
 				});
 					forwardSP.Set1i("noNormals", 1);
@@ -979,8 +940,8 @@ void GameScene::Render(){
 	if(!isCamDetached && currGun){
 		textChief.RenderText(textSP, {
 			std::to_string(currGun->GetLoadedBullets()) + " / " + std::to_string(currGun->GetUnloadedBullets()),
-			float(winWidth) * 0.5f,
-			float(winHeight) * 0.15f,
+			float(windowWidth) * 0.5f,
+			float(windowHeight) * 0.15f,
 			1.f,
 			glm::vec4(1.f, 1.f, 0.f, 1.f),
 			0,
@@ -992,7 +953,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"FPS: " + std::to_string(FPS).substr(0, std::to_string((int)FPS).length() + 3),
 		25.0f,
-		(float)winHeight * 0.02f,
+		(float)windowHeight * 0.02f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,
@@ -1001,7 +962,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"Instanced draw calls: " + std::to_string(Mesh::instancedDrawCalls),
 		25.f,
-		(float)winHeight * 0.55f,
+		(float)windowHeight * 0.55f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,
@@ -1010,7 +971,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"Normal draw calls: " + std::to_string(Mesh::normalDrawCalls),
 		25.f,
-		(float)winHeight * 0.65f,
+		(float)windowHeight * 0.65f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,
@@ -1019,7 +980,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"Polygon count: " + std::to_string(Mesh::polygonCount),
 		25.f,
-		(float)winHeight * 0.75f,
+		(float)windowHeight * 0.75f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,
@@ -1028,7 +989,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"Index count: " + std::to_string(Mesh::indexCount),
 		25.f,
-		(float)winHeight * 0.85f,
+		(float)windowHeight * 0.85f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,
@@ -1037,7 +998,7 @@ void GameScene::Render(){
 	textChief.RenderText(textSP, {
 		"Vertex count: " + std::to_string(Mesh::vertexCount),
 		25.f,
-		(float)winHeight * 0.95f,
+		(float)windowHeight * 0.95f,
 		1.f,
 		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
 		0,

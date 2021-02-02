@@ -1,5 +1,10 @@
 #include "MenuScene.h"
 
+extern bool endLoop;
+extern int windowWidth;
+extern int windowHeight;
+extern float leftRightMB;
+
 MenuScene::MenuScene(){
 }
 
@@ -7,6 +12,7 @@ MenuScene::~MenuScene(){
 }
 
 void MenuScene::EarlyInit(){
+	SceneSupport::EarlyInit();
 }
 
 void MenuScene::Init(){
@@ -29,12 +35,12 @@ void MenuScene::Update(){
 	cam.SetTarget(glm::vec3(0.f));
 	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 	view = cam.LookAt();
-	projection = glm::ortho(-float(winWidth) / 2.f, float(winWidth) / 2.f, -float(winHeight) / 2.f, float(winHeight) / 2.f, .1f, 99999.0f);
+	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
 
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.77f
-		&& mousePos.y <= (float)winHeight * 0.83f){
+	if(mousePos.x >= (float)windowWidth * 0.47f
+		&& mousePos.x <= (float)windowWidth * 0.53f
+		&& mousePos.y >= (float)windowHeight * 0.77f
+		&& mousePos.y <= (float)windowHeight * 0.83f){
 		if(textScaleFactors[0] != 1.1f){
 			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
 			textScaleFactors[0] = 1.1f;
@@ -43,7 +49,7 @@ void MenuScene::Update(){
 		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
 			soundEngine->play2D("Audio/Sounds/Select.wav", false);
 
-			if(guns[0]){
+			/*if(guns[0]){
 				delete guns[0];
 				guns[0] = nullptr;
 			}
@@ -57,28 +63,13 @@ void MenuScene::Update(){
 				delete guns[2];
 				guns[2] = nullptr;
 			}
-			guns[2] = new Sniper();
+			guns[2] = new Sniper();*/
 
-			screen = Screen::Game;
+			//screen = Screen::Game;
 
 			cam.SetPos(glm::vec3(0.0f, 1500.0f, 2400.0f));
 			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
 			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
-
-			const size_t& coinMusicSize = coinMusic.size();
-			for(size_t i = 0; i < coinMusicSize; ++i){
-				ISound* music = coinMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
-			const size_t& fireMusicSize = fireMusic.size();
-			for(size_t i = 0; i < fireMusicSize; ++i){
-				ISound* music = fireMusic[i];
-				if(music && music->getIsPaused()){
-					music->setIsPaused(false);
-				}
-			}
 
 			buttonBT = elapsedTime + .3f;
 		}
@@ -87,10 +78,10 @@ void MenuScene::Update(){
 		textColours[0] = glm::vec4(1.f);
 	}
 
-	if(mousePos.x >= (float)winWidth * 0.47f
-		&& mousePos.x <= (float)winWidth * 0.53f
-		&& mousePos.y >= (float)winHeight * 0.87f
-		&& mousePos.y <= (float)winHeight * 0.93f){
+	if(mousePos.x >= (float)windowWidth * 0.47f
+		&& mousePos.x <= (float)windowWidth * 0.53f
+		&& mousePos.y >= (float)windowHeight * 0.87f
+		&& mousePos.y <= (float)windowHeight * 0.93f){
 		if(textScaleFactors[1] != 1.1f){
 			soundEngine->play2D("Audio/Sounds/Pop.flac", false);
 			textScaleFactors[1] = 1.1f;
@@ -126,7 +117,7 @@ void MenuScene::PreRender(){
 
 void MenuScene::Render(){
 	modelStack.PushModel({
-		modelStack.Scale(glm::vec3(float(winWidth) / 2.f, float(winHeight) / 2.f, 1.f)),
+		modelStack.Scale(glm::vec3(float(windowWidth) / 2.f, float(windowHeight) / 2.f, 1.f)),
 	});
 		forwardSP.Set1i("noNormals", 1);
 		Meshes::meshes[(int)MeshType::Quad]->SetModel(modelStack.GetTopModel());
@@ -138,8 +129,8 @@ void MenuScene::Render(){
 
 	textChief.RenderText(textSP, {
 		"Play",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.2f,
+		(float)windowWidth * 0.5f,
+		(float)windowHeight * 0.2f,
 		textScaleFactors[0],
 		textColours[0],
 		0,
@@ -147,8 +138,8 @@ void MenuScene::Render(){
 	});
 	textChief.RenderText(textSP, {
 		"Quit",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.1f,
+		(float)windowWidth * 0.5f, 
+		(float)windowHeight * 0.1f,
 		textScaleFactors[1],
 		textColours[1],
 		0,
@@ -157,8 +148,8 @@ void MenuScene::Render(){
 
 	textChief.RenderText(textSP, {
 		"ANOTHER",
-		(float)winWidth * 0.5f, 
-		(float)winHeight * 0.8f,
+		(float)windowWidth * 0.5f, 
+		(float)windowHeight * 0.8f,
 		4.0f,
 		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
 		0,
@@ -166,8 +157,8 @@ void MenuScene::Render(){
 	});
 	textChief.RenderText(textSP, {
 		"WORLD",
-		(float)winWidth * 0.5f,
-		(float)winHeight * 0.6f,
+		(float)windowWidth * 0.5f,
+		(float)windowHeight * 0.6f,
 		4.0f,
 		glm::vec4(glm::vec3(1.f, 0.f, 1.f), 1.f),
 		0,

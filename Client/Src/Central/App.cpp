@@ -20,15 +20,15 @@ extern int optimalWinXPos;
 extern int optimalWinYPos;
 extern int optimalWinWidth;
 extern int optimalWinHeight;
-extern int winWidth;
-extern int winHeight;
+extern int windowWidth;
+extern int windowHeight;
 
 const GLFWvidmode* App::mode = nullptr;
 GLFWwindow* App::win = nullptr;
 
 static void FramebufferSizeCallback(GLFWwindow*, int width, int height){ //Resize callback
-	winWidth = width;
-	winHeight = height;
+	windowWidth = width;
+	windowHeight = height;
 }
 
 static void CursorPosCallback(GLFWwindow*, double xPos, double yPos){
@@ -98,7 +98,7 @@ void App::EarlyInit(){
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "", nullptr, nullptr);
 	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
-	glfwGetWindowSize(win, &winWidth, &winHeight);
+	glfwGetWindowSize(win, &windowWidth, &windowHeight);
 	glfwMaximizeWindow(win);
 
 	if(win == nullptr){
@@ -159,7 +159,7 @@ void App::LateUpdate(){
 void App::PreRender(){
 	glViewport(0, 0, 2048, 2048);
 
-	glViewport(0, 0, winWidth, winHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(1.f, 0.82f, 0.86f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -4,8 +4,8 @@
 
 ///Can be improved
 
-extern int winWidth;
-extern int winHeight;
+extern int windowWidth;
+extern int windowHeight;
 
 TextChief::TextChief():
     ft(),
@@ -80,7 +80,7 @@ void TextChief::RenderText(ShaderProg& SP, const TextAttribs& attribs){
 
     SP.Use();
     SP.Set4fv("textColour", attribs.colour);
-    SP.SetMat4fv("projection", &glm::ortho(0.0f, (float)winWidth, 0.0f, (float)winHeight)[0][0]);
+    SP.SetMat4fv("projection", &glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight)[0][0]);
 
     ptrdiff_t strLen = (ptrdiff_t)attribs.text.length();
     float halfTotalWidth = 0.0f;

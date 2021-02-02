@@ -16,5 +16,5 @@ int optimalWinXPos;
 int optimalWinYPos;
 int optimalWinWidth;
 int optimalWinHeight;
-int winWidth;
-int winHeight;
+int windowWidth;
+int windowHeight;

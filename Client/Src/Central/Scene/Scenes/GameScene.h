@@ -56,8 +56,6 @@ private:
 	int currSlot;
 	ItemType inv[5];
 
-	float textScaleFactors[2];
-	glm::vec4 textColours[2];
 	Gun* currGun;
 	Gun* guns[3];
 	glm::vec4 reticleColour;

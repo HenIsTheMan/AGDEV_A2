@@ -44,11 +44,14 @@ protected:
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	ModelStack modelStack;
-
 	float elapsedTime;
 
+	ModelStack modelStack;
+
 	int polyModes[2];
+
+	float textScaleFactors[2];
+	glm::vec4 textColours[2];
 
 	SceneSupport();
 };
