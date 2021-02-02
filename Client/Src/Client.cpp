@@ -1,17 +1,25 @@
 #include <Core.h>
 #include <Engine.h>
-#include "Admin/App.h"
+#include "Central/App.h"
 
 extern bool endLoop;
 
 void MainProcess(){
 	App* app = App::GetObjPtr();
+
+	app->EarlyInit();
+	app->Init();
+
 	while(!endLoop){
+		//app->FixedUpdate();
 		app->Update();
+		app->LateUpdate();
+
 		app->PreRender();
 		app->Render();
 		app->PostRender();
 	}
+
 	app->Destroy();
 }
 

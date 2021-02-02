@@ -2,7 +2,7 @@
 
 #include "../Lua/LuaManager.h"
 
-#include <functional>
+#include "SceneManager.h"
 
 class App final: public Singleton<App>{
 	explicit App(const App&) = delete;
@@ -13,15 +13,20 @@ class App final: public Singleton<App>{
 	friend Singleton<App>;
 public:
 	~App();
-	bool Init();
+
+	void EarlyInit();
+	void Init();
+
+	void FixedUpdate();
 	void Update();
+	void LateUpdate();
+
 	void PreRender() const;
 	void Render();
 	void PostRender() const;
+
 private:
 	App();
-
-	bool Init1st() const;
 
 	bool TuneAppWindow(cstr const fPath) const;
 	bool TuneConsoleWindow(cstr const fPath);
@@ -41,6 +46,8 @@ private:
 
 	HANDLE StdHandle;
 	CONSOLE_CURSOR_INFO cursorInfo;
+
+	SceneManager* sceneManager;
 };
 
 template <class T>

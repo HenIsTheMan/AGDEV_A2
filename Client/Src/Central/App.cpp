@@ -53,26 +53,6 @@ static void ScrollCallback(GLFWwindow*, double xOffset, double yOffset){
 	angularFOV = std::max(1.f, std::min(75.f, angularFOV));
 }
 
-App::App():
-	fullscreen(false),
-	elapsedTime(0.f),
-	lastFrameTime(0.f),
-	luaManager(LuaManager::GetObjPtr()),
-	dataAppWindow(new WIN32_FIND_DATA()),
-	dataConsoleWindow(new WIN32_FIND_DATA()),
-	dataOptions(new WIN32_FIND_DATA()),
-	StdHandle(GetStdHandle(DWORD(-11))),
-	cursorInfo({})
-{
-	GetConsoleCursorInfo(StdHandle, &cursorInfo);
-
-	luaManager->Init();
-	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
-
-	(void)Init1st();
-	(void)Init();
-}
-
 App::~App(){
 	if(luaManager != nullptr){
 		luaManager->Destroy();
@@ -94,16 +74,18 @@ App::~App(){
 		dataOptions = nullptr;
 	}
 
+	if(sceneManager != nullptr){
+		sceneManager->Destroy();
+		sceneManager = nullptr;
+	}
+
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
 }
 
-bool App::Init(){
-	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+void App::EarlyInit(){
+	luaManager->Init();
+	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
 
-	return true;
-}
-
-bool App::Init1st() const{
 	glfwInit();
 	#ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //For Mac OS X
@@ -113,24 +95,90 @@ bool App::Init1st() const{
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
-	const GLFWvidmode* const& mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	win = glfwCreateWindow(mode->width / 2, mode->height / 2, "", nullptr, nullptr);
 	glfwSetWindowPos(win, mode->width / 4, mode->height / 4);
 	glfwGetWindowSize(win, &winWidth, &winHeight);
 	glfwMaximizeWindow(win);
 
 	if(win == nullptr){
-		(void)puts("Failed to create GLFW win\n");
-		return false;
+		return (void)puts("Failed to create GLFW win\n");
 	}
 	glfwMakeContextCurrent(win);
 
 	if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
-		(void)puts("Failed to init GLAD\n");
-		return false;
+		return (void)puts("Failed to init GLAD\n");
+	}
+}
+
+void App::Init(){
+	GetConsoleCursorInfo(StdHandle, &cursorInfo);
+	sceneManager->Init();
+}
+
+void App::FixedUpdate(){
+}
+
+void App::Update(){
+	if(glfwWindowShouldClose(App::win)){
+		endLoop = true;
+		return;
 	}
 
-	return true;
+	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
+	(void)TuneAppWindow("Scripts/AppWindow.lua");
+	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
+
+	float currFrameTime = (float)glfwGetTime();
+	dt = currFrameTime - lastFrameTime;
+	lastFrameTime = currFrameTime;
+
+	elapsedTime += dt;
+	static float toggleFullscreenBT = 0.f;
+	if(Key(VK_F1) && toggleFullscreenBT <= elapsedTime){
+		if(fullscreen){
+			glfwSetWindowMonitor(win, 0, optimalWinXPos, optimalWinYPos, optimalWinWidth, optimalWinHeight, GLFW_DONT_CARE);
+			fullscreen = false;
+		} else{
+			glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
+			fullscreen = true;
+		}
+		toggleFullscreenBT = elapsedTime + .5f;
+	}
+}
+
+void App::LateUpdate(){
+}
+
+void App::PreRender() const{
+	glViewport(0, 0, 2048, 2048);
+
+	glViewport(0, 0, winWidth, winHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClearColor(1.f, 0.82f, 0.86f, 1.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void App::Render(){
+}
+
+void App::PostRender() const{
+	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
+	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
+}
+
+App::App():
+	fullscreen(false),
+	elapsedTime(0.f),
+	lastFrameTime(0.f),
+	luaManager(LuaManager::GetObjPtr()),
+	dataAppWindow(new WIN32_FIND_DATA()),
+	dataConsoleWindow(new WIN32_FIND_DATA()),
+	dataOptions(new WIN32_FIND_DATA()),
+	StdHandle(GetStdHandle(DWORD(-11))),
+	cursorInfo({}),
+	sceneManager(SceneManager::GetObjPtr())
+{
 }
 
 bool App::TuneAppWindow(cstr const fPath) const{
@@ -276,49 +324,4 @@ bool App::TuneOptions(cstr const fPath) const{
 	}
 
 	return true;
-}
-
-void App::Update(){
-	if(glfwWindowShouldClose(App::win)){
-		endLoop = true;
-		return;
-	}
-
-	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
-	(void)TuneAppWindow("Scripts/AppWindow.lua");
-	(void)TuneOptions("Scripts/OptionsOpenGL.lua");
-
-	float currFrameTime = (float)glfwGetTime();
-	dt = currFrameTime - lastFrameTime;
-	lastFrameTime = currFrameTime;
-
-	elapsedTime += dt;
-	static float toggleFullscreenBT = 0.f;
-	if(Key(VK_F1) && toggleFullscreenBT <= elapsedTime){
-		if(fullscreen){
-			glfwSetWindowMonitor(win, 0, optimalWinXPos, optimalWinYPos, optimalWinWidth, optimalWinHeight, GLFW_DONT_CARE);
-			fullscreen = false;
-		} else{
-			glfwSetWindowMonitor(win, glfwGetPrimaryMonitor(), 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
-			fullscreen = true;
-		}
-		toggleFullscreenBT = elapsedTime + .5f;
-	}
-}
-
-void App::PreRender() const{
-	glViewport(0, 0, 2048, 2048);
-
-	glViewport(0, 0, winWidth, winHeight);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClearColor(1.f, 0.82f, 0.86f, 1.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void App::Render(){
-}
-
-void App::PostRender() const{
-	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
-	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }
