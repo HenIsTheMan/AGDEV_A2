@@ -1,8 +1,9 @@
 #pragma once
-#include "../World/Scene.h"
-#include "../World/Scenes/GameScene.h"
+#include "../World/Scenes.h"
 
 #include "../Lua/LuaManager.h"
+
+#include <functional>
 
 class App final: public Singleton<App>{
 	explicit App(const App&) = delete;
@@ -42,11 +43,11 @@ private:
 	HANDLE StdHandle;
 	CONSOLE_CURSOR_INFO cursorInfo;
 
-	GameScene* gameScene;
+	Scenes* gameScene;
 
-	void (GameScene::*init)();
-	void (GameScene::*update)();
-	void (GameScene::*render)();
+	void (Scenes::*init)();
+	void (Scenes::*update)();
+	void (Scenes::*render)();
 };
 
 template <class T>

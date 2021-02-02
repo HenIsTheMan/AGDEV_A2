@@ -63,38 +63,21 @@ App::App():
 	dataOptions(new WIN32_FIND_DATA()),
 	StdHandle(GetStdHandle(DWORD(-11))),
 	cursorInfo({}),
-
-	gameScene(new GameScene()),
-	init(&GameScene::Init),
-	update(&GameScene::Update),
-	render(&GameScene::ForwardRender)
+	gameScene(new Scenes()),
+	init(&Scenes::Init),
+	update(&Scenes::Update),
+	render(&Scenes::ForwardRender)
 {
-
-
-	//Scene::SetInCtor(YesScene::InCtor);
-	//Scene::SetInDtor(YesScene::InDtor);
-	//Scene::SetInit(YesScene::Init);
-	//Scene::SetFixedUpdate(YesScene::FixedUpdate);
-	//Scene::SetUpdate(YesScene::Update);
-	//Scene::SetLateUpdate(YesScene::LateUpdate);
-	//Scene::SetPreRender(YesScene::PreRender);
-	//Scene::SetRender(gameScene->ForwardRender);
-	//Scene::SetPostRender(YesScene::PostRender);
-
 	GetConsoleCursorInfo(StdHandle, &cursorInfo);
 
 	luaManager->Init();
 	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
+
 	(void)Init1st();
-
-	Scene::InCtor();
-
 	(void)Init();
 }
 
 App::~App(){
-	Scene::InDtor();
-
 	if(luaManager != nullptr){
 		luaManager->Destroy();
 		luaManager = nullptr;
@@ -127,8 +110,6 @@ bool App::Init(){
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 	(gameScene->*init)();
-
-	Scene::Init();
 
 	return true;
 }
@@ -336,10 +317,6 @@ void App::Update(){
 	}
 
 	(gameScene->*update)();
-
-	//Scene::FixedUpdate();
-	Scene::Update();
-	Scene::LateUpdate();
 }
 
 void App::PreRender() const{
@@ -349,19 +326,13 @@ void App::PreRender() const{
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(1.f, 0.82f, 0.86f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	Scene::PreRender();
 }
 
 void App::Render(){
 	(gameScene->*render)();
-
-	Scene::Render();
 }
 
 void App::PostRender() const{
-	Scene::PostRender();
-
 	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
 	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }

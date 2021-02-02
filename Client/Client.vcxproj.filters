@@ -27,8 +27,7 @@
     <ClCompile Include="Src\Lua\LuaHelpers.cpp" />
     <ClCompile Include="Src\Lua\LuaManager.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
-    <ClCompile Include="Src\World\Scene.cpp" />
-    <ClCompile Include="Src\World\Scenes\GameScene.cpp" />
+    <ClCompile Include="Src\World\Scenes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
@@ -69,8 +68,7 @@
     <ClInclude Include="Src\State\State.h" />
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
-    <ClInclude Include="Src\World\Scene.h" />
-    <ClInclude Include="Src\World\Scenes\GameScene.h" />
+    <ClInclude Include="Src\World\Scenes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
