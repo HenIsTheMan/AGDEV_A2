@@ -53,6 +53,33 @@ cstr LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrM
 }
 
 template <class T>
+std::vector<T> LuaManager::ReadFromArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const bool printErrMsg){
+	assert(false);
+	return std::vector<T>();
+}
+
+template <>
+std::vector<cstr> LuaManager::ReadFromArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const bool printErrMsg){
+	std::vector<cstr> vec;
+
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, arrName);
+
+		if(lua_istable(im_ReadL, -1)){
+			for(int i = startIndex; i <= endIndex; ++i){
+				lua_pushinteger(im_ReadL, i);
+				lua_gettable(im_ReadL, -2);
+
+				vec.emplace_back(lua_tostring(im_ReadL, -1));
+				lua_pop(im_ReadL, 1);
+			}
+		}
+	}
+
+	return vec;
+}
+
+template <class T>
 T LuaManager::ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg){
 	assert(false);
 	return T();

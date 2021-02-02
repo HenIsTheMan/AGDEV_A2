@@ -275,6 +275,7 @@
     <None Include="cpp.hint" />
     <None Include="Scripts\AppWindow.lua" />
     <None Include="Scripts\ConsoleWindow.lua" />
+    <None Include="Scripts\Models.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Scripts\Test1st.lua" />
     <None Include="Scripts\Test2nd.lua" />

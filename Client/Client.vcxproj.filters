@@ -108,5 +108,6 @@
     <None Include="Src\State\StateMachine.inl" />
     <None Include="Src\State\States\.keep" />
     <None Include="cpp.hint" />
+    <None Include="Scripts\Models.lua" />
   </ItemGroup>
 </Project>

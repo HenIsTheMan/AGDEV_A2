@@ -29,6 +29,12 @@ public:
 	inline cstr Read(cstr const fPath, cstr const varName, const bool printErrMsg);
 
 	template <class T>
+	std::vector<T> ReadFromArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const bool printErrMsg);
+
+	template <>
+	inline std::vector<cstr> ReadFromArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const bool printErrMsg);
+
+	template <class T>
 	T ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg);
 
 	template <>

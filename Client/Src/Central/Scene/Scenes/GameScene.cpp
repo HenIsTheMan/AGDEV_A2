@@ -31,44 +31,7 @@ glm::vec3 Light::globalAmbient = glm::vec3(.2f);
 
 GameScene::GameScene():
 	SceneSupport(),
-	models{
-		new Model("ObjsAndMtls/Shotgun.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Scar.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Sniper.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Flower.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Grass.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Rock.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Tree_Low.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Tree_Medium.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Tree_High.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Dragon_Low.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Dragon_Medium.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-		new Model("ObjsAndMtls/Dragon_High.obj", {
-			aiTextureType_DIFFUSE,
-		}),
-	},
+	models{},
 	cubemapRefID(0),
 	currSlot(0),
 	inv{
@@ -95,7 +58,8 @@ GameScene::GameScene():
 	entityManager(EntityManager::GetObjPtr()),
 	nodeManager(NodeManager::GetObjPtr()),
 	regionManager(RegionManager::GetObjPtr()),
-	myPlayer(nullptr)
+	myPlayer(nullptr),
+	luaManager(LuaManager::GetObjPtr())
 {
 }
 
@@ -134,6 +98,11 @@ GameScene::~GameScene(){
 		entityManager = nullptr;
 	}
 	regionManager = nullptr; //Deleted elsewhere
+
+	if(luaManager != nullptr){
+		luaManager->Destroy();
+		luaManager = nullptr;
+	}
 }
 
 void GameScene::Enter(){
@@ -145,7 +114,8 @@ void GameScene::Enter(){
 	cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
 	cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 
-	for(int i = 0; i < 3; ++i){
+	const int gunsSize = sizeof(guns) / sizeof(guns[0]);
+	for(int i = 0; i < gunsSize; ++i){
 		Gun*& gun = guns[i];
 
 		if(gun != nullptr){
@@ -174,6 +144,15 @@ void GameScene::Exit(){
 
 void GameScene::EarlyInit(){
 	SceneSupport::EarlyInit();
+
+	std::vector<cstr> fPaths = luaManager->ReadFromArr<cstr>("Scripts/Models.lua", "fPathModels", 1, (int)ModelType::Amt, true);
+	const int modelsSize = sizeof(models) / sizeof(models[0]);
+
+	for(int i = 0; i < modelsSize; ++i){
+		models[i] = new Model(fPaths[i], {
+			aiTextureType_DIFFUSE,
+		});
+	}
 }
 
 void GameScene::Init(){

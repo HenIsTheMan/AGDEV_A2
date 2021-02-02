@@ -2,6 +2,8 @@
 
 #include "../SceneSupport.h"
 
+#include "../../../Lua/LuaManager.h"
+
 #ifndef BIT
 	#define BIT(x) 1 << x
 #endif
@@ -86,4 +88,6 @@ private:
 	Light* dLightFromBottom;
 
 	const Entity* myPlayer;
+
+	LuaManager* luaManager;
 };
