@@ -119,7 +119,7 @@
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:libcmt.lib;/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)Engine\DLLs\" "$(TargetDir)"</Command>
@@ -142,7 +142,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>/NODEFAULTLIB:libcmt.lib;/NODEFAULTLIB:libcmtd.lib;/NODEFAULTLIB:msvcrtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)Engine\DLLs\" "$(TargetDir)"</Command>
@@ -219,8 +219,9 @@
     <ClCompile Include="Src\Shared\Meshes.cpp" />
     <ClCompile Include="Src\State\State.cpp" />
     <ClCompile Include="Src\World\Cam.cpp" />
-    <ClCompile Include="Src\World\GameScene.cpp" />
     <ClCompile Include="Src\World\ModelStack.cpp" />
+    <ClCompile Include="Src\World\Scene.cpp" />
+    <ClCompile Include="Src\World\Scenes\GameScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Admin\App.h" />
@@ -260,8 +261,9 @@
     <ClInclude Include="Src\State\StateID.hpp" />
     <ClInclude Include="Src\State\StateMachine.h" />
     <ClInclude Include="Src\World\Cam.h" />
-    <ClInclude Include="Src\World\GameScene.h" />
     <ClInclude Include="Src\World\ModelStack.h" />
+    <ClInclude Include="Src\World\Scene.h" />
+    <ClInclude Include="Src\World\Scenes\GameScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AppWindow.lua" />

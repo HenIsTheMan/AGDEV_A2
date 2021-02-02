@@ -1,21 +1,21 @@
 #pragma once
 #include <Engine.h>
 
-#include "Cam.h"
+#include "../Cam.h"
 
-#include "../Entity/Entities/Shotgun.h"
-#include "../Entity/Entities/Scar.h"
-#include "../Entity/Entities/Sniper.h"
+#include "../../Entity/Entities/Shotgun.h"
+#include "../../Entity/Entities/Scar.h"
+#include "../../Entity/Entities/Sniper.h"
 
-#include "../Entity/EntityManager.h"
+#include "../../Entity/EntityManager.h"
 
-#include "../Shared/Meshes.h"
+#include "../../Shared/Meshes.h"
 
-#include "ModelStack.h"
+#include "../ModelStack.h"
 
-#include "../LOD/LOD.h"
+#include "../../LOD/LOD.h"
 
-#include "../Shared/RotateVecIn2D.hpp"
+#include "../../Shared/RotateVecIn2D.hpp"
 
 #define BIT(x) 1 << x
 
@@ -23,8 +23,8 @@ class GameScene final{
 public:
 	GameScene();
 	~GameScene();
-	bool Init();
-	void Update(GLFWwindow* const& win);
+	void Init();
+	void Update();
 	void ForwardRender();
 private:
 	Cam cam;
@@ -88,8 +88,8 @@ private:
 	Gun* guns[3];
 	glm::vec4 reticleColour;
 
-	void MainMenuUpdate(GLFWwindow* const& win);
-	void GameUpdate(GLFWwindow* const& win);
+	void MainMenuUpdate();
+	void GameUpdate();
 
 	void MainMenuRender();
 	void GameRender();

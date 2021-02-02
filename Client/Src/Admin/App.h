@@ -1,5 +1,6 @@
 #pragma once
-#include "../World/GameScene.h"
+#include "../World/Scene.h"
+#include "../World/Scenes/GameScene.h"
 
 #include "../Lua/LuaManager.h"
 
@@ -30,8 +31,6 @@ private:
 	float elapsedTime;
 	float lastFrameTime;
 
-	GameScene scene;
-
 	static const GLFWvidmode* mode;
 	static GLFWwindow* win;
 
@@ -42,6 +41,12 @@ private:
 
 	HANDLE StdHandle;
 	CONSOLE_CURSOR_INFO cursorInfo;
+
+	GameScene* gameScene;
+
+	void (GameScene::*init)();
+	void (GameScene::*update)();
+	void (GameScene::*render)();
 };
 
 template <class T>

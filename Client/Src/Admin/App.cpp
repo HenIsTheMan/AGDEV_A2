@@ -57,22 +57,44 @@ App::App():
 	fullscreen(false),
 	elapsedTime(0.f),
 	lastFrameTime(0.f),
-	scene(),
 	luaManager(LuaManager::GetObjPtr()),
 	dataAppWindow(new WIN32_FIND_DATA()),
 	dataConsoleWindow(new WIN32_FIND_DATA()),
 	dataOptions(new WIN32_FIND_DATA()),
 	StdHandle(GetStdHandle(DWORD(-11))),
-	cursorInfo({})
+	cursorInfo({}),
+
+	gameScene(new GameScene()),
+	init(&GameScene::Init),
+	update(&GameScene::Update),
+	render(&GameScene::ForwardRender)
 {
+
+
+	//Scene::SetInCtor(YesScene::InCtor);
+	//Scene::SetInDtor(YesScene::InDtor);
+	//Scene::SetInit(YesScene::Init);
+	//Scene::SetFixedUpdate(YesScene::FixedUpdate);
+	//Scene::SetUpdate(YesScene::Update);
+	//Scene::SetLateUpdate(YesScene::LateUpdate);
+	//Scene::SetPreRender(YesScene::PreRender);
+	//Scene::SetRender(gameScene->ForwardRender);
+	//Scene::SetPostRender(YesScene::PostRender);
+
 	GetConsoleCursorInfo(StdHandle, &cursorInfo);
+
 	luaManager->Init();
 	(void)TuneConsoleWindow("Scripts/ConsoleWindow.lua");
 	(void)Init1st();
+
+	Scene::InCtor();
+
 	(void)Init();
 }
 
 App::~App(){
+	Scene::InDtor();
+
 	if(luaManager != nullptr){
 		luaManager->Destroy();
 		luaManager = nullptr;
@@ -93,13 +115,20 @@ App::~App(){
 		dataOptions = nullptr;
 	}
 
+	if(gameScene != nullptr){
+		delete gameScene;
+		gameScene = nullptr;
+	}
+
 	glfwTerminate(); //Clean/Del all GLFW's resources that were allocated
 }
 
 bool App::Init(){
 	mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-	(void)scene.Init();
+	(gameScene->*init)();
+
+	Scene::Init();
 
 	return true;
 }
@@ -306,23 +335,33 @@ void App::Update(){
 		toggleFullscreenBT = elapsedTime + .5f;
 	}
 
-	scene.Update(win);
+	(gameScene->*update)();
+
+	//Scene::FixedUpdate();
+	Scene::Update();
+	Scene::LateUpdate();
 }
 
 void App::PreRender() const{
-}
-
-void App::Render(){
 	glViewport(0, 0, 2048, 2048);
 
 	glViewport(0, 0, winWidth, winHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(1.f, 0.82f, 0.86f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	scene.ForwardRender();
+
+	Scene::PreRender();
+}
+
+void App::Render(){
+	(gameScene->*render)();
+
+	Scene::Render();
 }
 
 void App::PostRender() const{
+	Scene::PostRender();
+
 	glfwSwapBuffers(win); //Swap the large 2D colour buffer containing colour values for each pixel in GLFW's window
 	glfwPollEvents(); //Check for triggered events and call corresponding functions registered via callback methods
 }

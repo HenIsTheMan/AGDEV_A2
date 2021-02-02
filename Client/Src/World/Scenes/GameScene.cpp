@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "Vendor/stb_image.h"
 
-#include "../Shared/Easing.hpp"
+#include "../../Shared/Easing.hpp"
 
 #include <glm/gtx/color_space.hpp>
 #include <glm/gtx/norm.hpp>
@@ -454,7 +454,7 @@ void GameScene::CreateDecorations(){
 	}
 }
 
-bool GameScene::Init(){
+void GameScene::Init(){
 	entityManager->isCamDetached = isCamDetached;
 
 	glGetIntegerv(GL_POLYGON_MODE, polyModes);
@@ -494,11 +494,9 @@ bool GameScene::Init(){
 	dLightFromTop->ambient = glm::vec3(0.3f);
 	static_cast<DirectionalLight*>(dLightFromBottom)->dir = glm::vec3(0.0f, 1.0f, 0.0f);
 	dLightFromBottom->diffuse = glm::vec3(0.5f, 0.0f, 0.0f);
-
-	return true;
 }
 
-void GameScene::Update(GLFWwindow* const& win){
+void GameScene::Update(){
 	elapsedTime += dt;
 	if(winHeight){ //Avoid division by 0 when win is minimised
 		cam.SetDefaultAspectRatio(float(winWidth) / float(winHeight));
@@ -507,17 +505,15 @@ void GameScene::Update(GLFWwindow* const& win){
 
 	switch(screen){
 		case Screen::MainMenu:
-			MainMenuUpdate(win);
+			MainMenuUpdate();
 			break;
 		case Screen::Game:
-			GameUpdate(win);
+			GameUpdate();
 			break;
 	}
 }
 
-void GameScene::MainMenuUpdate(GLFWwindow* const& win){
-	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
+void GameScene::MainMenuUpdate(){
 	POINT mousePos;
 	if(GetCursorPos(&mousePos)){
 		HWND hwnd = ::GetActiveWindow();
@@ -567,8 +563,6 @@ void GameScene::MainMenuUpdate(GLFWwindow* const& win){
 			cam.SetTarget(glm::vec3(0.0f, 1500.0f, 0.0f));
 			cam.SetUp(glm::vec3(0.f, 1.f, 0.f));
 
-			glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 			const size_t& coinMusicSize = coinMusic.size();
 			for(size_t i = 0; i < coinMusicSize; ++i){
 				ISound* music = coinMusic[i];
@@ -611,7 +605,7 @@ void GameScene::MainMenuUpdate(GLFWwindow* const& win){
 	}
 }
 
-void GameScene::GameUpdate(GLFWwindow* const& win){
+void GameScene::GameUpdate(){
 	const glm::vec3& camPos = cam.GetPos();
 	const glm::vec3& camFront = cam.CalcFront();
 	soundEngine->setListenerPosition(vec3df(camPos.x, camPos.y, camPos.z), vec3df(camFront.x, camFront.y, camFront.z));
