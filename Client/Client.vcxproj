@@ -225,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
+    <ClInclude Include="Src\Central\SceneID.hpp" />
     <ClInclude Include="Src\Central\SceneManager.h" />
     <ClInclude Include="Src\Collision\Collider\Collider.h" />
     <ClInclude Include="Src\Collision\Collider\ColliderManager.h" />
