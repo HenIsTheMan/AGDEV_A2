@@ -68,13 +68,7 @@ void SceneSupport::EarlyInit(){
 }
 
 void SceneSupport::Init(){
-	static bool is1st = true;
-
-	if(is1st){
-		BGM = soundEngine->play2D("Audio/Music/Theme.mp3", true, true);
-
-		is1st = false;
-	}
+	BGM = soundEngine->play2D("Audio/Music/Theme.mp3", true, true);
 }
 
 void SceneSupport::FixedUpdate(){

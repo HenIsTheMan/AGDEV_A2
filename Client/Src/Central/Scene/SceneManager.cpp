@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 
+#include "Scenes/StartScene.h"
 #include "Scenes/MenuScene.h"
 #include "Scenes/GameScene.h"
 
@@ -74,8 +75,9 @@ SceneManager::SceneManager():
 	im_NextScene(nullptr),
 	im_Scenes()
 {
+	AddScene(SceneID::Start, new StartScene());
 	AddScene(SceneID::Menu, new MenuScene());
 	AddScene(SceneID::Game, new GameScene());
 
-	SetNextScene(SceneID::Menu);
+	SetNextScene(SceneID::Start);
 }
