@@ -39,6 +39,8 @@ public:
 	const Entity* CreateEnemyPart(const EntityCreationAttribs& attribs);
 
 	void CreateTree(const EntityCreationAttribs& attribs);
+
+	ISoundEngine* soundEngine;
 private:
 	ColliderManager* colliderManager;
 	NodeManager* nodeManager;

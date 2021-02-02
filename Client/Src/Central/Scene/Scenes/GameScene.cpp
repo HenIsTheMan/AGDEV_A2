@@ -866,30 +866,6 @@ void GameScene::CreateEntities(){
 			glm::vec4(1.0f),
 			-1,
 		});
-
-		ISound* myMusic = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, true, true, ESM_AUTO_DETECT, true);
-		if(myMusic){
-			myMusic->setMinDistance(2.f);
-			myMusic->setVolume(1);
-			//music.emplace_back(myMusic);
-		} else{
-			(void)puts("Failed to init music!\n");
-		}
-
-		myMusic->setIsPaused(false);
-
-		/*ISound* music = soundEngine->play3D("Audio/Music/Spin.mp3", vec3df(pos.x, pos.y, pos.z), true, false, true, ESM_AUTO_DETECT, true);
-		if(music){
-			music->setMinDistance(3.f);
-			music->setVolume(5);
-
-			ISoundEffectControl* soundFX = music->getSoundEffectControl();
-			if(!soundFX){
-				(void)puts("No soundFX support!\n");
-			}
-		} else{
-			(void)puts("Failed to init music!\n");
-		}*/
 	}
 	//*/
 }
