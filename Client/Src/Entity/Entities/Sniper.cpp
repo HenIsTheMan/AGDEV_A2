@@ -1,5 +1,7 @@
 #include "Sniper.h"
 
+#include "../../Lua/LuaManager.h"
+
 Sniper::Sniper(){
 	reloadTime = 3.f;
 	shotCooldownTime = 1.0f;
@@ -10,9 +12,13 @@ Sniper::Sniper(){
 }
 
 void Sniper::Shoot(const float& elapsedTime, const glm::vec3& camPos, const glm::vec3& camFront, ISoundEngine* const& soundEngine){
+	static LuaManager* luaManager = LuaManager::GetObjPtr();
 	static float bulletBT = 0.f;
+
 	if(canShoot && loadedBullets && bulletBT <= elapsedTime){
-		soundEngine->play2D("Audio/Sounds/Sniper.wav", false);
+		ISound* const sound = soundEngine->play2D("Audio/Sounds/Sniper.wav", false, true);
+		sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "sniperVol", true));
+		sound->setIsPaused(false);
 
 		entityFactory->CreateSniperBullet(camPos, camFront);
 

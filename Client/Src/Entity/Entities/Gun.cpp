@@ -1,5 +1,7 @@
 #include "Gun.h"
 
+#include "../../Lua/LuaManager.h"
+
 extern float dt;
 
 Gun::Gun():
@@ -95,10 +97,15 @@ void Gun::Update(){
 }
 
 void Gun::Reload(ISoundEngine* const& soundEngine){
+	static LuaManager* luaManager = LuaManager::GetObjPtr();
+
 	if(loadedBullets == maxLoadedBullets){
 		return;
 	} else if(!reloading){
-		soundEngine->play2D("Audio/Sounds/Reload.wav", false);
+		ISound* const sound = soundEngine->play2D("Audio/Sounds/Reload.wav", false, true);
+		sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "reloadVol", true));
+		sound->setIsPaused(false);
+
 		canShoot = false;
 		reloadBT = 0.f;
 		reloading = true;
