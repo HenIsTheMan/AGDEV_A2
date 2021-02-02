@@ -175,15 +175,7 @@ void GameScene::Init(){
 
 	entityManager->isCamDetached = isCamDetached;
 
-	const std::vector<cstr> faces{
-		"Imgs/Skybox/Right.png",
-		"Imgs/Skybox/Left.png",
-		"Imgs/Skybox/Top.png",
-		"Imgs/Skybox/Bottom.png",
-		"Imgs/Skybox/Front.png",
-		"Imgs/Skybox/Back.png"
-	};
-	SetUpCubemap(cubemapRefID, faces);
+	SetUpCubemap(cubemapRefID, luaManager->ReadFromArr<cstr>("Scripts/Skyboxes.lua", "skybox0", 1, 6, true));
 
 	Meshes::meshes[(int)MeshType::CoinSpriteAni]->AddTexMap({"Imgs/Coin.png", Mesh::TexType::Diffuse, 0});
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->AddAni("CoinSpriteAni", 0, 6);
@@ -1036,7 +1028,7 @@ void GameScene::TuneCoins(cstr const fPath){
 	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, dataCoinAudio3D);
 
 	if(dataCoinAudio3D->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
-		std::cout << "App Window tuned.\n\n";
+		std::cout << "Coins tuned.\n\n";
 
 		const std::vector<Entity*>& entities = entityPool->GetActiveObjs();
 		for(Entity* const entity: entities){
