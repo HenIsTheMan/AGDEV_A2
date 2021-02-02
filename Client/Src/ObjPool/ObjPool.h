@@ -10,6 +10,10 @@ public:
 
 	void Init(const size_t& inactiveSize, const size_t& activeSize);
 
+	const std::vector<T*>& GetActiveObjs() const{ //Hmmm
+		return activeObjs;
+	}
+
 	T* ActivateObj();
 	void DeactivateObj(const T* const obj);
 private:

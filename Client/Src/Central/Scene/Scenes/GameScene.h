@@ -63,12 +63,6 @@ private:
 	Gun* guns[3];
 	glm::vec4 reticleColour;
 
-	void InitEntities();
-
-	void CreateEntities();
-	void CreateTreesAndCubes();
-	void CreateDecorations();
-
 	EntityManager* entityManager;
 
 	NodeManager* nodeManager;
@@ -88,4 +82,15 @@ private:
 	const Entity* myPlayer;
 
 	LuaManager* luaManager;
+	LPWIN32_FIND_DATA dataCoinAudio3D;
+
+	ObjPool<Entity>* entityPool;
+
+	void InitEntities();
+
+	void CreateEntities();
+	void CreateTreesAndCubes();
+	void CreateDecorations();
+
+	void TuneCoins(cstr const fPath);
 };

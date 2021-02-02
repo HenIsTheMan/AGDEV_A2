@@ -7,9 +7,9 @@ class Singleton{
 	Singleton& operator=(const Singleton&) = delete;
 	Singleton& operator=(Singleton&&) noexcept = delete;
 public:
-	static T* const& GetObjPtr(){
+	static T* GetObjPtr(){
 		if(!objPtr){
-			objPtr = new T;
+			objPtr = new T();
 		}
 		return objPtr;
 	}

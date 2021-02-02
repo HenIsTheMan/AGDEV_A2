@@ -135,7 +135,7 @@ void EntityFactory::CreateCoin(const EntityCreationAttribs& attribs){
 	if(myMusic != nullptr){
 		myMusic->setMinDistance(15.0f);
 		myMusic->setVolume(LuaManager::GetObjPtr()->Read<float>("Scripts/Audio.lua", "coinVol", true));
-		myMusic->setIsPaused(false);
+		entity->audio3D = myMusic;
 	} else{
 		(void)puts("Failed to init music!\n");
 	}

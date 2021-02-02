@@ -15,6 +15,7 @@ class Entity final{
 	template <class T>
 	friend class ObjPool;
 
+	friend class GameScene;
 	friend class Collision;
 	friend class EntityFactory;
 	friend class EntityManager;

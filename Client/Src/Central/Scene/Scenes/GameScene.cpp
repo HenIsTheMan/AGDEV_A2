@@ -8,6 +8,8 @@
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/epsilon.hpp>
 
+#include <atlstr.h>
+
 #ifndef DEBUGGING
 	#define DEBUGGING
 #endif
@@ -58,7 +60,9 @@ GameScene::GameScene():
 	nodeManager(NodeManager::GetObjPtr()),
 	regionManager(RegionManager::GetObjPtr()),
 	myPlayer(nullptr),
-	luaManager(LuaManager::GetObjPtr())
+	luaManager(LuaManager::GetObjPtr()),
+	dataCoinAudio3D(new WIN32_FIND_DATA()),
+	entityPool(ObjPool<Entity>::GetObjPtr())
 {
 }
 
@@ -101,6 +105,16 @@ GameScene::~GameScene(){
 	if(luaManager != nullptr){
 		luaManager->Destroy();
 		luaManager = nullptr;
+	}
+
+	if(dataCoinAudio3D != nullptr){
+		delete dataCoinAudio3D;
+		dataCoinAudio3D = nullptr;
+	}
+
+	if(entityPool != nullptr){
+		entityPool->Destroy();
+		entityPool = nullptr;
 	}
 }
 
@@ -198,6 +212,8 @@ void GameScene::Update(){
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();
+
+	TuneCoins("Scripts/CoinAudio3D.lua");
 
 	static bool isPressedB = false;
 	if(!isPressedB && Key(GLFW_KEY_B)){
@@ -1012,5 +1028,36 @@ void GameScene::CreateDecorations(){
 			rock->AddColorForAll(color);
 			rock->AddDiffuseTexIndexForAll(-1);
 		modelStack.PopModel();
+	}
+}
+
+void GameScene::TuneCoins(cstr const fPath){
+	static FILETIME lastWriteTime = {};
+	const HANDLE handle = FindFirstFile((CStringW)(CString)fPath, dataCoinAudio3D);
+
+	if(dataCoinAudio3D->ftLastWriteTime.dwLowDateTime != lastWriteTime.dwLowDateTime){
+		std::cout << "App Window tuned.\n\n";
+
+		const std::vector<Entity*>& entities = entityPool->GetActiveObjs();
+		for(Entity* const entity: entities){
+			if(entity && entity->type == Entity::EntityType::Coin){
+				entity->audio3D->setIsPaused(luaManager->Read<bool>(fPath, "isPaused", true));
+
+				ISoundEffectControl* const soundFX = entity->audio3D->getSoundEffectControl();
+				soundFX->disableAllEffects();
+
+				if(luaManager->Read<bool>(fPath, "shldEnableDistortionSoundEffect", true)){
+					(void)soundFX->enableDistortionSoundEffect();
+				}
+				if(luaManager->Read<bool>(fPath, "shldEnableEchoSoundEffect", true)){
+					(void)soundFX->enableEchoSoundEffect();
+				}
+				if(luaManager->Read<bool>(fPath, "shldEnableWavesReverbSoundEffect", true)){
+					(void)soundFX->enableWavesReverbSoundEffect();
+				}
+			}
+		}
+
+		lastWriteTime.dwLowDateTime = dataCoinAudio3D->ftLastWriteTime.dwLowDateTime;
 	}
 }
