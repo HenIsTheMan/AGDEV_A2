@@ -31,6 +31,12 @@ public:
 	inline float CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr const hostFuncNameInLua, int (* const hostFunc)(lua_State* const L), const std::vector<float>& params, const bool printErrMsg);
 
 	template <class T>
+	void CallLuaFuncReturnVoid(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg);
+
+	template <>
+	inline void CallLuaFuncReturnVoid(cstr const fPath, cstr const funcName, const std::vector<int>& params, const bool printErrMsg);
+
+	template <class T>
 	T CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg);
 
 	template <>

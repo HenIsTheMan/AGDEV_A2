@@ -26,6 +26,28 @@ float LuaManager::CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr con
 }
 
 template <class T>
+void LuaManager::CallLuaFuncReturnVoid(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg){
+	assert(false);
+}
+
+template <>
+void LuaManager::CallLuaFuncReturnVoid(cstr const fPath, cstr const funcName, const std::vector<int>& params, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), true)){
+		lua_getglobal(im_ReadL, funcName);
+
+		if(lua_isfunction(im_ReadL, -1)){
+			for(const int param: params){
+				lua_pushinteger(im_ReadL, param);
+			}
+
+			if(LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size(), 1, 0), true)){
+				(void)puts("Ayo, err here yo");
+			}
+		}
+	}
+}
+
+template <class T>
 T LuaManager::CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg){
 	assert(false);
 	return T();
