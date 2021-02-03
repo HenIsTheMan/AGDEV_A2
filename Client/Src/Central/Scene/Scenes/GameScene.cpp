@@ -798,9 +798,14 @@ void GameScene::InitEntities(){
 	CreateTreesAndCubes();
 	CreateDecorations();
 
-	treeLOD.SetDistSquaredAndModel(DetailLvl::High, 4900.0f * 4900.0f,  models[(int)ModelType::Tree_High]);
-	treeLOD.SetDistSquaredAndModel(DetailLvl::Medium, 6900.0f * 6900.0f,  models[(int)ModelType::Tree_Medium]);
-	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, 8900.0f * 8900.0f, models[(int)ModelType::Tree_Low]);
+	const std::vector<float> vals = luaManager->ReadFromTable<float>("Scripts/LOD.lua", "distsSquaredTreeLOD", {
+		"high",
+		"medium",
+		"low",
+	}, true);
+	treeLOD.SetDistSquaredAndModel(DetailLvl::High, vals[0],  models[(int)ModelType::Tree_High]);
+	treeLOD.SetDistSquaredAndModel(DetailLvl::Medium, vals[1],  models[(int)ModelType::Tree_Medium]);
+	treeLOD.SetDistSquaredAndModel(DetailLvl::Low, vals[2], models[(int)ModelType::Tree_Low]);
 }
 
 void GameScene::CreateEntities(){

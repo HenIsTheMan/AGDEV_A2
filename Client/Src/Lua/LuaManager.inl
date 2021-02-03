@@ -223,6 +223,31 @@ std::vector<bool> LuaManager::ReadFromTable(cstr const fPath, cstr const tableNa
 	return std::vector<bool>();
 }
 
+template <>
+std::vector<float> LuaManager::ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, tableName);
+
+		if(lua_istable(im_ReadL, -1)){
+			std::vector<float> results;
+			const size_t keyNamesSize = keyNames.size();
+			results.reserve(keyNamesSize);
+
+			for(cstr const keyName: keyNames){
+				lua_pushstring(im_ReadL, keyName);
+				lua_gettable(im_ReadL, -2);
+
+				results.emplace_back((float)lua_tonumber(im_ReadL, -1));
+				lua_pop(im_ReadL, 1);
+			}
+
+			return results;
+		}
+	}
+
+	return std::vector<float>();
+}
+
 void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
 		lua_getglobal(im_ReadL, tableName);

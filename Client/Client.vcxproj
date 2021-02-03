@@ -288,6 +288,7 @@
     <None Include="Scripts\Experimental.lua" />
     <None Include="Scripts\FireSpriteAnimData.lua" />
     <None Include="Scripts\LenSquared.lua" />
+    <None Include="Scripts\LOD.lua" />
     <None Include="Scripts\Models.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Scripts\Skyboxes.lua" />
