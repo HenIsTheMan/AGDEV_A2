@@ -13,7 +13,7 @@ void StateEnemyIdle::Enter(Entity* const entity){
 
 void StateEnemyIdle::Update(Entity* const entity, const double dt){
 	entity->idleTime -= (float)dt;
-	if(entity->idleTime <= elapsedTime){
+	if(entity->idleTime <= 0.0f){
 		entity->nextState = entity->stateMachine->AcquireState(StateID::EnemyPatrol);
 		return;
 	}
