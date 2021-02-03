@@ -6,7 +6,7 @@
 
 struct StrType final: public ObjType{
 	StrType() = default;
-	virtual ~StrType() = default;
+	~StrType() = default;
 
 	std::string data;
 };

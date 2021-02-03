@@ -5,6 +5,7 @@
 #include "LuaHelpers.h"
 
 #include "../Experimental/BoolType.hpp"
+#include "../Experimental/DoubleType.hpp"
 #include "../Experimental/StrType.hpp"
 
 class LuaManager final: public Singleton<LuaManager>{
@@ -59,9 +60,6 @@ public:
 
 	template <class T>
 	T Write(cstr const fPath, cstr const varName, const T val, const bool printErrMsg);
-
-	template <class T>
-	T Write(cstr const fPath, cstr const varName, const T& val, const bool printErrMsg);
 private:
 	lua_State* im_ReadL;
 	lua_State* im_WriteL;

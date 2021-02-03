@@ -154,17 +154,25 @@ void GameScene::Enter(){
 	currGun = guns[0];
 
 	std::vector<ObjType*> testVec;
+	StrType strType;
+	BoolType boolType;
+	DoubleType myIntData;
+	DoubleType myFloatData;
+	DoubleType myDoubleData;
 
-	testVec.emplace_back(new StrType());
-	testVec.emplace_back(new BoolType());
+	testVec.emplace_back(&strType);
+	testVec.emplace_back(&boolType);
+	testVec.emplace_back(&myIntData);
+	testVec.emplace_back(&myFloatData);
+	testVec.emplace_back(&myDoubleData);
 	
-	luaManager->ReadCustomFromTable("Scripts/Experimental.lua", testVec, "test", {"myStr", "myBool"}, true);
+	luaManager->ReadCustomFromTable("Scripts/Experimental.lua", testVec, "test", {"myStr", "myBool", "myInt", "myFloat", "myDouble"}, true);
 
 	std::cout << static_cast<StrType*>(testVec[0])->data << '\n';
 	std::cout << static_cast<BoolType*>(testVec[1])->data << '\n';
-
-	delete testVec[0];
-	delete testVec[1];
+	std::cout << static_cast<DoubleType*>(testVec[2])->data << '\n';
+	std::cout << static_cast<DoubleType*>(testVec[3])->data << '\n';
+	std::cout << static_cast<DoubleType*>(testVec[4])->data << '\n';
 }
 
 void GameScene::Exit(){

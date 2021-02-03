@@ -247,6 +247,7 @@
     <ClInclude Include="Src\Entity\EntityManager.h" />
     <ClInclude Include="Src\Entity\EntityUpdate.hpp" />
     <ClInclude Include="Src\Experimental\BoolType.hpp" />
+    <ClInclude Include="Src\Experimental\DoubleType.hpp" />
     <ClInclude Include="Src\Experimental\ObjType.hpp" />
     <ClInclude Include="Src\Experimental\StrType.hpp" />
     <ClInclude Include="Src\FrustumCulling\FrustumCulling.h" />

@@ -4,7 +4,7 @@
 
 struct BoolType final: public ObjType{
 	BoolType() = default;
-	virtual ~BoolType() = default;
+	~BoolType() = default;
 
 	bool data;
 };

@@ -191,12 +191,13 @@ void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType
 					case LUA_TBOOLEAN:
 						static_cast<BoolType*>(data[i])->data = lua_toboolean(im_ReadL, -1);
 						break;
-					//case LUA_TNUMBER:
-					//	printf("%d: %g\n", i, lua_tonumber(pStackDumpThisState, i));
-					//	break;
-					//default: 
-					//	printf("%d: %s\n", i, lua_typename(pStackDumpThisState, t));
-					//	break;
+					case LUA_TNUMBER:
+						static_cast<DoubleType*>(data[i])->data = lua_tonumber(im_ReadL, -1);
+						break;
+					default: 
+						(void)printf("%s\n", lua_typename(im_ReadL, -1));
+						assert(false);
+						break;
 				}
 
 				lua_pop(im_ReadL, 1);
