@@ -9,5 +9,3 @@ public:
 	static void Update(Entity* const entity, const double dt);
 	static void Exit(Entity* const entity);
 };
-
-#include "StateEnemyHeal.inl"

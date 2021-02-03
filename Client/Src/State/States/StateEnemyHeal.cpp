@@ -1,3 +1,5 @@
+#include "StateEnemyHeal.h"
+
 void StateEnemyHeal::Enter(Entity* const entity){
 }
 

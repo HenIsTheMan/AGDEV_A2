@@ -1,3 +1,5 @@
+#include "StateEnemyChase.h"
+
 void StateEnemyChase::Enter(Entity* const entity){
 }
 

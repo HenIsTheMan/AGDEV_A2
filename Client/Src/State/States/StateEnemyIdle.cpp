@@ -1,5 +1,7 @@
 #include "StateEnemyIdle.h"
 
+#include "../../Collision/Collider/Colliders/BoxCollider.h"
+
 float StateEnemyIdle::elapsedTime = 0.0f;
 
 void StateEnemyIdle::Enter(Entity* const entity){
@@ -7,7 +9,9 @@ void StateEnemyIdle::Enter(Entity* const entity){
 }
 
 void StateEnemyIdle::Update(Entity* const entity, const double dt){
-	entity->scale.x = entity->scale.y = 200.0f + sinf(elapsedTime * 4.0f) * 100.0f;
+	BoxCollider* const boxCollider = static_cast<BoxCollider*>(entity->collider);
+	boxCollider->SetScale({200.0f + sinf(elapsedTime * 4.0f) * 20.0f, 200.0f + sinf(elapsedTime * 4.0f) * 20.0f, boxCollider->GetScale().z});
+	entity->scale.x = entity->scale.y = 0.0f;
 }
 
 void StateEnemyIdle::Exit(Entity* const entity){

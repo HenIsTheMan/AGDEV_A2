@@ -33,6 +33,10 @@
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\StartScene.cpp" />
     <ClCompile Include="Src\State\States\StateEnemyIdle.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyChase.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyPatrol.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyHeal.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyEscape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -85,11 +89,11 @@
     <ClInclude Include="Src\Experimental\BoolType.hpp" />
     <ClInclude Include="Src\Experimental\DoubleType.hpp" />
     <ClInclude Include="Src\State\StateShared.hpp" />
-    <ClInclude Include="Src\State\States\StateEnemyPatrol.h" />
-    <ClInclude Include="Src\State\States\StateEnemyChase.h" />
-    <ClInclude Include="Src\State\States\StateEnemyEscape.h" />
-    <ClInclude Include="Src\State\States\StateEnemyHeal.h" />
     <ClInclude Include="Src\State\States\StateEnemyIdle.h" />
+    <ClInclude Include="Src\State\States\StateEnemyPatrol.h" />
+    <ClInclude Include="Src\State\States\StateEnemyHeal.h" />
+    <ClInclude Include="Src\State\States\StateEnemyEscape.h" />
+    <ClInclude Include="Src\State\States\StateEnemyChase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -131,10 +135,5 @@
     <None Include="Scripts\ValSquared.lua" />
     <None Include="Scripts\LOD.lua" />
     <None Include="Scripts\TextChangingScale.lua" />
-    <None Include="Src\State\States\StateEnemyPatrol.inl" />
-    <None Include="Src\State\States\StateEnemyChase.inl" />
-    <None Include="Src\State\States\StateEnemyEscape.inl" />
-    <None Include="Src\State\States\StateEnemyHeal.inl" />
-    <None Include="Src\State\States\StateEnemyIdle.cpp" />
   </ItemGroup>
 </Project>

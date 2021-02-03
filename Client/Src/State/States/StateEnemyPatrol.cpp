@@ -1,3 +1,5 @@
+#include "StateEnemyPatrol.h"
+
 void StateEnemyPatrol::Enter(Entity* const entity){
 }
 
