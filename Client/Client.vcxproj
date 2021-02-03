@@ -225,6 +225,7 @@
     <ClCompile Include="Src\Central\Cam.cpp" />
     <ClCompile Include="Src\Central\ModelStack.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\GameScene.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyIdle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
@@ -325,7 +326,6 @@
     <None Include="Src\State\StateMachine.inl" />
     <None Include="Src\State\States\StateEnemyEscape.inl" />
     <None Include="Src\State\States\StateEnemyHeal.inl" />
-    <None Include="Src\State\States\StateEnemyIdle.inl" />
     <None Include="Src\State\States\StateEnemyPatrol.inl" />
     <None Include="Src\State\States\StateEnemyChase.inl" />
   </ItemGroup>

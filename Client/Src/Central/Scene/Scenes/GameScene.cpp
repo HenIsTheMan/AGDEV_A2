@@ -12,6 +12,8 @@
 #include "../../../Experimental/BoolType.hpp"
 #include "../../../Experimental/StrType.hpp"
 
+#include "../../../State/States/StateEnemyIdle.h"
+
 #ifndef DEBUGGING
 	#define DEBUGGING
 #endif
@@ -237,6 +239,8 @@ void GameScene::FixedUpdate(){
 
 void GameScene::Update(){
 	SceneSupport::Update();
+
+	StateEnemyIdle::elapsedTime = elapsedTime;
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();
@@ -824,22 +828,8 @@ void GameScene::CreateEntities(){
 	assert(myPlayer != nullptr && "Var 'myPlayer' is nullptr");
 	//*/
 
-	//* Create thin obj
-	const float xyScaleThinObj = 200.0f;
-	entityFactory->CreateThinObj({
-		glm::vec3(
-			0.0f,
-			terrainYScale * myTerrain->GetHeightAtPt(0.0f, 0.25f, false) + xyScaleThinObj,
-			terrainZScale * 0.25f
-		),
-		glm::vec3(xyScaleThinObj, xyScaleThinObj, 0.001f),
-		glm::vec4(1.0f, 1.0f, 1.0f, 0.5f),
-		-1,
-	});
-	//*/
-
 	//* Create enemy
-	const float xyScaleEnemyBody = 400.0f;
+	const float xyScaleEnemyBody = 200.0f;
 	const Entity* const enemyBody = entityFactory->CreateEnemyBody({
 		glm::vec3(
 			0.0f,

@@ -32,6 +32,7 @@
     <ClCompile Include="Src\Central\Scene\SceneSupport.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\StartScene.cpp" />
+    <ClCompile Include="Src\State\States\StateEnemyIdle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -134,6 +135,6 @@
     <None Include="Src\State\States\StateEnemyChase.inl" />
     <None Include="Src\State\States\StateEnemyEscape.inl" />
     <None Include="Src\State\States\StateEnemyHeal.inl" />
-    <None Include="Src\State\States\StateEnemyIdle.inl" />
+    <None Include="Src\State\States\StateEnemyIdle.cpp" />
   </ItemGroup>
 </Project>
