@@ -44,8 +44,6 @@ void StartScene::EarlyInit(){
 
 void StartScene::Init(){
 	SceneSupport::Init();
-
-	luaManager->WriteOverwrite<float>("Scripts/Experimental.lua", "test", "myFloat", 6.9f, true);
 }
 
 void StartScene::FixedUpdate(){

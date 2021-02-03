@@ -57,61 +57,69 @@ void MenuScene::Update(){
 	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
 	static float buttonBT = 0.f;
 
-	if(windowMouseX >= (float)windowWidth * 0.47f
+	const bool results[] = {
+		windowMouseX >= (float)windowWidth * 0.47f
+		&& windowMouseX <= (float)windowWidth * 0.53f
+		&& windowMouseY >= (float)windowHeight * 0.56f
+		&& windowMouseY <= (float)windowHeight * 0.6f,
+		windowMouseX >= (float)windowWidth * 0.47f
+		&& windowMouseX <= (float)windowWidth * 0.53f
+		&& windowMouseY >= (float)windowHeight * 0.63f
+		&& windowMouseY <= (float)windowHeight * 0.67f,
+		windowMouseX >= (float)windowWidth * 0.47f
+		&& windowMouseX <= (float)windowWidth * 0.53f
+		&& windowMouseY >= (float)windowHeight * 0.7f
+		&& windowMouseY <= (float)windowHeight * 0.74f,
+		windowMouseX >= (float)windowWidth * 0.47f
+		&& windowMouseX <= (float)windowWidth * 0.53f
+		&& windowMouseY >= (float)windowHeight * 0.77f
+		&& windowMouseY <= (float)windowHeight * 0.81f,
+		windowMouseX >= (float)windowWidth * 0.47f
 		&& windowMouseX <= (float)windowWidth * 0.53f
 		&& windowMouseY >= (float)windowHeight * 0.84f
-		&& windowMouseY <= (float)windowHeight * 0.88f
-	){
-		if(textScaleFactors[0] != 1.1f){
-			ISound* const sound = soundEngine->play2D("Audio/Sounds/Pop.flac", false, true);
-			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "popVol", true));
-			sound->setIsPaused(false);
-
-			textScaleFactors[0] = 1.1f;
-			textColours[0] = glm::vec4(1.f, 1.f, 0.f, 1.f);
-		}
-
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
-			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
-			sound->setIsPaused(false);
-
-			SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
-
-			buttonBT = elapsedTime + .3f;
-			return;
-		}
-	} else{
-		textScaleFactors[0] = 1.f;
-		textColours[0] = glm::vec4(1.f);
-	}
-
-	if(windowMouseX >= (float)windowWidth * 0.47f
+		&& windowMouseY <= (float)windowHeight * 0.88f,
+		windowMouseX >= (float)windowWidth * 0.47f
 		&& windowMouseX <= (float)windowWidth * 0.53f
 		&& windowMouseY >= (float)windowHeight * 0.91f
-		&& windowMouseY <= (float)windowHeight * 0.95f
-	){
-		if(textScaleFactors[1] != 1.1f){
-			ISound* const sound = soundEngine->play2D("Audio/Sounds/Pop.flac", false, true);
-			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "popVol", true));
-			sound->setIsPaused(false);
+		&& windowMouseY <= (float)windowHeight * 0.95f,
+	};
 
-			textScaleFactors[1] = 1.1f;
-			textColours[1] = glm::vec4(1.f, 1.f, 0.f, 1.f);
+	for(int i = 0; i < (int)MenuButtons::Amt; ++i){
+		if(results[i]){
+			if(textScaleFactors[i] != 1.1f){
+				ISound* const sound = soundEngine->play2D("Audio/Sounds/Pop.flac", false, true);
+				sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "popVol", true));
+				sound->setIsPaused(false);
+
+				textScaleFactors[i] = 1.1f;
+				textColours[i] = glm::vec4(1.f, 1.f, 0.f, 1.f);
+			}
+
+			if(leftRightMB > 0.f && buttonBT <= elapsedTime){
+				ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
+				sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
+				sound->setIsPaused(false);
+
+				switch((MenuButtons)i){
+					case MenuButtons::Play:
+						SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
+						break;
+					case MenuButtons::Shop:
+					case MenuButtons::Scores:
+					case MenuButtons::Settings:
+					case MenuButtons::Credits:
+					case MenuButtons::Quit:
+						endLoop = true;
+						break;
+				}
+
+				buttonBT = elapsedTime + .3f;
+				return;
+			}
+		} else{
+			textScaleFactors[i] = 1.f;
+			textColours[i] = glm::vec4(1.f);
 		}
-
-		if(leftRightMB > 0.f && buttonBT <= elapsedTime){
-			ISound* const sound = soundEngine->play2D("Audio/Sounds/Select.wav", false, true);
-			sound->setVolume(luaManager->Read<float>("Scripts/Audio.lua", "selectVol", true));
-			sound->setIsPaused(false);
-
-			endLoop = true;
-
-			buttonBT = elapsedTime + .3f;
-		}
-	} else{
-		textScaleFactors[1] = 1.f;
-		textColours[1] = glm::vec4(1.f);
 	}
 
 	textOffsetX = sinf(elapsedTime * 4.0f) * 4.0f;
@@ -156,17 +164,11 @@ void MenuScene::Render(){
 
 	glDepthFunc(GL_GREATER);
 
-	const std::string texts[]{
-		"Play",
-		"Quit",
-	};
-	static size_t size = sizeof(texts) / sizeof(texts[0]);
-
-	for(size_t i = 0; i < size; ++i){
+	for(size_t i = 0; i < (int)MenuButtons::Amt; ++i){
 		textChief.RenderText(textSP, {
-			texts[i],
+			menuButtonTexts[i],
 			(float)windowWidth * 0.5f,
-			(float)windowHeight * textScaleFactors[0] * 0.07f * float(size - 1 - (float)i) + (float)windowHeight * 0.05f,
+			(float)windowHeight * 0.07f * float((int)MenuButtons::Amt - 1 - (float)i) + (float)windowHeight * 0.05f,
 			textScaleFactors[i],
 			textColours[i],
 			0,

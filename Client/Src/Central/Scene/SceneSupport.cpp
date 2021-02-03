@@ -19,16 +19,6 @@ ModelStack SceneSupport::modelStack;
 
 int SceneSupport::polyModes[2];
 
-float SceneSupport::textScaleFactors[]{
-	1.f,
-	1.f,
-};
-
-glm::vec4 SceneSupport::textColours[]{
-	glm::vec4(1.f),
-	glm::vec4(1.f),
-};
-
 SceneSupport::~SceneSupport(){
 	if(soundEngine != nullptr){
 		soundEngine->drop();

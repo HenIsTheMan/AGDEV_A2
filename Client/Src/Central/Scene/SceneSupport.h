@@ -55,9 +55,6 @@ protected:
 
 	static int polyModes[2];
 
-	static float textScaleFactors[2];
-	static glm::vec4 textColours[2];
-
 	LuaManager* luaManager;
 	LPWIN32_FIND_DATA dataAudio;
 	ISound* BGM;

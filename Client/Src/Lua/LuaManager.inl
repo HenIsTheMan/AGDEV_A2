@@ -40,7 +40,7 @@ void LuaManager::CallLuaFuncReturnVoid(cstr const fPath, cstr const funcName, co
 				lua_pushinteger(im_ReadL, param);
 			}
 
-			if(LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size(), 1, 0), true)){
+			if(LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size(), 0, 0), true)){
 				(void)puts("Ayo, err here yo");
 			}
 		}
