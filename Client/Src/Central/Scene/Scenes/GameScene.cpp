@@ -196,14 +196,31 @@ void GameScene::Init(){
 	Meshes::meshes[(int)MeshType::CoinSpriteAni]->AddTexMap({static_cast<StrType*>(&fPathCoin)->data, Mesh::TexType::Diffuse, 0});
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->AddAni(
 		"CoinSpriteAni",
-		(float)static_cast<DoubleType*>(&myStartCoin)->data,
-		(float)static_cast<DoubleType*>(&myEndCoin)->data
+		(int)static_cast<DoubleType*>(&myStartCoin)->data,
+		(int)static_cast<DoubleType*>(&myEndCoin)->data
 	);
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Play("CoinSpriteAni", -1, (float)static_cast<DoubleType*>(&timeCoin)->data);
 
-	Meshes::meshes[(int)MeshType::FireSpriteAni]->AddTexMap({"Imgs/Fire.png", Mesh::TexType::Diffuse, 0});
-	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->AddAni("FireSpriteAni", 0, 32);
-	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Play("FireSpriteAni", -1, .5f);
+	StrType fPathFire;
+	DoubleType myStartFire;
+	DoubleType myEndFire;
+	DoubleType timeFire;
+
+	luaManager->ReadCustomFromTable(
+		"Scripts/FireSpriteAnimData.lua",
+		{&fPathFire, &myStartFire, &myEndFire, &timeFire},
+		"fireSpriteAnimData",
+		{"fPath", "myStart", "myEnd", "time"},
+		true
+	);
+
+	Meshes::meshes[(int)MeshType::FireSpriteAni]->AddTexMap({static_cast<StrType*>(&fPathFire)->data, Mesh::TexType::Diffuse, 0});
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->AddAni(
+		"FireSpriteAni",
+		(int)static_cast<DoubleType*>(&myStartFire)->data,
+		(int)static_cast<DoubleType*>(&myEndFire)->data
+	);
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Play("FireSpriteAni", -1, (float)static_cast<DoubleType*>(&timeFire)->data);
 
 	Meshes::meshes[(int)MeshType::Terrain]->AddTexMap({"Imgs/Floor.jpg", Mesh::TexType::Diffuse, 0});
 

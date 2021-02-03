@@ -120,5 +120,6 @@
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Scripts\Experimental.lua" />
     <None Include="Scripts\CoinSpriteAnimData.lua" />
+    <None Include="Scripts\FireSpriteAnimData.lua" />
   </ItemGroup>
 </Project>
