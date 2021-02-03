@@ -1,6 +1,5 @@
 #pragma once
 #include <Core.h>
-#include <Engine.h>
 
 #include "../Collision/Collider/Collider.h"
 
@@ -8,26 +7,12 @@
 
 enum struct StateID: int;
 
-class Entity final{
+template <class T, typename Type>
+class StateMachine;
+
+struct Entity final{
 	template <class T>
-	friend class ObjPool;
-
-	template <class T, typename Type>
-	friend class StateMachine;
-
-	friend class GameScene;
-	friend class Collision;
-	friend class EntityFactory;
-	friend class EntityManager;
-	friend class Node;
-	friend class Region;
-	friend class RegionManager;
-	friend class Shotgun;
-	friend class Scar;
-	friend class Sniper;
-	friend class Gun;
-	friend void UpdatePlayerHoriz(Entity* const player, const bool isCamDetached);
-	friend void UpdatePlayerVert(Entity* const player);
+	class ObjPool;
 public:
 	void Reset();
 
@@ -40,7 +25,7 @@ public:
 	void SetFacingDir(const glm::vec3& facingDir);
 	void SetPos(const glm::vec3& pos);
 	void SetScale(const glm::vec3& scale);
-private:
+
 	enum struct EntityType: int{
 		Bullet,
 		Coin,

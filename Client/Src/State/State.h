@@ -2,7 +2,7 @@
 
 #include "StateID.hpp"
 
-class Entity;
+struct Entity;
 
 class State final{ //Shld be templated
 public:
