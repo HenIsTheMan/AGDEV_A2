@@ -7,6 +7,7 @@
 #include "../Collision/Collision.h"
 
 extern float dt;
+extern float terrainYScale;
 
 EntityManager::~EntityManager(){
 	if(entityFactory != nullptr){
@@ -256,6 +257,19 @@ void EntityManager::Render(ShaderProg& SP, const Cam& cam){
 	///Render opaque entities 1st
 	for(std::multimap<int, Entity*>::reverse_iterator iter = entitiesOpaque.rbegin(); iter != entitiesOpaque.rend(); ++iter){
 		Entity* const& entity = iter->second;
+
+		SP.Set4fv("customColour", glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+		SP.Set1i("customDiffuseTexIndex", -1);
+
+		if(entity->type == Entity::EntityType::EnemyBody && entity->currWaypt != nullptr){
+			modelStack.PushModel({
+				modelStack.Translate(glm::vec3(entity->currWaypt->pos) + glm::vec3(0.0f, terrainYScale * 0.2f, 0.0f)),
+				modelStack.Scale(glm::vec3(70.0f)),
+			});
+				Meshes::meshes[(int)MeshType::Sphere]->SetModel(modelStack.GetTopModel());
+				Meshes::meshes[(int)MeshType::Sphere]->Render(SP);
+			modelStack.PopModel();
+		}
 
 		SP.Set4fv("customColour", entity->colour);
 		SP.Set1i("customDiffuseTexIndex", entity->diffuseTexIndex);

@@ -899,27 +899,27 @@ void GameScene::CreateEntities(){
 		enemyPartNode->SetLocalDilation(glm::vec3(0.5f));
 		switch(i){
 			case 0:
-				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(400.0f, 0.0f, 0.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
 				break;
 			case 1:
-				enemyPartNode->SetLocalTranslation(glm::vec3(800.0f, 0.0f, 0.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(400.0f, 0.0f, 0.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
 				break;
 			case 2:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 400.0f, 0.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
 				break;
 			case 3:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 800.0f, 0.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 400.0f, 0.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 0.0f, 10.0f)));
 				break;
 			case 4:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 400.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(10.0f, 0.0f, 0.0f)));
 				break;
 			case 5:
-				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 800.0f));
+				enemyPartNode->SetLocalTranslation(glm::vec3(0.0f, 0.0f, 400.0f));
 				enemyPartNode->SetLocalRotationUpdate(glm::quat(glm::vec3(0.0f, 10.0f, 0.0f)));
 				break;
 		}
