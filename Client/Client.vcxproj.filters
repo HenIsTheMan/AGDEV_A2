@@ -121,5 +121,7 @@
     <None Include="Scripts\Experimental.lua" />
     <None Include="Scripts\CoinSpriteAnimData.lua" />
     <None Include="Scripts\FireSpriteAnimData.lua" />
+    <None Include="Scripts\LenSquared.lua" />
+    <None Include="Scripts\DistSquared.lua" />
   </ItemGroup>
 </Project>

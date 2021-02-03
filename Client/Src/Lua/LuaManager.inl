@@ -1,4 +1,29 @@
 template <class T>
+T LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool shldPrintResult, const bool printErrMsg){
+	assert(false);
+}
+
+template <>
+float LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool shldPrintResult, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), true)){
+		lua_getglobal(im_ReadL, funcName);
+
+		if(lua_isfunction(im_ReadL, -1)){
+			for(const float param: params){
+				lua_pushnumber(im_ReadL, param);
+			}
+			lua_pushboolean(im_ReadL, shldPrintResult);
+
+			if(!LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size() + 1, 1, 0), true)){
+				return (float)lua_tonumber(im_ReadL, -1);
+			}
+		}
+	}
+
+	return 0.0f;
+}
+
+template <class T>
 T LuaManager::Read(cstr const fPath, cstr const varName, const bool printErrMsg){
 	assert(false);
 	return T();

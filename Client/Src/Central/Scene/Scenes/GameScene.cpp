@@ -455,7 +455,7 @@ void GameScene::Render(){
 	const glm::vec3 playerPos = myPlayer->GetPos();
 
 	Model* const treeModel = treeLOD.GetModel(
-		glm::distance2(glm::vec3(playerPos.x, 0.0f, playerPos.z), glm::vec3(0.0f, 0.0f, -terrainZScale * 0.25f))
+		luaManager->CallFunc<float>("Scripts/DistSquared.lua", "DistSquared", {playerPos.x, 0.0f, playerPos.z, 0.0f, 0.0f, -terrainZScale * 0.25f}, false, true)
 		- glm::length2((angularFOV - 45.0f) * 200.0f));
 	if(treeModel != nullptr){
 		treeModel->InstancedRender(forwardSP);
