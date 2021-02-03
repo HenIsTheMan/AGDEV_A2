@@ -9,8 +9,7 @@
 
 enum struct StateID: int;
 
-template <class T, typename Type>
-class StateMachine;
+#include "../State/StateMachine.h"
 
 struct Entity final{
 	template <class T>
@@ -75,4 +74,9 @@ public:
 	ISound* audio3D;
 
 	Node* node;
+
+	//* Vars for specific entities (help la, I wanna do ECS alr)
+	float idleTime;
+
+	//*/
 };

@@ -230,6 +230,8 @@
     <ClCompile Include="Src\State\States\StateEnemyHeal.cpp" />
     <ClCompile Include="Src\State\States\StateEnemyIdle.cpp" />
     <ClCompile Include="Src\State\States\StateEnemyPatrol.cpp" />
+    <ClCompile Include="Src\Waypt\Waypt.cpp" />
+    <ClCompile Include="Src\Waypt\WayptManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Central\App.h" />
@@ -287,6 +289,8 @@
     <ClInclude Include="Src\State\States\StateEnemyHeal.h" />
     <ClInclude Include="Src\State\States\StateEnemyIdle.h" />
     <ClInclude Include="Src\State\States\StateEnemyPatrol.h" />
+    <ClInclude Include="Src\Waypt\Waypt.h" />
+    <ClInclude Include="Src\Waypt\WayptManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

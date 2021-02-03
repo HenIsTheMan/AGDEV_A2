@@ -37,6 +37,8 @@
     <ClCompile Include="Src\State\States\StateEnemyPatrol.cpp" />
     <ClCompile Include="Src\State\States\StateEnemyHeal.cpp" />
     <ClCompile Include="Src\State\States\StateEnemyEscape.cpp" />
+    <ClCompile Include="Src\Waypt\Waypt.cpp" />
+    <ClCompile Include="Src\Waypt\WayptManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -94,6 +96,8 @@
     <ClInclude Include="Src\State\States\StateEnemyHeal.h" />
     <ClInclude Include="Src\State\States\StateEnemyEscape.h" />
     <ClInclude Include="Src\State\States\StateEnemyChase.h" />
+    <ClInclude Include="Src\Waypt\Waypt.h" />
+    <ClInclude Include="Src\Waypt\WayptManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

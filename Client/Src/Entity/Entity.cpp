@@ -34,6 +34,8 @@ void Entity::Reset(){
 	audio3D = nullptr;
 
 	node = nullptr;
+
+	idleTime = 0.0f;
 }
 
 const glm::vec3& Entity::GetPos() const{
@@ -93,6 +95,7 @@ Entity::Entity():
 
 	audio3D(nullptr),
 
-	node(nullptr)
+	node(nullptr),
+	idleTime(0.0f)
 {
 }
