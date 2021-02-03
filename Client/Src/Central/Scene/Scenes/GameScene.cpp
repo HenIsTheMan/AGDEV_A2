@@ -177,8 +177,11 @@ void GameScene::EarlyInit(){
 		});
 	}
 
+	wayptManager->InitWayptPool(99, 99);
+	wayptManager->ReserveWaypts(99);
 	const std::vector<glm::vec3> wayptPos = luaManager->ReadFromJaggedArr<glm::vec3>("Scripts/Waypts.lua", "wayptPos", 1, 2, 1, 3, true);
 	const int wayptPosSize = (int)wayptPos.size();
+
 	for(int i = 0; i < wayptPosSize; ++i){
 		wayptManager->AddWaypt(wayptPos[i]);
 	}
@@ -432,8 +435,8 @@ void GameScene::Render(){
 	projection = glm::perspective(glm::radians(angularFOV), cam.GetAspectRatio(), .1f, 99999.0f);
 	forwardSP.SetMat4fv("PV", &(projection * glm::mat4(glm::mat3(view)))[0][0]);
 
+	//* Render skybox
 	Mesh* const cubeMesh = Meshes::meshes[(int)MeshType::Cube];
-
 	glDepthFunc(GL_LEQUAL); //Modify comparison operators used for depth test such that frags with depth <= 1.f are shown
 	glCullFace(GL_FRONT);
 		forwardSP.Set1i("sky", 1);
@@ -445,16 +448,33 @@ void GameScene::Render(){
 		forwardSP.Set1i("sky", 0);
 	glCullFace(GL_BACK);
 	glDepthFunc(GL_LESS);
+	//*/
 
 	forwardSP.SetMat4fv("PV", &(projection * view)[0][0]);
 
-	///Terrain
+	//* Render terrain
 	modelStack.PushModel({
 		modelStack.Scale(glm::vec3(terrainXScale, terrainYScale, terrainZScale)),
 	});
 		Meshes::meshes[(int)MeshType::Terrain]->SetModel(modelStack.GetTopModel());
 		Meshes::meshes[(int)MeshType::Terrain]->Render(forwardSP);
 	modelStack.PopModel();
+	//*/
+
+	//* Render waypts
+	const std::vector<Waypt*>& waypts = wayptManager->GetWaypts();
+	const int wayPtsSize = (int)waypts.size();
+
+	for(int i = 0; i < wayPtsSize; ++i){
+		modelStack.PushModel({
+			modelStack.Translate(glm::vec3(waypts[i]->pos)),
+			modelStack.Scale(glm::vec3(100.0f)),
+		});
+			Meshes::meshes[(int)MeshType::Sphere]->SetModel(modelStack.GetTopModel());
+			Meshes::meshes[(int)MeshType::Sphere]->Render(forwardSP);
+		modelStack.PopModel();
+	}
+	//*/
 
 	static float yStart = 400.0f;
 	static float yEnd = -400.0f;
