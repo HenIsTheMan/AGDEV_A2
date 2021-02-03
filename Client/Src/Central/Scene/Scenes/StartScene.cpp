@@ -19,8 +19,6 @@ StartScene::StartScene():
 	SceneSupport(),
 	customHue(0.0f),
 	textScale(1.0f),
-	textStartScale(1.5f),
-	textEndScale(0.9f),
 	textOffsetX(0.0f),
 	textOffsetY(0.0f)
 {
@@ -54,8 +52,10 @@ void StartScene::FixedUpdate(){
 
 static int CalcTextChangingScale(lua_State* const L){
 	const float lerpFactor = EaseInQuint((float)lua_tonumber(L, 1));
+	const float textStartScale = (float)lua_tonumber(L, 2);
+	const float textEndScale = (float)lua_tonumber(L, 3);
 
-	lua_pushnumber(L, (1.0f - lerpFactor) * 1.5f + lerpFactor * 0.9f);
+	lua_pushnumber(L, (1.0f - lerpFactor) * textStartScale + lerpFactor * textEndScale);
 
 	return 1;
 }

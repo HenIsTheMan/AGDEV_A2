@@ -29,6 +29,4 @@ private:
 	float textOffsetY;
 
 	float textScale;
-	float textStartScale;
-	float textEndScale;
 };
