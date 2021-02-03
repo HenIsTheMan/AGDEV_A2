@@ -42,6 +42,9 @@ public:
 	template <>
 	inline float CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg);
 
+	template <>
+	inline int CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<int>& params, const bool printErrMsg);
+
 	template <class T>
 	T Read(cstr const fPath, cstr const varName, const bool printErrMsg);
 

@@ -2,30 +2,15 @@ require('Scripts.Terrain')
 
 wayptPos = {}
 
----[[
-function GenWayptPos(qty)
-	print(qty)
+local rows = 9
+local cols = 18
 
-	temp = {terrainXScale * 0.1 * (i - qty / 2), terrainYScale, terrainZScale * 0.1 * (i - qty / 2)}
-
-	for i = 1, qty do
-		table.insert(wayptPos, temp)
+for r = 0, rows do
+	for c = 0, cols do
+		table.insert(wayptPos, r * cols + c + 1, {-terrainXScale * 0.45 + terrainXScale * 0.05 * c, terrainYScale, terrainZScale * 0.05 * r})
 	end
 end
---]]
 
---[[
-local function IGenWayptPos(qty)
-	temp = {}
-
-	for i = 1, qty do
-		table.insert(temp, i, {terrainXScale * 0.1 * (i - qty / 2), terrainYScale, terrainZScale * 0.1 * (i - qty / 2)})
-	end
-
-	return temp
+function AmtOfWaypts()
+	return #wayptPos
 end
-
-function GenWayptPos(qty)
-	wayptPos.init = IGenWayptPos(qty)
-end
---]]
