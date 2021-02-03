@@ -13,6 +13,10 @@
 
 #include "../ObjPool/ObjPool.h"
 
+#include "../State/StateMachine.h"
+
+using SM = StateMachine<StateID, Entity>;
+
 struct EntityCreationAttribs final{
 	glm::vec3 pos;
 	glm::vec3 scale;
@@ -47,6 +51,8 @@ private:
 	RegionManager* regionManager;
 
 	ObjPool<Entity>* entityPool;
+
+	SM* enemySM;
 
 	EntityFactory();
 

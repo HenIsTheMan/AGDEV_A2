@@ -81,7 +81,7 @@ Entity::Entity():
 
 	stateMachine(nullptr),
 	currState(nullptr),
-	nsextState(nullptr),
+	nextState(nullptr),
 
 	audio3D(nullptr)
 {

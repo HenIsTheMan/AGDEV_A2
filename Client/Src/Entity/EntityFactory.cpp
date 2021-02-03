@@ -2,11 +2,22 @@
 
 #include "../Lua/LuaManager.h"
 
+#include "../State/States/StateEnemyChase.h"
+#include "../State/States/StateEnemyEscape.h"
+#include "../State/States/StateEnemyHeal.h"
+#include "../State/States/StateEnemyIdle.h"
+#include "../State/States/StateEnemyPatrol.h"
+
 EntityFactory::~EntityFactory(){
 	colliderManager = nullptr; //Deleted in EntityManager
 	nodeManager = nullptr; //Deleted in EntityManager
 	regionManager = nullptr; //Deleted in EntityManager
 	entityPool = nullptr; //Deleted in EntityManager
+
+	if(enemySM != nullptr){
+		delete enemySM;
+		enemySM = nullptr;
+	}
 }
 
 const Entity* EntityFactory::CreatePlayer(const EntityCreationAttribs& attribs){
@@ -198,6 +209,9 @@ const Entity* EntityFactory::CreateEnemyBody(const EntityCreationAttribs& attrib
 	boxCollider->SetPos(entity->pos);
 	boxCollider->SetScale(entity->scale);
 
+	entity->stateMachine = enemySM;
+	entity->nextState = enemySM->AcquireState(StateID::EnemyIdle);
+
 	ActivateEntityProcedure(entity);
 	return entity;
 }
@@ -248,8 +262,14 @@ EntityFactory::EntityFactory():
 	nodeManager(NodeManager::GetObjPtr()),
 	regionManager(RegionManager::GetObjPtr()),
 	entityPool(ObjPool<Entity>::GetObjPtr()),
-	soundEngine(nullptr)
+	soundEngine(nullptr),
+	enemySM(new SM())
 {
+	enemySM->AddState(new State(StateID::EnemyChase, StateEnemyChase::Enter, StateEnemyChase::Update, StateEnemyChase::Exit));
+	enemySM->AddState(new State(StateID::EnemyEscape, StateEnemyEscape::Enter, StateEnemyEscape::Update, StateEnemyEscape::Exit));
+	enemySM->AddState(new State(StateID::EnemyHeal, StateEnemyHeal::Enter, StateEnemyHeal::Update, StateEnemyHeal::Exit));
+	enemySM->AddState(new State(StateID::EnemyIdle, StateEnemyIdle::Enter, StateEnemyIdle::Update, StateEnemyIdle::Exit));
+	enemySM->AddState(new State(StateID::EnemyPatrol, StateEnemyPatrol::Enter, StateEnemyPatrol::Update, StateEnemyPatrol::Exit));
 }
 
 Entity* EntityFactory::ActivateEntity(const bool movable){

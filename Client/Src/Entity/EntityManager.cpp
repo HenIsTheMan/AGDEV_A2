@@ -6,8 +6,6 @@
 
 #include "../Collision/Collision.h"
 
-#include "../Lua/LuaManager.h"
-
 extern float dt;
 
 EntityManager::~EntityManager(){
@@ -142,17 +140,9 @@ void EntityManager::Update(const Cam& cam){
 						continue;
 					}
 
-					glm::vec3 displacementVec = cam.GetPos() - movableEntity->pos;
-					displacementVec.y = 0.0f;
+					movableEntity->stateMachine->CheckForStateTransition(movableEntity);
+					movableEntity->stateMachine->UpdateCurrState(movableEntity, dt);
 
-					if(LuaManager::GetObjPtr()->CallLuaFunc<float>(
-						"Scripts/LenSquared.lua",
-						"LenSquared",
-						{displacementVec.x, displacementVec.y, displacementVec.z},
-						true
-					) > 25.0f){
-						movableNode->LocalTranslate(glm::normalize(displacementVec) * 200.0f * dt);
-					}
 					break;
 				}
 				case Entity::EntityType::EnemyPart: {
@@ -203,9 +193,6 @@ void EntityManager::Update(const Cam& cam){
 				}
 
 				Entity* const nearbyMovableEntity = nearbyMovableNode->RetrieveEntity();
-				if(nearbyMovableEntity->type == Entity::EntityType::EnemyBody){
-					continue;
-				}
 
 				if(movableEntity->type != nearbyMovableEntity->type && Collision::DetectCollision(movableEntity, nearbyMovableEntity)){
 					switch(nearbyMovableEntity->type){

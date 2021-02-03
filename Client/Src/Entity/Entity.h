@@ -8,12 +8,12 @@
 
 enum struct StateID: int;
 
-template <class T, typename Type>
-class StateMachine;
-
 class Entity final{
 	template <class T>
 	friend class ObjPool;
+
+	template <class T, typename Type>
+	friend class StateMachine;
 
 	friend class GameScene;
 	friend class Collision;
@@ -83,7 +83,7 @@ private:
 
 	StateMachine<StateID, Entity>* stateMachine;
 	State* currState;
-	State* nsextState;
+	State* nextState;
 
 	ISound* audio3D;
 };

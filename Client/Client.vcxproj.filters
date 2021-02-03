@@ -83,12 +83,12 @@
     <ClInclude Include="Src\Experimental\StrType.hpp" />
     <ClInclude Include="Src\Experimental\BoolType.hpp" />
     <ClInclude Include="Src\Experimental\DoubleType.hpp" />
-    <ClInclude Include="Src\State\States\StateIdle.h" />
-    <ClInclude Include="Src\State\States\StateChase.h" />
-    <ClInclude Include="Src\State\States\StateHeal.h" />
-    <ClInclude Include="Src\State\States\StateAttack.h" />
-    <ClInclude Include="Src\State\States\StateEscape.h" />
     <ClInclude Include="Src\State\StateShared.hpp" />
+    <ClInclude Include="Src\State\States\StateEnemyPatrol.h" />
+    <ClInclude Include="Src\State\States\StateEnemyChase.h" />
+    <ClInclude Include="Src\State\States\StateEnemyEscape.h" />
+    <ClInclude Include="Src\State\States\StateEnemyHeal.h" />
+    <ClInclude Include="Src\State\States\StateEnemyIdle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -130,10 +130,10 @@
     <None Include="Scripts\ValSquared.lua" />
     <None Include="Scripts\LOD.lua" />
     <None Include="Scripts\TextChangingScale.lua" />
-    <None Include="Src\State\States\StateIdle.inl" />
-    <None Include="Src\State\States\StateChase.inl" />
-    <None Include="Src\State\States\StateEscape.inl" />
-    <None Include="Src\State\States\StateHeal.inl" />
-    <None Include="Src\State\States\StateAttack.inl" />
+    <None Include="Src\State\States\StateEnemyPatrol.inl" />
+    <None Include="Src\State\States\StateEnemyChase.inl" />
+    <None Include="Src\State\States\StateEnemyEscape.inl" />
+    <None Include="Src\State\States\StateEnemyHeal.inl" />
+    <None Include="Src\State\States\StateEnemyIdle.inl" />
   </ItemGroup>
 </Project>
