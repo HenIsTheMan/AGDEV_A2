@@ -276,6 +276,12 @@
     <ClInclude Include="Src\Central\ModelStack.h" />
     <ClInclude Include="Src\Central\Scene\IScene.hpp" />
     <ClInclude Include="Src\Central\Scene\Scenes\GameScene.h" />
+    <ClInclude Include="Src\State\StateShared.hpp" />
+    <ClInclude Include="Src\State\States\StateAttack.h" />
+    <ClInclude Include="Src\State\States\StateChase.h" />
+    <ClInclude Include="Src\State\States\StateEscape.h" />
+    <ClInclude Include="Src\State\States\StateHeal.h" />
+    <ClInclude Include="Src\State\States\StateIdle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -317,7 +323,11 @@
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Src\ObjPool\ObjPool.inl" />
     <None Include="Src\State\StateMachine.inl" />
-    <None Include="Src\State\States\.keep" />
+    <None Include="Src\State\States\StateAttack.inl" />
+    <None Include="Src\State\States\StateChase.inl" />
+    <None Include="Src\State\States\StateEscape.inl" />
+    <None Include="Src\State\States\StateHeal.inl" />
+    <None Include="Src\State\States\StateIdle.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
