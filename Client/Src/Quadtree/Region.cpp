@@ -2,6 +2,8 @@
 
 #include <glm/gtx/norm.hpp>
 
+#include "../Lua/LuaManager.h"
+
 extern float terrainXScale;
 
 Region::Region():
@@ -386,7 +388,15 @@ void Region::IGetEntitiesToRender(
 					case Entity::EntityType::Fire:
 						if(entitySetNotOpaque.find(entity) == entitySetNotOpaque.end()){
 							entitySetNotOpaque.insert(entity);
-							entitiesNotOpaque.insert(std::make_pair((int)glm::length2(entity->pos - camPos), entity));
+							entitiesNotOpaque.insert(std::make_pair(
+								(int)LuaManager::GetObjPtr()->CallFunc<float>(
+									"Scripts/DistSquared.lua",
+									"DistSquared",
+									{entity->pos.x, entity->pos.y, entity->pos.z, camPos.x, camPos.y, camPos.z},
+									true
+								),
+								entity)
+							);
 						}
 						break;
 				}
@@ -414,7 +424,15 @@ void Region::IGetEntitiesToRender(
 					case Entity::EntityType::EnemyPart:
 						if(entitySetOpaque.find(entity) == entitySetOpaque.end()){
 							entitySetOpaque.insert(entity);
-							entitiesOpaque.insert(std::make_pair((int)glm::length2(entity->pos - camPos), entity));
+							entitiesOpaque.insert(std::make_pair(
+								(int)LuaManager::GetObjPtr()->CallFunc<float>(
+									"Scripts/DistSquared.lua",
+									"DistSquared",
+									{entity->pos.x, entity->pos.y, entity->pos.z, camPos.x, camPos.y, camPos.z},
+									true
+								),
+								entity)
+							);
 						}
 						break;
 				}

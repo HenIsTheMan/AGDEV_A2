@@ -8,6 +8,8 @@
 
 #include <glm/gtx/norm.hpp>
 
+#include "../Lua/LuaManager.h"
+
 extern float dt;
 
 EntityManager::~EntityManager(){
@@ -145,7 +147,12 @@ void EntityManager::Update(const Cam& cam){
 					glm::vec3 displacementVec = cam.GetPos() - movableEntity->pos;
 					displacementVec.y = 0.0f;
 
-					if(glm::length2(displacementVec) > 25.0f){
+					if(LuaManager::GetObjPtr()->CallFunc<float>(
+						"Scripts/LenSquared.lua",
+						"LenSquared",
+						{displacementVec.x, displacementVec.y, displacementVec.z},
+						true
+					) > 25.0f){
 						movableNode->LocalTranslate(glm::normalize(displacementVec) * 200.0f * dt);
 					}
 					break;
