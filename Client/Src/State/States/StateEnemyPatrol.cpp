@@ -1,6 +1,6 @@
 #include "StateEnemyPatrol.h"
 
-#include <glm/gtx/norm.hpp>
+#include "../../Lua/LuaManager.h"
 
 WayptManager* const StateEnemyPatrol::wayptManager = WayptManager::GetObjPtr();
 
@@ -14,7 +14,7 @@ void StateEnemyPatrol::Update(Entity* const entity, const double dt){
 	glm::vec3 vec = entity->currWaypt->pos - localTranslation;
 	vec.y = 0.0f;
 
-	if(glm::length2(vec) < entity->moveSpd * (float)dt * entity->moveSpd * (float)dt){ //??
+	if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vec.x, vec.y, vec.z}, true) < entity->moveSpd * (float)dt * entity->moveSpd * (float)dt){
 		entity->node->SetLocalTranslation(glm::vec3(
 			roundf(localTranslation.x),
 			roundf(localTranslation.y),
