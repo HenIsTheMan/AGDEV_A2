@@ -1,7 +1,5 @@
 #include "Region.h"
 
-#include <glm/gtx/norm.hpp>
-
 #include "../Lua/LuaManager.h"
 
 extern float terrainXScale;

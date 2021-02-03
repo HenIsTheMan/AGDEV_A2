@@ -5,7 +5,6 @@
 
 #include "../../../Shared/Easing.hpp"
 
-#include <glm/gtx/norm.hpp>
 #include <glm/gtc/epsilon.hpp>
 
 #include <atlstr.h>
@@ -340,7 +339,7 @@ void GameScene::Update(){
 		|| glm::any(glm::epsilonNotEqual(playerFacingDir, prevPlayerFacingDir, glm::epsilon<float>()))
 		|| glm::epsilonNotEqual(angularFOV, prevAngularFOV, glm::epsilon<float>())
 		|| glm::epsilonNotEqual(camAspectRatio, prevCamAspectRatio, glm::epsilon<float>())
-		){
+	){
 		const glm::vec3& playerPos = myPlayer->GetPos();
 		const float yMin = -FLT_MAX;
 		const float yMax = terrainYScale * 4.0f;
@@ -456,7 +455,7 @@ void GameScene::Render(){
 
 	Model* const treeModel = treeLOD.GetModel(
 		luaManager->CallLuaFunc<float>("Scripts/DistSquared.lua", "DistSquared", {playerPos.x, 0.0f, playerPos.z, 0.0f, 0.0f, -terrainZScale * 0.25f}, true)
-		- glm::length2((angularFOV - 45.0f) * 200.0f));
+		- luaManager->CallLuaFunc<float>("Scripts/ValSquared.lua", "ValSquared", {(angularFOV - 45.0f) * 200.0f}, true));
 	if(treeModel != nullptr){
 		treeModel->InstancedRender(forwardSP);
 	}

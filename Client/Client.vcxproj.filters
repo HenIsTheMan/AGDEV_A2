@@ -122,5 +122,6 @@
     <None Include="Scripts\FireSpriteAnimData.lua" />
     <None Include="Scripts\LenSquared.lua" />
     <None Include="Scripts\DistSquared.lua" />
+    <None Include="Scripts\ValSquared.lua" />
   </ItemGroup>
 </Project>
