@@ -21,6 +21,8 @@ float LuaManager::CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr con
 			}
 		}
 	}
+
+	return 0.0f;
 }
 
 template <class T>

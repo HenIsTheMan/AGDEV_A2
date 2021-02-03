@@ -52,6 +52,14 @@ void StartScene::FixedUpdate(){
 	SceneSupport::FixedUpdate();
 }
 
+static int CalcTextChangingScale(lua_State* const L){
+	const float lerpFactor = EaseInQuint((float)lua_tonumber(L, 1));
+
+	lua_pushnumber(L, (1.0f - lerpFactor) * 1.5f + lerpFactor * 0.9f);
+
+	return 1;
+}
+
 void StartScene::Update(){
 	SceneSupport::Update();
 
@@ -75,8 +83,7 @@ void StartScene::Update(){
 	textOffsetX = sinf(elapsedTime * 4.0f) * 4.0f;
 	textOffsetY = cosf(elapsedTime * 4.0f) * 4.0f;
 
-	const float lerpFactor = EaseInQuint(cosf(elapsedTime * 4.0f) * 0.5f + 0.5f);
-	textScale = (1.0f - lerpFactor) * textStartScale + lerpFactor * textEndScale;
+	textScale = luaManager->CallCppFunc<float>("Scripts/TextChangingScale.lua", "CalcTextChangingScale", "CalcTextChangingScaleHost", CalcTextChangingScale, {elapsedTime}, true);
 }
 
 void StartScene::LateUpdate(){

@@ -124,5 +124,6 @@
     <None Include="Scripts\DistSquared.lua" />
     <None Include="Scripts\ValSquared.lua" />
     <None Include="Scripts\LOD.lua" />
+    <None Include="Scripts\TextChangingScale.lua" />
   </ItemGroup>
 </Project>

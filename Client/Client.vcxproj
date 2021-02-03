@@ -297,6 +297,7 @@
     <None Include="Scripts\Test3rd.lua" />
     <None Include="Scripts\Test4th.lua" />
     <None Include="Scripts\Test5th.lua" />
+    <None Include="Scripts\TextChangingScale.lua" />
     <None Include="Scripts\ValSquared.lua" />
     <None Include="Shaders\Blur.fragS" />
     <None Include="Shaders\Forward.fragS" />
