@@ -2,6 +2,7 @@
 
 #include "Scenes/StartScene.h"
 #include "Scenes/MenuScene.h"
+#include "Scenes/CreditsScene.h"
 #include "Scenes/GameScene.h"
 
 SceneManager::~SceneManager(){
@@ -77,6 +78,7 @@ SceneManager::SceneManager():
 {
 	AddScene(SceneID::Start, new StartScene());
 	AddScene(SceneID::Menu, new MenuScene());
+	AddScene(SceneID::Credits, new CreditsScene());
 	AddScene(SceneID::Game, new GameScene());
 
 	SetNextScene(SceneID::Start);

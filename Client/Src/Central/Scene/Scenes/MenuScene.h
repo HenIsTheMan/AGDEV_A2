@@ -7,7 +7,7 @@ class SceneManager;
 class MenuScene final: public SceneSupport{
 public:
 	MenuScene();
-	~MenuScene() = default;
+	~MenuScene();
 
 	void Enter() override;
 	void Exit() override;

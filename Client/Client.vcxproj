@@ -197,6 +197,7 @@
     <ClCompile Include="Src\Central\App.cpp" />
     <ClCompile Include="Src\Central\Scene\SceneSupport.cpp" />
     <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\CreditsScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\StartScene.cpp" />
     <ClCompile Include="Src\Client.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Src\Central\Scene\SceneSupport.h" />
     <ClInclude Include="Src\Central\Scene\SceneID.hpp" />
     <ClInclude Include="Src\Central\Scene\SceneManager.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\CreditsScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\StartScene.h" />
     <ClInclude Include="Src\Collision\Collider\Collider.h" />

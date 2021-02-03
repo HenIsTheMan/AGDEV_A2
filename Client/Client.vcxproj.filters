@@ -39,6 +39,7 @@
     <ClCompile Include="Src\State\States\StateEnemyEscape.cpp" />
     <ClCompile Include="Src\Waypt\Waypt.cpp" />
     <ClCompile Include="Src\Waypt\WayptManager.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\CreditsScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Src\State\States\StateEnemyChase.h" />
     <ClInclude Include="Src\Waypt\Waypt.h" />
     <ClInclude Include="Src\Waypt\WayptManager.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\CreditsScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

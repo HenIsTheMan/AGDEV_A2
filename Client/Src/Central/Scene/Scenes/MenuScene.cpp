@@ -20,6 +20,9 @@ MenuScene::MenuScene():
 {
 }
 
+MenuScene::~MenuScene(){
+}
+
 void MenuScene::Enter(){
 	SceneSupport::Enter();
 
@@ -108,6 +111,8 @@ void MenuScene::Update(){
 					case MenuButtons::Scores:
 					case MenuButtons::Settings:
 					case MenuButtons::Credits:
+						SceneManager::GetObjPtr()->SetNextScene(SceneID::Credits);
+						break;
 					case MenuButtons::Quit:
 						endLoop = true;
 						break;
