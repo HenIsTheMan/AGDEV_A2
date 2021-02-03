@@ -58,7 +58,7 @@ void MenuScene::Update(){
 
 	view = cam.LookAt();
 	projection = glm::ortho(-float(windowWidth) / 2.f, float(windowWidth) / 2.f, -float(windowHeight) / 2.f, float(windowHeight) / 2.f, .1f, 99999.0f);
-	static float buttonBT = 0.f;
+	static float buttonBT = 0.0f;
 
 	const bool results[] = {
 		windowMouseX >= (float)windowWidth * 0.47f

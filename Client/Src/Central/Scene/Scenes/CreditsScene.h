@@ -22,4 +22,7 @@ public:
 	void PreRender() override;
 	void Render() override;
 	void PostRender() override;
+private:
+	float backScaleFactor;
+	glm::vec4 backColor;
 };
