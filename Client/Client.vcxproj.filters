@@ -117,5 +117,6 @@
     <None Include="Scripts\CoinAudio3D.lua" />
     <None Include="Scripts\Skyboxes.lua" />
     <None Include="Src\Lua\LuaManager.inl" />
+    <None Include="Scripts\Experimental.lua" />
   </ItemGroup>
 </Project>

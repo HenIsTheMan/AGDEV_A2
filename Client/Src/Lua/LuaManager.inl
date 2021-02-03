@@ -173,7 +173,6 @@ std::vector<bool> LuaManager::ReadFromTable(cstr const fPath, cstr const tableNa
 	return std::vector<bool>();
 }
 
-template <class T>
 void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
 		lua_getglobal(im_ReadL, tableName);
@@ -187,10 +186,10 @@ void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType
 
 				switch(lua_type(im_ReadL, -1)){
 					case LUA_TSTRING:
-						static_cast<StrType*>(data[i])->data = lua_tostring(im_ReadL, -1));
+						static_cast<StrType*>(data[i])->data = lua_tostring(im_ReadL, -1);
 						break;
 					case LUA_TBOOLEAN:
-						static_cast<BoolType*>(data[i])->data = lua_toboolean(im_ReadL, -1));
+						static_cast<BoolType*>(data[i])->data = lua_toboolean(im_ReadL, -1);
 						break;
 					//case LUA_TNUMBER:
 					//	printf("%d: %g\n", i, lua_tonumber(pStackDumpThisState, i));

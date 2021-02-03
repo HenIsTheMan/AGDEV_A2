@@ -282,6 +282,7 @@
     <None Include="Scripts\Audio.lua" />
     <None Include="Scripts\CoinAudio3D.lua" />
     <None Include="Scripts\ConsoleWindow.lua" />
+    <None Include="Scripts\Experimental.lua" />
     <None Include="Scripts\Models.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Scripts\Skyboxes.lua" />

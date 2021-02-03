@@ -10,6 +10,9 @@
 
 #include <atlstr.h>
 
+#include "../../../Experimental/BoolType.hpp"
+#include "../../../Experimental/StrType.hpp"
+
 #ifndef DEBUGGING
 	#define DEBUGGING
 #endif
@@ -149,6 +152,19 @@ void GameScene::Enter(){
 	}
 
 	currGun = guns[0];
+
+	std::vector<ObjType*> testVec;
+
+	testVec.emplace_back(new StrType());
+	testVec.emplace_back(new BoolType());
+	
+	luaManager->ReadCustomFromTable("Scripts/Experimental.lua", testVec, "test", {"myStr", "myBool"}, true);
+
+	std::cout << static_cast<StrType*>(testVec[0])->data << '\n';
+	std::cout << static_cast<BoolType*>(testVec[1])->data << '\n';
+
+	delete testVec[0];
+	delete testVec[1];
 }
 
 void GameScene::Exit(){

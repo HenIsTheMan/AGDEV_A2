@@ -55,8 +55,7 @@ public:
 	template <>
 	inline std::vector<bool> ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
-	template <class T>
-	void ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
+	inline void ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
 	template <class T>
 	T Write(cstr const fPath, cstr const varName, const T val, const bool printErrMsg);
