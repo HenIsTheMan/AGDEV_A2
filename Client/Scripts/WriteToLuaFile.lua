@@ -1,19 +1,15 @@
-function WriteToLuaFile(arrNewKeyAndValue, arrOldKeyAndValue)
-    print("here")
+---[[
 
-    local f
-
-    local file = assert(io.open("Scripts/Experimental.lua", "r"))
+function WriteOverwrite(fPath, newStr, oldStr)
+    local file = assert(io.open(fPath, "r"))
     local fileContent = file:read("*all")
     file:close()
 
-    print(fileContent)
+    fileContent = string.gsub(fileContent, oldStr, newStr)
 
-    print(arrOldKeyAndValue)
-    print(arrNewKeyAndValue)
-    fileContent = string.gsub(fileContent, arrOldKeyAndValue, arrNewKeyAndValue)
-
-    file = assert(io.open("Scripts/Experimental.lua", "w"))
+    file = assert(io.open(fPath, "w"))
     file:write(fileContent)
     file:close()
 end
+
+--]]

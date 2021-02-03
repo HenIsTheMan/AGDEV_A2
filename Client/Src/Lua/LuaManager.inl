@@ -389,29 +389,27 @@ void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType
 }
 
 template <class T>
-void LuaManager::Write(cstr const fPath, cstr const newLHS, const T newVal, cstr const oldKey, const LuaManager::WriteType type, const bool printErrMsg){
+void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const T newVal, const bool printErrMsg){
 	assert(false);
 }
 
 template <>
-void LuaManager::Write(cstr const fPath, cstr const newLHS, const float newVal, cstr const oldKey, const LuaManager::WriteType type, const bool printErrMsg){
-	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, fPath), printErrMsg)){
-		lua_getglobal(im_WriteL, "WriteToLuaFile");
+void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const float newVal, const bool printErrMsg){
+	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, "Scripts/WriteToLuaFile.lua"), printErrMsg)){
+		lua_getglobal(im_WriteL, "WriteOverwrite");
 
 		if(lua_isfunction(im_WriteL, -1)){
+			lua_pushstring(im_WriteL, fPath);
+
 			std::stringstream ss;
 			ss << newVal;
-			const str newStr = oldKey + (str)" = " + ss.str();
+			const str newStr = keyName + (str)" = " + ss.str();
 			lua_pushstring(im_WriteL, newStr.c_str());
 
-			if(type == LuaManager::WriteType::Overwrite){
-				const str oldStr = oldKey + (str)" = " + ReadFromTableCstr("Scripts/Experimental.lua", newLHS, {oldKey}, true)[0];
-				lua_pushfstring(im_WriteL, oldStr.c_str());
+			const str oldStr = keyName + (str)" = " + ReadFromTableCstr(fPath, tableName, {keyName}, true)[0];
+			lua_pushstring(im_WriteL, oldStr.c_str());
 
-				if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 2, 0, 0), true)){
-					(void)puts("Ayo, err here yo");
-				}
-			} else if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 1, 0, 0), true)){
+			if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 3, 0, 0), true)){
 				(void)puts("Ayo, err here yo");
 			}
 		}
