@@ -44,6 +44,8 @@ void StartScene::EarlyInit(){
 
 void StartScene::Init(){
 	SceneSupport::Init();
+
+	luaManager->Write("Scripts/WriteToLuaFile.lua", "test", 6.9f, "myFloat", LuaManager::WriteType::Overwrite, true);
 }
 
 void StartScene::FixedUpdate(){

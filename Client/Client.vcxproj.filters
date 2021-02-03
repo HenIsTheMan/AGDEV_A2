@@ -130,7 +130,6 @@
     <None Include="Scripts\Audio.lua" />
     <None Include="Scripts\CoinAudio3D.lua" />
     <None Include="Scripts\Skyboxes.lua" />
-    <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Scripts\Experimental.lua" />
     <None Include="Scripts\CoinSpriteAnimData.lua" />
     <None Include="Scripts\FireSpriteAnimData.lua" />
@@ -141,5 +140,7 @@
     <None Include="Scripts\TextChangingScale.lua" />
     <None Include="Scripts\Waypts.lua" />
     <None Include="Scripts\Terrain.lua" />
+    <None Include="Scripts\WriteToLuaFile.lua" />
+    <None Include="Src\Lua\LuaManager.inl" />
   </ItemGroup>
 </Project>

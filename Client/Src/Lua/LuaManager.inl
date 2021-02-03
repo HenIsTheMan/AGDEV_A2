@@ -306,6 +306,30 @@ std::vector<bool> LuaManager::ReadFromTable(cstr const fPath, cstr const tableNa
 	return std::vector<bool>();
 }
 
+std::vector<cstr> LuaManager::ReadFromTableCstr(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg){
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, tableName);
+
+		if(lua_istable(im_ReadL, -1)){
+			std::vector<cstr> results;
+			const size_t keyNamesSize = keyNames.size();
+			results.reserve(keyNamesSize);
+
+			for(cstr const keyName: keyNames){
+				lua_pushstring(im_ReadL, keyName);
+				lua_gettable(im_ReadL, -2);
+
+				results.emplace_back(lua_tostring(im_ReadL, -1));
+				lua_pop(im_ReadL, 1);
+			}
+
+			return results;
+		}
+	}
+
+	return std::vector<cstr>();
+}
+
 template <>
 std::vector<float> LuaManager::ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
@@ -359,6 +383,34 @@ void LuaManager::ReadCustomFromTable(cstr const fPath, const std::vector<ObjType
 				}
 
 				lua_pop(im_ReadL, 1);
+			}
+		}
+	}
+}
+
+template <class T>
+void LuaManager::Write(cstr const fPath, cstr const newLHS, const T newVal, cstr const oldKey, const LuaManager::WriteType type, const bool printErrMsg){
+	assert(false);
+}
+
+template <>
+void LuaManager::Write(cstr const fPath, cstr const newLHS, const float newVal, cstr const oldKey, const LuaManager::WriteType type, const bool printErrMsg){
+	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, fPath), printErrMsg)){
+		lua_getglobal(im_WriteL, "WriteToLuaFile");
+
+		if(lua_isfunction(im_WriteL, -1)){
+			const str newStr = oldKey + (str)" = " + std::to_string(newVal);
+			lua_pushstring(im_WriteL, newStr.c_str());
+
+			if(type == LuaManager::WriteType::Overwrite){
+				const str oldStr = oldKey + (str)" = " + ReadFromTableCstr("Scripts/Experimental.lua", newLHS, {oldKey}, true)[0];
+				lua_pushfstring(im_WriteL, oldStr.c_str());
+
+				if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 2, 0, 0), true)){
+					(void)puts("Ayo, err here yo");
+				}
+			} else if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 1, 0, 0), true)){
+				(void)puts("Ayo, err here yo");
 			}
 		}
 	}

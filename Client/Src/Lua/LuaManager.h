@@ -90,13 +90,18 @@ public:
 	template <>
 	inline std::vector<bool> ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
+	inline std::vector<cstr> ReadFromTableCstr(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg); //Weird
+
 	template <>
 	inline std::vector<float> ReadFromTable(cstr const fPath, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
 	inline void ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
 	template <class T>
-	T Write(cstr const fPath, cstr const newLHS, const T newVal, const T oldKey, const WriteType type, const bool printErrMsg);
+	void Write(cstr const fPath, cstr const newLHS, const T newVal, cstr const oldKey, const WriteType type, const bool printErrMsg);
+
+	template <>
+	inline void Write(cstr const fPath, cstr const newLHS, const float newVal, cstr const oldKey, const WriteType type, const bool printErrMsg);
 private:
 	lua_State* im_ReadL;
 	lua_State* im_WriteL;
