@@ -152,27 +152,6 @@ void GameScene::Enter(){
 	}
 
 	currGun = guns[0];
-
-	std::vector<ObjType*> testVec;
-	StrType strType;
-	BoolType boolType;
-	DoubleType myIntData;
-	DoubleType myFloatData;
-	DoubleType myDoubleData;
-
-	testVec.emplace_back(&strType);
-	testVec.emplace_back(&boolType);
-	testVec.emplace_back(&myIntData);
-	testVec.emplace_back(&myFloatData);
-	testVec.emplace_back(&myDoubleData);
-	
-	luaManager->ReadCustomFromTable("Scripts/Experimental.lua", testVec, "test", {"myStr", "myBool", "myInt", "myFloat", "myDouble"}, true);
-
-	std::cout << static_cast<StrType*>(testVec[0])->data << '\n';
-	std::cout << static_cast<BoolType*>(testVec[1])->data << '\n';
-	std::cout << static_cast<DoubleType*>(testVec[2])->data << '\n';
-	std::cout << static_cast<DoubleType*>(testVec[3])->data << '\n';
-	std::cout << static_cast<DoubleType*>(testVec[4])->data << '\n';
 }
 
 void GameScene::Exit(){
@@ -201,9 +180,26 @@ void GameScene::Init(){
 
 	SetUpCubemap(cubemapRefID, luaManager->ReadFromArr<cstr>("Scripts/Skyboxes.lua", "skybox0", 1, 6, true));
 
-	Meshes::meshes[(int)MeshType::CoinSpriteAni]->AddTexMap({"Imgs/Coin.png", Mesh::TexType::Diffuse, 0});
-	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->AddAni("CoinSpriteAni", 0, 6);
-	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Play("CoinSpriteAni", -1, .5f);
+	StrType fPathCoin;
+	DoubleType myStartCoin;
+	DoubleType myEndCoin;
+	DoubleType timeCoin;
+
+	luaManager->ReadCustomFromTable(
+		"Scripts/CoinSpriteAnimData.lua",
+		{&fPathCoin, &myStartCoin, &myEndCoin, &timeCoin},
+		"coinSpriteAnimData",
+		{"fPath", "myStart", "myEnd", "time"},
+		true
+	);
+
+	Meshes::meshes[(int)MeshType::CoinSpriteAni]->AddTexMap({static_cast<StrType*>(&fPathCoin)->data, Mesh::TexType::Diffuse, 0});
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->AddAni(
+		"CoinSpriteAni",
+		(float)static_cast<DoubleType*>(&myStartCoin)->data,
+		(float)static_cast<DoubleType*>(&myEndCoin)->data
+	);
+	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Play("CoinSpriteAni", -1, (float)static_cast<DoubleType*>(&timeCoin)->data);
 
 	Meshes::meshes[(int)MeshType::FireSpriteAni]->AddTexMap({"Imgs/Fire.png", Mesh::TexType::Diffuse, 0});
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->AddAni("FireSpriteAni", 0, 32);

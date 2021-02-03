@@ -2,7 +2,7 @@
 
 #include "ObjType.hpp"
 
-struct DoubleType final: public ObjType{
+struct DoubleType final: public ObjType{ //Wrapper class
 	DoubleType() = default;
 	~DoubleType() = default;
 

@@ -119,5 +119,6 @@
     <None Include="Scripts\Skyboxes.lua" />
     <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Scripts\Experimental.lua" />
+    <None Include="Scripts\CoinSpriteAnimData.lua" />
   </ItemGroup>
 </Project>

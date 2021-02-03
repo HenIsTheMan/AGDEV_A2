@@ -2,7 +2,7 @@
 
 #include "ObjType.hpp"
 
-struct BoolType final: public ObjType{
+struct BoolType final: public ObjType{ //Wrapper class
 	BoolType() = default;
 	~BoolType() = default;
 

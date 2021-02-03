@@ -4,7 +4,7 @@
 
 #include <string>
 
-struct StrType final: public ObjType{
+struct StrType final: public ObjType{ //Wrapper class
 	StrType() = default;
 	~StrType() = default;
 
