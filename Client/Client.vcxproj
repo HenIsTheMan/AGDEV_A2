@@ -307,6 +307,7 @@
     <None Include="Scripts\Models.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
     <None Include="Scripts\Skyboxes.lua" />
+    <None Include="Scripts\Terrain.lua" />
     <None Include="Scripts\Test1st.lua" />
     <None Include="Scripts\Test2nd.lua" />
     <None Include="Scripts\Test3rd.lua" />

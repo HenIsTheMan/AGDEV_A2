@@ -140,5 +140,6 @@
     <None Include="Scripts\LOD.lua" />
     <None Include="Scripts\TextChangingScale.lua" />
     <None Include="Scripts\Waypts.lua" />
+    <None Include="Scripts\Terrain.lua" />
   </ItemGroup>
 </Project>

@@ -18,9 +18,9 @@
 	#define DEBUGGING
 #endif
 
-float terrainXScale = 12000.f;
-float terrainYScale = 700.f;
-float terrainZScale = 12000.f;
+float terrainXScale = 1.0f;
+float terrainYScale = 1.0f;
+float terrainZScale = 1.0f;
 
 extern bool LMB;
 extern bool RMB;
@@ -167,6 +167,10 @@ void GameScene::Exit(){
 
 void GameScene::EarlyInit(){
 	SceneSupport::EarlyInit();
+
+	terrainXScale = luaManager->Read<float>("Scripts/Terrain.lua", "terrainXScale", true);
+	terrainYScale = luaManager->Read<float>("Scripts/Terrain.lua", "terrainYScale", true);
+	terrainZScale = luaManager->Read<float>("Scripts/Terrain.lua", "terrainZScale", true);
 
 	std::vector<cstr> fPaths = luaManager->ReadFromArr<cstr>("Scripts/Models.lua", "fPathModels", 1, (int)ModelType::Amt, true);
 	const int modelsSize = sizeof(models) / sizeof(models[0]);
