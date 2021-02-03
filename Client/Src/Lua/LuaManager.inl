@@ -399,7 +399,9 @@ void LuaManager::Write(cstr const fPath, cstr const newLHS, const float newVal, 
 		lua_getglobal(im_WriteL, "WriteToLuaFile");
 
 		if(lua_isfunction(im_WriteL, -1)){
-			const str newStr = oldKey + (str)" = " + std::to_string(newVal);
+			std::stringstream ss;
+			ss << newVal;
+			const str newStr = oldKey + (str)" = " + ss.str();
 			lua_pushstring(im_WriteL, newStr.c_str());
 
 			if(type == LuaManager::WriteType::Overwrite){

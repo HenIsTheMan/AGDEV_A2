@@ -8,6 +8,8 @@
 #include "../Experimental/DoubleType.hpp"
 #include "../Experimental/StrType.hpp"
 
+#include <sstream>
+
 class LuaManager final: public Singleton<LuaManager>{
 	friend Singleton<LuaManager>;
 public:
