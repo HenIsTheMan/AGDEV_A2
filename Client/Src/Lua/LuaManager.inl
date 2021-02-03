@@ -1,10 +1,36 @@
 template <class T>
-T LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg){
+T LuaManager::CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr const hostFuncNameInLua, int (* const hostFunc)(lua_State* const L), const std::vector<T>& params, const bool printErrMsg){
 	assert(false);
+	return T();
 }
 
 template <>
-float LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg){
+float LuaManager::CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr const hostFuncNameInLua, int (* const hostFunc)(lua_State* const L), const std::vector<float>& params, const bool printErrMsg){
+	lua_register(im_ReadL, hostFuncNameInLua, hostFunc);
+
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), true)){
+		lua_getglobal(im_ReadL, luaFuncName);
+
+		if(lua_isfunction(im_ReadL, -1)){
+			for(const float param: params){
+				lua_pushnumber(im_ReadL, param);
+			}
+
+			if(!LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size(), 1, 0), true)){
+				return (float)lua_tonumber(im_ReadL, -1);
+			}
+		}
+	}
+}
+
+template <class T>
+T LuaManager::CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg){
+	assert(false);
+	return T();
+}
+
+template <>
+float LuaManager::CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), true)){
 		lua_getglobal(im_ReadL, funcName);
 

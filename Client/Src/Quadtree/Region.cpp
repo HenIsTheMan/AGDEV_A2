@@ -389,7 +389,7 @@ void Region::IGetEntitiesToRender(
 						if(entitySetNotOpaque.find(entity) == entitySetNotOpaque.end()){
 							entitySetNotOpaque.insert(entity);
 							entitiesNotOpaque.insert(std::make_pair(
-								(int)LuaManager::GetObjPtr()->CallFunc<float>(
+								(int)LuaManager::GetObjPtr()->CallLuaFunc<float>(
 									"Scripts/DistSquared.lua",
 									"DistSquared",
 									{entity->pos.x, entity->pos.y, entity->pos.z, camPos.x, camPos.y, camPos.z},
@@ -425,7 +425,7 @@ void Region::IGetEntitiesToRender(
 						if(entitySetOpaque.find(entity) == entitySetOpaque.end()){
 							entitySetOpaque.insert(entity);
 							entitiesOpaque.insert(std::make_pair(
-								(int)LuaManager::GetObjPtr()->CallFunc<float>(
+								(int)LuaManager::GetObjPtr()->CallLuaFunc<float>(
 									"Scripts/DistSquared.lua",
 									"DistSquared",
 									{entity->pos.x, entity->pos.y, entity->pos.z, camPos.x, camPos.y, camPos.z},

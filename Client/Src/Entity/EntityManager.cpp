@@ -147,7 +147,7 @@ void EntityManager::Update(const Cam& cam){
 					glm::vec3 displacementVec = cam.GetPos() - movableEntity->pos;
 					displacementVec.y = 0.0f;
 
-					if(LuaManager::GetObjPtr()->CallFunc<float>(
+					if(LuaManager::GetObjPtr()->CallLuaFunc<float>(
 						"Scripts/LenSquared.lua",
 						"LenSquared",
 						{displacementVec.x, displacementVec.y, displacementVec.z},

@@ -296,7 +296,6 @@
     <None Include="Scripts\Test3rd.lua" />
     <None Include="Scripts\Test4th.lua" />
     <None Include="Scripts\Test5th.lua" />
-    <None Include="Scripts\TestMisc.lua" />
     <None Include="Shaders\Blur.fragS" />
     <None Include="Shaders\Forward.fragS" />
     <None Include="Shaders\Forward.vertexS" />

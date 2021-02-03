@@ -18,10 +18,16 @@ public:
 	void PrintFileContent(cstr const fPath);
 
 	template <class T>
-	T CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg);
+	T CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr const hostFuncNameInLua, int (* const hostFunc)(lua_State* const L), const std::vector<T>& params, const bool printErrMsg);
 
 	template <>
-	inline float CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg);
+	inline float CallCppFunc(cstr const fPath, cstr const luaFuncName, cstr const hostFuncNameInLua, int (* const hostFunc)(lua_State* const L), const std::vector<float>& params, const bool printErrMsg);
+
+	template <class T>
+	T CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg);
+
+	template <>
+	inline float CallLuaFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg);
 
 	template <class T>
 	T Read(cstr const fPath, cstr const varName, const bool printErrMsg);
