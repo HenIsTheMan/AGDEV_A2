@@ -26,6 +26,14 @@ void Entity::Reset(){
 	zMax = FLT_MAX;
 
 	prevPos = glm::vec3();
+
+	stateMachine = nullptr;
+	currState = nullptr;
+	nextState = nullptr;
+
+	audio3D = nullptr;
+
+	node = nullptr;
 }
 
 const glm::vec3& Entity::GetPos() const{
@@ -83,6 +91,8 @@ Entity::Entity():
 	currState(nullptr),
 	nextState(nullptr),
 
-	audio3D(nullptr)
+	audio3D(nullptr),
+
+	node(nullptr)
 {
 }

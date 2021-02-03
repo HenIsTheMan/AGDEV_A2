@@ -48,6 +48,8 @@ void EntityManager::Init(){
 	entityPool->Init(entityPoolSize, entityPoolSize);
 }
 
+#include "../Lua/LuaManager.h"
+
 void EntityManager::Update(const Cam& cam){
 	elapsedTime += dt;
 

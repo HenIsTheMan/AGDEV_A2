@@ -11,7 +11,7 @@ void StateEnemyIdle::Enter(Entity* const entity){
 void StateEnemyIdle::Update(Entity* const entity, const double dt){
 	BoxCollider* const boxCollider = static_cast<BoxCollider*>(entity->collider);
 	boxCollider->SetScale({200.0f + sinf(elapsedTime * 4.0f) * 20.0f, 200.0f + sinf(elapsedTime * 4.0f) * 20.0f, boxCollider->GetScale().z});
-	entity->scale.x = entity->scale.y = 0.0f;
+	entity->node->SetLocalDilation(glm::vec3(200.0f + sinf(elapsedTime * 4.0f) * 10.0f, 200.0f + sinf(elapsedTime * 4.0f) * 10.0f, entity->node->GetLocalDilation().z));
 }
 
 void StateEnemyIdle::Exit(Entity* const entity){

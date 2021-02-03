@@ -5,6 +5,8 @@
 
 #include "../State/State.h"
 
+#include "../Quadtree/Node.h"
+
 enum struct StateID: int;
 
 template <class T, typename Type>
@@ -71,4 +73,6 @@ public:
 	State* nextState;
 
 	ISound* audio3D;
+
+	Node* node;
 };
