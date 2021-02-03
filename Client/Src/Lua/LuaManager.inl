@@ -1,10 +1,10 @@
 template <class T>
-T LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool shldPrintResult, const bool printErrMsg){
+T LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg){
 	assert(false);
 }
 
 template <>
-float LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool shldPrintResult, const bool printErrMsg){
+float LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg){
 	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), true)){
 		lua_getglobal(im_ReadL, funcName);
 
@@ -12,9 +12,8 @@ float LuaManager::CallFunc(cstr const fPath, cstr const funcName, const std::vec
 			for(const float param: params){
 				lua_pushnumber(im_ReadL, param);
 			}
-			lua_pushboolean(im_ReadL, shldPrintResult);
 
-			if(!LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size() + 1, 1, 0), true)){
+			if(!LuaErrCheck(im_ReadL, lua_pcall(im_ReadL, (int)params.size(), 1, 0), true)){
 				return (float)lua_tonumber(im_ReadL, -1);
 			}
 		}

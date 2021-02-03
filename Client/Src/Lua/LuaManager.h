@@ -18,10 +18,10 @@ public:
 	void PrintFileContent(cstr const fPath);
 
 	template <class T>
-	T CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool shldPrintResult, const bool printErrMsg);
+	T CallFunc(cstr const fPath, cstr const funcName, const std::vector<T>& params, const bool printErrMsg);
 
 	template <>
-	inline float CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool shldPrintResult, const bool printErrMsg);
+	inline float CallFunc(cstr const fPath, cstr const funcName, const std::vector<float>& params, const bool printErrMsg);
 
 	template <class T>
 	T Read(cstr const fPath, cstr const varName, const bool printErrMsg);
