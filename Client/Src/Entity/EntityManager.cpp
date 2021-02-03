@@ -163,8 +163,6 @@ void EntityManager::Update(const Cam& cam){
 
 					movableEntity->colour.a = movableEntity->life / movableEntity->maxLife;
 
-					//movableNode->LocalRotate(glm::quat(glm::vec3(5.0f * dt, 0.0f, 0.0f))); //Why much faster??
-
 					const float startScale = 0.2f;
 					const float endScale = 0.4f;
 					const float lerpFactor = EaseInOutCubic(sin(elapsedTime) * 0.5f + 0.5f);
