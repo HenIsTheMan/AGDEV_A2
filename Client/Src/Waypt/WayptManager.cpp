@@ -1,5 +1,7 @@
 #include "WayptManager.h"
 
+#include "Engine.h"
+
 WayptManager::~WayptManager(){
 	if(wayptPool != nullptr){
 		wayptPool->Destroy();
@@ -51,6 +53,10 @@ void WayptManager::RemoveWaypt(const glm::vec3& pos){
 			waypts.erase(waypts.begin() + i);
 		}
 	}
+}
+
+Waypt* WayptManager::RetrieveRandWaypt(){
+	return waypts[PseudorandMinMax(0, (int)waypts.size() - 1)];
 }
 
 const Waypt* WayptManager::GetWaypt(const glm::vec3& pos) const{

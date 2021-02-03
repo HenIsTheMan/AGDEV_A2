@@ -474,7 +474,7 @@ void GameScene::Render(){
 	for(int i = 0; i < wayPtsSize; ++i){
 		modelStack.PushModel({
 			modelStack.Translate(glm::vec3(waypts[i]->pos)),
-			modelStack.Scale(glm::vec3(100.0f)),
+			modelStack.Scale(glm::vec3(70.0f)),
 		});
 			Meshes::meshes[(int)MeshType::Sphere]->SetModel(modelStack.GetTopModel());
 			Meshes::meshes[(int)MeshType::Sphere]->Render(forwardSP);

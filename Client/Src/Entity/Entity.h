@@ -7,6 +7,8 @@
 
 #include "../Quadtree/Node.h"
 
+#include "../Waypt/Waypt.h"
+
 enum struct StateID: int;
 
 #include "../State/StateMachine.h"
@@ -77,6 +79,6 @@ public:
 
 	//* Vars for specific entities (help la, I wanna do ECS alr)
 	float idleTime;
-
+	Waypt* currWaypt;
 	//*/
 };

@@ -18,6 +18,8 @@ public:
 
 	void ReserveWaypts(const size_t& size);
 
+	Waypt* RetrieveRandWaypt();
+
 	const Waypt* GetWaypt(const glm::vec3& pos) const;
 	const Waypt* GetNextWaypt(const glm::vec3& pos) const;
 	const std::vector<Waypt*>& GetWaypts() const;
