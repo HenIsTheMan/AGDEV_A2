@@ -11,6 +11,13 @@
 class LuaManager final: public Singleton<LuaManager>{
 	friend Singleton<LuaManager>;
 public:
+	enum struct WriteType: int{
+		Append,
+		Overwrite,
+		Wipe,
+		Amt
+	};
+
 	~LuaManager();
 
 	void Init();
@@ -74,7 +81,7 @@ public:
 	inline void ReadCustomFromTable(cstr const fPath, const std::vector<ObjType*>& data, cstr const tableName, const std::vector<cstr>& keyNames, const bool printErrMsg);
 
 	template <class T>
-	T Write(cstr const fPath, cstr const varName, const T val, const bool printErrMsg);
+	T Write(cstr const fPath, cstr const newLHS, const T newVal, const T oldKey, const WriteType type, const bool printErrMsg);
 private:
 	lua_State* im_ReadL;
 	lua_State* im_WriteL;
