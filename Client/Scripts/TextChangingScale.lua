@@ -1,7 +1,12 @@
 ---[[
 
 function CalcTextChangingScale(elapsedTime)
-	return CalcTextChangingScaleHost(math.cos(elapsedTime * 4.0) * 0.5 + 0.5, 1.5, 0.9);
+	local spd = 4.0
+	local mag = 1.2
+	local startScale = 1.5
+	local endScale = 0.9
+
+	return CalcTextChangingScaleHost((math.cos(elapsedTime * spd) * 0.5 + 0.5) * mag, startScale, endScale);
 end
 
 --]]
