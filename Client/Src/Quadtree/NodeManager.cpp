@@ -25,6 +25,7 @@ Node* NodeManager::ActivateNode(){
 
 void NodeManager::DeactivateNode(Node* const node){
 	for(Node* const child: node->children){
+		child->parent = nullptr;
 		DeactivateNode(child);
 	}
 
