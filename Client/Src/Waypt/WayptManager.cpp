@@ -1,16 +1,18 @@
 #include "WayptManager.h"
 
 WayptManager::~WayptManager(){
-	for(Waypt*& waypt: waypts){
-		if(waypt != nullptr){
-			delete waypt;
-			waypt = nullptr;
-		}
+	if(wayptPool != nullptr){
+		wayptPool->Destroy();
+		wayptPool = nullptr;
 	}
 }
 
+void WayptManager::InitWayptPool(const size_t& inactiveSize, const size_t& activeSize){
+	wayptPool->Init(inactiveSize, activeSize);
+}
+
 void WayptManager::AddWaypt(const glm::vec3& pos){
-	Waypt* waypt = new Waypt();
+	Waypt* waypt = wayptPool->ActivateObj();
 	waypt->pos = pos;
 	
 	const int wayptsSize = (int)waypts.size();
@@ -30,13 +32,13 @@ void WayptManager::RemoveWaypt(const glm::vec3& pos){
 		if(waypt != nullptr && waypt->pos == pos){
 			if(i == 0){
 				if(wayptsSize > 2){
-					waypts[wayptsSize - 1]->nextWaypt = waypts[1];
+					waypts[static_cast<std::vector<Waypt*, std::allocator<Waypt*>>::size_type>(wayptsSize) - 1]->nextWaypt = waypts[1];
 				} else{
 					waypts[1]->nextWaypt = nullptr;
 				}
 			} else if(i == wayptsSize - 1){
 				if(wayptsSize > 2){
-					waypts[wayptsSize - 2]->nextWaypt = waypts[0];
+					waypts[static_cast<std::vector<Waypt*, std::allocator<Waypt*>>::size_type>(wayptsSize) - 2]->nextWaypt = waypts[0];
 				} else{
 					waypts[0]->nextWaypt = nullptr;
 				}
@@ -45,6 +47,7 @@ void WayptManager::RemoveWaypt(const glm::vec3& pos){
 					waypts[static_cast<std::vector<Waypt*, std::allocator<Waypt*>>::size_type>(i) + 1];
 			}
 
+			wayptPool->DeactivateObj(waypt);
 			waypts.erase(waypts.begin() + i);
 		}
 	}
@@ -85,6 +88,7 @@ const std::vector<Waypt*>& WayptManager::GetWaypts() const{
 }
 
 WayptManager::WayptManager():
+	wayptPool(ObjPool<Waypt>::GetObjPtr()),
 	waypts()
 {
 }
