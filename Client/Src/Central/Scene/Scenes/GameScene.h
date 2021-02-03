@@ -2,6 +2,8 @@
 
 #include "../SceneSupport.h"
 
+#include "../../../Waypt/WayptManager.h"
+
 #ifndef BIT
 	#define BIT(x) 1 << x
 #endif
@@ -85,6 +87,8 @@ private:
 	LPWIN32_FIND_DATA dataCoinAudio3D;
 
 	ObjPool<Entity>* entityPool;
+
+	WayptManager* wayptManager;
 
 	void InitEntities();
 

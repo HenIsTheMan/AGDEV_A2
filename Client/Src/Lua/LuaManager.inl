@@ -132,6 +132,46 @@ std::vector<cstr> LuaManager::ReadFromArr(cstr const fPath, cstr const arrName, 
 }
 
 template <class T>
+std::vector<T> LuaManager::ReadFromJaggedArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const int subStartIndex, const int subEndIndex, const bool printErrMsg){
+	assert(false);
+	return std::vector<T>();
+}
+
+template <>
+std::vector<glm::vec3> LuaManager::ReadFromJaggedArr(cstr const fPath, cstr const arrName, const int startIndex, const int endIndex, const int subStartIndex, const int subEndIndex, const bool printErrMsg){
+	std::vector<glm::vec3> vec;
+
+	if(!LuaErrCheck(im_ReadL, luaL_dofile(im_ReadL, fPath), printErrMsg)){
+		lua_getglobal(im_ReadL, arrName);
+
+		if(lua_istable(im_ReadL, -1)){
+			for(int i = startIndex; i <= endIndex; ++i){
+				lua_pushinteger(im_ReadL, i);
+				lua_gettable(im_ReadL, -2);
+				
+				if(lua_istable(im_ReadL, -1)){
+					glm::vec3 myVec3;
+
+					for(int j = subStartIndex; j <= subEndIndex; ++j){
+						lua_pushinteger(im_ReadL, j);
+						lua_gettable(im_ReadL, -2);
+
+						myVec3[j - 1] = (float)lua_tonumber(im_ReadL, -1);
+						lua_pop(im_ReadL, 1);
+					}
+
+					vec.emplace_back(myVec3);
+				}
+
+				lua_pop(im_ReadL, 1);
+			}
+		}
+	}
+
+	return vec;
+}
+
+template <class T>
 T LuaManager::ReadFromTable(cstr const fPath, cstr const tableName, cstr const keyName, const bool printErrMsg){
 	assert(false);
 	return T();

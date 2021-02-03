@@ -139,5 +139,6 @@
     <None Include="Scripts\ValSquared.lua" />
     <None Include="Scripts\LOD.lua" />
     <None Include="Scripts\TextChangingScale.lua" />
+    <None Include="Scripts\Waypts.lua" />
   </ItemGroup>
 </Project>

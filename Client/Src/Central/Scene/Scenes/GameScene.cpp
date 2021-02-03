@@ -66,7 +66,8 @@ GameScene::GameScene():
 	myPlayer(nullptr),
 	luaManager(LuaManager::GetObjPtr()),
 	dataCoinAudio3D(new WIN32_FIND_DATA()),
-	entityPool(ObjPool<Entity>::GetObjPtr())
+	entityPool(ObjPool<Entity>::GetObjPtr()),
+	wayptManager(WayptManager::GetObjPtr())
 {
 }
 
@@ -120,6 +121,11 @@ GameScene::~GameScene(){
 		entityPool->Destroy();
 		entityPool = nullptr;
 	}
+	
+	if(wayptManager != nullptr){
+		wayptManager->Destroy();
+		wayptManager = nullptr;
+	}
 }
 
 void GameScene::Enter(){
@@ -169,6 +175,12 @@ void GameScene::EarlyInit(){
 		models[i] = new Model(fPaths[i], {
 			aiTextureType_DIFFUSE,
 		});
+	}
+
+	const std::vector<glm::vec3> wayptPos = luaManager->ReadFromJaggedArr<glm::vec3>("Scripts/Waypts.lua", "wayptPos", 1, 2, 1, 3, true);
+	const int wayptPosSize = (int)wayptPos.size();
+	for(int i = 0; i < wayptPosSize; ++i){
+		wayptManager->AddWaypt(wayptPos[i]);
 	}
 }
 
