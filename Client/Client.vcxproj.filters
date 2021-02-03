@@ -64,7 +64,6 @@
     <ClInclude Include="Src\Lua\Units\LuaTest3rd.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest4th.hpp" />
     <ClInclude Include="Src\Lua\Units\LuaTest5th.hpp" />
-    <ClInclude Include="Src\Lua\LuaManager.h" />
     <ClInclude Include="Src\Lua\Units\LuaManagerTest.hpp" />
     <ClInclude Include="Src\State\State.h" />
     <ClInclude Include="Src\State\StateID.hpp" />
@@ -79,6 +78,10 @@
     <ClInclude Include="Src\Central\Scene\SceneSupport.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\StartScene.h" />
+    <ClInclude Include="Src\Lua\LuaManager.h" />
+    <ClInclude Include="Src\Experimental\ObjType.hpp" />
+    <ClInclude Include="Src\Experimental\StrType.hpp" />
+    <ClInclude Include="Src\Experimental\BoolType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />
@@ -104,7 +107,6 @@
     <None Include="Scripts\Test4th.lua" />
     <None Include="Scripts\Test5th.lua" />
     <None Include="Scripts\OptionsOpenGL.lua" />
-    <None Include="Src\Lua\LuaManager.inl" />
     <None Include="Scripts\ConsoleWindow.lua" />
     <None Include="Scripts\AppWindow.lua" />
     <None Include="Src\State\StateMachine.inl" />
@@ -114,5 +116,6 @@
     <None Include="Scripts\Audio.lua" />
     <None Include="Scripts\CoinAudio3D.lua" />
     <None Include="Scripts\Skyboxes.lua" />
+    <None Include="Src\Lua\LuaManager.inl" />
   </ItemGroup>
 </Project>
