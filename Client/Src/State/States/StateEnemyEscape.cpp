@@ -5,6 +5,7 @@
 extern float terrainXScale;
 extern float terrainZScale;
 
+glm::vec3 StateEnemyEscape::terrainPos = glm::vec3();
 float StateEnemyEscape::distSquaredThreshold = 0.0f;
 Entity* StateEnemyEscape::targetEntity = nullptr;
 
@@ -28,6 +29,11 @@ void StateEnemyEscape::Update(Entity* const entity, const double dt){
 		} else{
 			entity->node->LocalTranslate(glm::normalize(vec) * entity->chaseSpd * (float)dt);
 		}
+
+		glm::vec3 localTranslationNew = entity->node->GetLocalTranslation();
+		localTranslationNew.x = glm::clamp(localTranslationNew.x, terrainPos.x - terrainXScale * 0.45f, terrainPos.x + terrainXScale * 0.45f);
+		localTranslationNew.z = glm::clamp(localTranslationNew.z, terrainPos.z - terrainZScale * 0.45f, terrainPos.y + terrainZScale * 0.45f);
+		entity->node->SetLocalTranslation(localTranslationNew);
 	}
 }
 

@@ -5,6 +5,7 @@
 extern float terrainXScale;
 extern float terrainZScale;
 
+glm::vec3 StateEnemyChase::terrainPos = glm::vec3();
 float StateEnemyChase::distSquaredThreshold = 0.0f;
 float StateEnemyChase::lifeThreshold = 0.0f;
 Entity* StateEnemyChase::targetEntity = nullptr;
@@ -36,16 +37,12 @@ void StateEnemyChase::Update(Entity* const entity, const double dt){
 
 		glm::vec3 vec = targetEntity->node->GetLocalTranslation() - localTranslation;
 		vec.y = 0.0f;
+		entity->node->LocalTranslate(glm::normalize(vec) * entity->chaseSpd * (float)dt);
 
-		if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vec.x, vec.y, vec.z}, true) < entity->chaseSpd * (float)dt * entity->chaseSpd * (float)dt){
-			entity->node->SetLocalTranslation(glm::vec3(
-				roundf(localTranslation.x),
-				roundf(localTranslation.y),
-				roundf(localTranslation.z)
-			));
-		} else{
-			entity->node->LocalTranslate(glm::normalize(vec) * entity->chaseSpd * (float)dt);
-		}
+		glm::vec3 localTranslationNew = entity->node->GetLocalTranslation();
+		localTranslationNew.x = glm::clamp(localTranslationNew.x, terrainPos.x - terrainXScale * 0.45f, terrainPos.x + terrainXScale * 0.45f);
+		localTranslationNew.z = glm::clamp(localTranslationNew.z, terrainPos.z - terrainZScale * 0.45f, terrainPos.y + terrainZScale * 0.45f);
+		entity->node->SetLocalTranslation(localTranslationNew);
 	}
 }
 

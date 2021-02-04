@@ -5,6 +5,7 @@
 class StateEnemyChase final{ //Static class
 	_6_DELETED(StateEnemyChase)
 public:
+	static glm::vec3 terrainPos;
 	static float distSquaredThreshold;
 	static float lifeThreshold;
 	static Entity* targetEntity;

@@ -267,6 +267,7 @@ void GameScene::Update(){
 
 	StateEnemyIdle::elapsedTime = StateEnemyHeal::elapsedTime = elapsedTime;
 	StateEnemyPatrol::targetEntity = StateEnemyChase::targetEntity = StateEnemyEscape::targetEntity = const_cast<Entity*>(myPlayer);
+	StateEnemyChase::terrainPos = glm::vec3(0.0f);
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();

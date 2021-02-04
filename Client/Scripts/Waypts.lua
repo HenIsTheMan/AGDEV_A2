@@ -11,6 +11,16 @@ for r = 0, rows do
 	end
 end
 
+-- wayptPos = shuffle(wayptPos)
+
 function AmtOfWaypts()
 	return #wayptPos
+end
+
+function shuffle(arr) -- Fisher-Yates shuffle
+	for i = #arr, 2, -1 do
+		local j = math.random(i)
+		arr[i], arr[j] = arr[j], arr[i]
+	end
+	return arr
 end

@@ -1,8 +1,8 @@
 #include "StateEnemyHeal.h"
 
 float StateEnemyHeal::elapsedTime = 0.0f;
-float StateEnemyHeal::healDelay = 2.0f;
-float StateEnemyHeal::healMaxDelay = 2.0f;
+float StateEnemyHeal::healDelay = 0.5f;
+float StateEnemyHeal::healMaxDelay = StateEnemyHeal::healDelay;
 float StateEnemyHeal::healMultiplier = 0.05f;
 
 void StateEnemyHeal::Enter(Entity* const entity){
@@ -16,7 +16,7 @@ void StateEnemyHeal::Update(Entity* const entity, const double dt){
 		entity->life += entity->maxLife * healMultiplier;
 
 		if(entity->life + entity->maxLife * healMultiplier > entity->maxLife){
-			entity->nextState = entity->stateMachine->AcquireState(StateID::EnemyIdle);
+			entity->nextState = entity->stateMachine->AcquireState(StateID::EnemyPatrol);
 			return;
 		}
 
