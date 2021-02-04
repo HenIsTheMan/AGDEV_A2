@@ -104,12 +104,15 @@ void SettingsScene::Update(){
 			case SettingsType::IsPausedBGM:
 				luaManager->WriteOverwrite<bool>(fPath, keyNames[(int)currSettingsType], !luaManager->Read<bool>(fPath, keyNames[(int)currSettingsType], true), true);
 				break;
-			case SettingsType::SoundVol:
 			case SettingsType::RolloffFactor:
-				break;
 			case SettingsType::DopplerFactorDopplerEffect:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], glm::clamp(luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) - 0.1f, 0.0f, 10.0f), true);
 				break;
 			case SettingsType::DistFactor:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) - 0.1f, true);
+				break;
+			default:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], glm::clamp(luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) - 0.1f, 0.0f, 1.0f), true);
 				break;
 		}
 

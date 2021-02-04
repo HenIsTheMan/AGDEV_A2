@@ -476,7 +476,7 @@ inline void LuaManager::WriteOverwrite(cstr const fPath, cstr const keyName, con
 			const str newStr = keyName + (str)" = " + ss.str();
 			lua_pushstring(im_WriteL, newStr.c_str());
 
-			ss.clear();
+			ss.str("");
 			ss << Read<float>(fPath, keyName, true);
 			const str oldStr = keyName + (str)" = " + ss.str();
 			lua_pushstring(im_WriteL, oldStr.c_str());
