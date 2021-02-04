@@ -22,7 +22,7 @@ void StateEnemyPatrol::Update(Entity* const entity, const double dt){
 	if(targetEntity != nullptr){ //Precaution
 		glm::vec3 vecCheck = targetEntity->node->GetLocalTranslation() - localTranslation;
 		vecCheck.y = 0.0f;
-		if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vecCheck.x, vecCheck.y, vecCheck.z}, true) <= distSquaredThreshold){
+		if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vecCheck.x, vecCheck.y, vecCheck.z}, true) < distSquaredThreshold){
 			entity->nextState = entity->stateMachine->AcquireState(StateID::EnemyChase);
 			return;
 		}

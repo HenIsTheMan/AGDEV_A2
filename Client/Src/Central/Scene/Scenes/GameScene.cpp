@@ -14,6 +14,7 @@
 
 #include "../../../State/States/StateEnemyIdle.h"
 #include "../../../State/States/StateEnemyPatrol.h"
+#include "../../../State/States/StateEnemyChase.h"
 
 #ifndef DEBUGGING
 	#define DEBUGGING
@@ -263,7 +264,7 @@ void GameScene::Update(){
 	SceneSupport::Update();
 
 	StateEnemyIdle::elapsedTime = elapsedTime;
-	StateEnemyPatrol::targetEntity = const_cast<Entity*>(myPlayer);
+	StateEnemyPatrol::targetEntity = StateEnemyChase::targetEntity = const_cast<Entity*>(myPlayer);
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();
