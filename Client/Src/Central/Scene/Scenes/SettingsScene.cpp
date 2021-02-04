@@ -95,6 +95,35 @@ void SettingsScene::Update(){
 	} else if(isDown && !Key(VK_DOWN)){
 		isDown = false;
 	}
+
+	static bool isLeft = false;
+	if(!isLeft && Key(VK_LEFT)){
+		switch(currSettingsType){
+			case SettingsType::IsPausedBGM:
+				break;
+			case SettingsType::SoundVol:
+			case SettingsType::RolloffFactor:
+				break;
+			case SettingsType::DopplerFactorDopplerEffect:
+				break;
+			case SettingsType::DistFactor:
+				break;
+			default:
+		};
+
+		isLeft = true;
+	} else if(isLeft && !Key(VK_LEFT)){
+		isLeft = false;
+	}
+
+	static bool isRight = false;
+	if(!isRight && Key(VK_RIGHT)){
+		currSettingsType = (int)currSettingsType == (int)SettingsType::Amt - 1 ? (SettingsType)0 : SettingsType((int)currSettingsType + 1);
+
+		isRight = true;
+	} else if(isRight && !Key(VK_RIGHT)){
+		isRight = false;
+	}
 }
 
 void SettingsScene::LateUpdate(){
