@@ -16,6 +16,7 @@
 #include "../../../State/States/StateEnemyPatrol.h"
 #include "../../../State/States/StateEnemyChase.h"
 #include "../../../State/States/StateEnemyEscape.h"
+#include "../../../State/States/StateEnemyHeal.h"
 
 #ifndef DEBUGGING
 	#define DEBUGGING
@@ -264,7 +265,7 @@ void GameScene::FixedUpdate(){
 void GameScene::Update(){
 	SceneSupport::Update();
 
-	StateEnemyIdle::elapsedTime = elapsedTime;
+	StateEnemyIdle::elapsedTime = StateEnemyHeal::elapsedTime = elapsedTime;
 	StateEnemyPatrol::targetEntity = StateEnemyChase::targetEntity = StateEnemyEscape::targetEntity = const_cast<Entity*>(myPlayer);
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
