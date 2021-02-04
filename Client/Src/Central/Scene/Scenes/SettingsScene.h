@@ -41,7 +41,7 @@ private:
 		Amt
 	};
 	const str txts[(int)SettingsType::Amt]{
-		"Pause BGM",
+		"BGM Is Paused",
 		"Global Vol",
 		"Rolloff Factor",
 		"Doppler Factor",

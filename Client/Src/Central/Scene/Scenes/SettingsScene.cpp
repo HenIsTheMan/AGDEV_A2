@@ -129,7 +129,36 @@ void SettingsScene::Render(){
 	for(size_t i = 0; i < (int)SettingsType::Amt; ++i){
 		textChief.RenderText(textSP, {
 			txts[i],
-			(float)windowWidth * 0.3f,
+			(float)windowWidth * 0.4f,
+			(float)windowHeight * (0.7f / (float)SettingsType::Amt) * float((int)SettingsType::Amt - 1 - (float)i) + (float)windowHeight * 0.1f,
+			1.5f - 0.05f * (float)SettingsType::Amt,
+			i == (int)currSettingsType ? glm::vec4(1.0f) : glm::vec4(glm::vec3(0.67f), 1.0f),
+			0,
+			TextChief::TextAlignment::Center
+		});
+	}
+
+	static cstr fPath = "Scripts/Audio.lua";
+	const str valTxts[(int)SettingsType::Amt]{
+		luaManager->Read<bool>(fPath, "isPausedBGM", true) ? "true" : "false",
+		std::to_string(luaManager->Read<float>(fPath, "soundVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "rolloffFactor", true)),
+		std::to_string(luaManager->Read<float>(fPath, "dopplerFactorDopplerEffect", true)),
+		std::to_string(luaManager->Read<float>(fPath, "distFactorDopplerEffect", true)),
+		std::to_string(luaManager->Read<float>(fPath, "coinVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "scopeVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "popVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "selectVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "BGMVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "reloadVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "shotgunVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "scarVol", true)),
+		std::to_string(luaManager->Read<float>(fPath, "sniperVol", true)),
+	};
+	for(size_t i = 0; i < (int)SettingsType::Amt; ++i){
+		textChief.RenderText(textSP, {
+			valTxts[i],
+			(float)windowWidth * 0.6f,
 			(float)windowHeight * (0.7f / (float)SettingsType::Amt) * float((int)SettingsType::Amt - 1 - (float)i) + (float)windowHeight * 0.1f,
 			1.5f - 0.05f * (float)SettingsType::Amt,
 			i == (int)currSettingsType ? glm::vec4(1.0f) : glm::vec4(glm::vec3(0.67f), 1.0f),
