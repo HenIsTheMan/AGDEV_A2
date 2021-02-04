@@ -199,6 +199,9 @@
     <ClCompile Include="Src\Central\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\CreditsScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\MenuScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\ScoreboardScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\SettingsScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\ShopScene.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\StartScene.cpp" />
     <ClCompile Include="Src\Client.cpp" />
     <ClCompile Include="Src\Collision\Collider\Collider.cpp" />
@@ -241,6 +244,9 @@
     <ClInclude Include="Src\Central\Scene\SceneManager.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\CreditsScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\MenuScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\ScoreboardScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\SettingsScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\ShopScene.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\StartScene.h" />
     <ClInclude Include="Src\Collision\Collider\Collider.h" />
     <ClInclude Include="Src\Collision\Collider\ColliderManager.h" />

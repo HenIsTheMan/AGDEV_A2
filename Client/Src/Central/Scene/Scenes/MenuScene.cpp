@@ -108,8 +108,14 @@ void MenuScene::Update(){
 						SceneManager::GetObjPtr()->SetNextScene(SceneID::Game);
 						break;
 					case MenuButtons::Shop:
+						SceneManager::GetObjPtr()->SetNextScene(SceneID::Shop);
+						break;
 					case MenuButtons::Scores:
+						SceneManager::GetObjPtr()->SetNextScene(SceneID::Scoreboard);
+						break;
 					case MenuButtons::Settings:
+						SceneManager::GetObjPtr()->SetNextScene(SceneID::Settings);
+						break;
 					case MenuButtons::Credits:
 						SceneManager::GetObjPtr()->SetNextScene(SceneID::Credits);
 						break;

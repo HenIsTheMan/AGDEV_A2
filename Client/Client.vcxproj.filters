@@ -40,6 +40,9 @@
     <ClCompile Include="Src\Waypt\Waypt.cpp" />
     <ClCompile Include="Src\Waypt\WayptManager.cpp" />
     <ClCompile Include="Src\Central\Scene\Scenes\CreditsScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\SettingsScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\ShopScene.cpp" />
+    <ClCompile Include="Src\Central\Scene\Scenes\ScoreboardScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Quadtree\Region.h" />
@@ -100,6 +103,9 @@
     <ClInclude Include="Src\Waypt\Waypt.h" />
     <ClInclude Include="Src\Waypt\WayptManager.h" />
     <ClInclude Include="Src\Central\Scene\Scenes\CreditsScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\SettingsScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\ShopScene.h" />
+    <ClInclude Include="Src\Central\Scene\Scenes\ScoreboardScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Blur.fragS" />

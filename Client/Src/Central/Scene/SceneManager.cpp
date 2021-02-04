@@ -2,6 +2,9 @@
 
 #include "Scenes/StartScene.h"
 #include "Scenes/MenuScene.h"
+#include "Scenes/ShopScene.h"
+#include "Scenes/ScoreboardScene.h"
+#include "Scenes/SettingsScene.h"
 #include "Scenes/CreditsScene.h"
 #include "Scenes/GameScene.h"
 
@@ -78,6 +81,9 @@ SceneManager::SceneManager():
 {
 	AddScene(SceneID::Start, new StartScene());
 	AddScene(SceneID::Menu, new MenuScene());
+	AddScene(SceneID::Shop, new ShopScene());
+	AddScene(SceneID::Scoreboard, new ScoreboardScene());
+	AddScene(SceneID::Settings, new SettingsScene());
 	AddScene(SceneID::Credits, new CreditsScene());
 	AddScene(SceneID::Game, new GameScene());
 
