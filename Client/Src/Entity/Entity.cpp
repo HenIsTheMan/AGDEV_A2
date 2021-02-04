@@ -16,7 +16,6 @@ void Entity::Reset(){
 
 	collider = nullptr;
 	facingDir = glm::vec3();
-	moveSpd = 0.0f;
 
 	xMin = -FLT_MAX;
 	xMax = FLT_MAX;
@@ -37,6 +36,10 @@ void Entity::Reset(){
 
 	idleTime = 0.0f;
 	currWaypt = nullptr;
+	moveSpd = 0.0f;
+	patrolSpd = 0.0f;
+	chaseSpd = 0.0f;
+	escapeSpd = 0.0f;
 }
 
 const glm::vec3& Entity::GetPos() const{
@@ -79,7 +82,6 @@ Entity::Entity():
 
 	collider(nullptr),
 	facingDir(glm::vec3()),
-	moveSpd(0.0f),
 
 	xMin(0.0f),
 	xMax(0.0f),
@@ -99,6 +101,10 @@ Entity::Entity():
 	node(nullptr),
 
 	idleTime(0.0f),
-	currWaypt(nullptr)
+	currWaypt(nullptr),
+	moveSpd(0.0f),
+	patrolSpd(0.0f),
+	chaseSpd(0.0f),
+	escapeSpd(0.0f)
 {
 }

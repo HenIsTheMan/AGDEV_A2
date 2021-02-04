@@ -203,7 +203,9 @@ const Entity* EntityFactory::CreateEnemyBody(const EntityCreationAttribs& attrib
 
 	entity->pos = attribs.pos;
 	entity->mass = 1.0f;
-	entity->moveSpd = 800.0f;
+	entity->patrolSpd = 800.0f;
+	entity->chaseSpd = 1200.0f;
+	entity->escapeSpd = 1400.0f;
 
 	entity->collider = colliderManager->ActivateCollider(ColliderType::Box);
 	BoxCollider* const boxCollider = static_cast<BoxCollider*>(entity->collider);

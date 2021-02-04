@@ -58,7 +58,6 @@ public:
 
 	Collider* collider;
 	glm::vec3 facingDir;
-	float moveSpd;
 
 	float xMin;
 	float xMax;
@@ -80,5 +79,9 @@ public:
 	//* Vars for specific entities (help la, I wanna do ECS alr)
 	float idleTime;
 	Waypt* currWaypt;
+	float moveSpd;
+	float patrolSpd;
+	float chaseSpd;
+	float escapeSpd;
 	//*/
 };

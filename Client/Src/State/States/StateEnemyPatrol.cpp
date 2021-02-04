@@ -10,7 +10,7 @@ Entity* StateEnemyPatrol::targetEntity = nullptr;
 WayptManager* const StateEnemyPatrol::wayptManager = WayptManager::GetObjPtr();
 
 void StateEnemyPatrol::Enter(Entity* const entity){
-	distSquaredThreshold = (terrainXScale + terrainZScale) * 0.5f * 0.2f; //Accts for non-uni scaling of terrain
+	distSquaredThreshold = (terrainXScale + terrainZScale) * 0.5f * 0.15f; //Accts for non-uni scaling of terrain
 	distSquaredThreshold *= distSquaredThreshold;
 	entity->colour = glm::vec4(0.3f, 0.3f, 0.3f, 0.4f);
 	entity->currWaypt = wayptManager->RetrieveRandWaypt();
@@ -31,7 +31,7 @@ void StateEnemyPatrol::Update(Entity* const entity, const double dt){
 	glm::vec3 vec = entity->currWaypt->pos - localTranslation;
 	vec.y = 0.0f;
 
-	if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vec.x, vec.y, vec.z}, true) < entity->moveSpd * (float)dt * entity->moveSpd * (float)dt){
+	if(LuaManager::GetObjPtr()->CallLuaFunc<float>("Scripts/LenSquared.lua", "LenSquared", {vec.x, vec.y, vec.z}, true) < entity->patrolSpd * (float)dt * entity->patrolSpd * (float)dt){
 		entity->node->SetLocalTranslation(glm::vec3(
 			roundf(localTranslation.x),
 			roundf(localTranslation.y),
@@ -44,7 +44,7 @@ void StateEnemyPatrol::Update(Entity* const entity, const double dt){
 			entity->currWaypt = entity->currWaypt->nextWaypt;
 		}
 	} else{
-		entity->node->LocalTranslate(glm::normalize(vec) * entity->moveSpd * (float)dt);
+		entity->node->LocalTranslate(glm::normalize(vec) * entity->patrolSpd * (float)dt);
 	}
 }
 
