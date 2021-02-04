@@ -123,7 +123,21 @@ void SettingsScene::Update(){
 
 	static bool isRight = false;
 	if(!isRight && Key(VK_RIGHT)){
-		currSettingsType = (int)currSettingsType == (int)SettingsType::Amt - 1 ? (SettingsType)0 : SettingsType((int)currSettingsType + 1);
+		switch(currSettingsType){
+			case SettingsType::IsPausedBGM:
+				luaManager->WriteOverwrite<bool>(fPath, keyNames[(int)currSettingsType], !luaManager->Read<bool>(fPath, keyNames[(int)currSettingsType], true), true);
+				break;
+			case SettingsType::RolloffFactor:
+			case SettingsType::DopplerFactorDopplerEffect:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], glm::clamp(luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) + 0.1f, 0.0f, 10.0f), true);
+				break;
+			case SettingsType::DistFactor:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) + 0.1f, true);
+				break;
+			default:
+				luaManager->WriteOverwrite<float>(fPath, keyNames[(int)currSettingsType], glm::clamp(luaManager->Read<float>(fPath, keyNames[(int)currSettingsType], true) + 0.1f, 0.0f, 1.0f), true);
+				break;
+		}
 
 		isRight = true;
 	} else if(isRight && !Key(VK_RIGHT)){
