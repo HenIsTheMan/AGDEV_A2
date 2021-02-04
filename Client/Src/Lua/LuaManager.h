@@ -96,7 +96,19 @@ public:
 	void WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const T newVal, const bool printErrMsg);
 
 	template <>
+	inline void WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const bool newVal, const bool printErrMsg);
+
+	template <>
 	inline void WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const float newVal, const bool printErrMsg);
+
+	template <class T>
+	void WriteOverwrite(cstr const fPath, cstr const keyName, const T newVal, const bool printErrMsg);
+
+	template <>
+	inline void WriteOverwrite(cstr const fPath, cstr const keyName, const bool newVal, const bool printErrMsg);
+
+	template <>
+	inline void WriteOverwrite(cstr const fPath, cstr const keyName, const float newVal, const bool printErrMsg);
 private:
 	lua_State* im_ReadL;
 	lua_State* im_WriteL;

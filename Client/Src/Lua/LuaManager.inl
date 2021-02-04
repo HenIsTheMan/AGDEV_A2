@@ -394,6 +394,27 @@ void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr con
 }
 
 template <>
+void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const bool newVal, const bool printErrMsg){
+	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, "Scripts/WriteToLuaFile.lua"), printErrMsg)){
+		lua_getglobal(im_WriteL, "WriteOverwrite");
+
+		if(lua_isfunction(im_WriteL, -1)){
+			lua_pushstring(im_WriteL, fPath);
+
+			const str newStr = keyName + (str)" = " + (newVal ? "true" : "false");
+			lua_pushstring(im_WriteL, newStr.c_str());
+
+			const str oldStr = keyName + (str)" = " + ReadFromTableCstr(fPath, tableName, {keyName}, true)[0];
+			lua_pushstring(im_WriteL, oldStr.c_str());
+
+			if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 3, 0, 0), true)){
+				(void)puts("Ayo, err here yo");
+			}
+		}
+	}
+}
+
+template <>
 void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr const keyName, const float newVal, const bool printErrMsg){
 	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, "Scripts/WriteToLuaFile.lua"), printErrMsg)){
 		lua_getglobal(im_WriteL, "WriteOverwrite");
@@ -407,6 +428,57 @@ void LuaManager::WriteOverwrite(cstr const fPath, cstr const tableName, cstr con
 			lua_pushstring(im_WriteL, newStr.c_str());
 
 			const str oldStr = keyName + (str)" = " + ReadFromTableCstr(fPath, tableName, {keyName}, true)[0];
+			lua_pushstring(im_WriteL, oldStr.c_str());
+
+			if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 3, 0, 0), true)){
+				(void)puts("Ayo, err here yo");
+			}
+		}
+	}
+}
+
+template <class T>
+void LuaManager::WriteOverwrite(cstr const fPath, cstr const keyName, const T newVal, const bool printErrMsg){
+	assert(false);
+}
+
+template <>
+inline void LuaManager::WriteOverwrite(cstr const fPath, cstr const keyName, const bool newVal, const bool printErrMsg){
+	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, "Scripts/WriteToLuaFile.lua"), printErrMsg)){
+		lua_getglobal(im_WriteL, "WriteOverwrite");
+
+		if(lua_isfunction(im_WriteL, -1)){
+			lua_pushstring(im_WriteL, fPath);
+
+			const str newStr = keyName + (str)" = " + (newVal ? "true" : "false");
+			lua_pushstring(im_WriteL, newStr.c_str());
+
+			const str oldStr = keyName + (str)" = " + (Read<bool>(fPath, keyName, true) ? "true" : "false");
+			lua_pushstring(im_WriteL, oldStr.c_str());
+
+			if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 3, 0, 0), true)){
+				(void)puts("Ayo, err here yo");
+			}
+		}
+	}
+}
+
+template <>
+inline void LuaManager::WriteOverwrite(cstr const fPath, cstr const keyName, const float newVal, const bool printErrMsg){
+	if(!LuaErrCheck(im_WriteL, luaL_dofile(im_WriteL, "Scripts/WriteToLuaFile.lua"), printErrMsg)){
+		lua_getglobal(im_WriteL, "WriteOverwrite");
+
+		if(lua_isfunction(im_WriteL, -1)){
+			lua_pushstring(im_WriteL, fPath);
+
+			std::stringstream ss;
+			ss << newVal;
+			const str newStr = keyName + (str)" = " + ss.str();
+			lua_pushstring(im_WriteL, newStr.c_str());
+
+			ss.clear();
+			ss << Read<float>(fPath, keyName, true);
+			const str oldStr = keyName + (str)" = " + ss.str();
 			lua_pushstring(im_WriteL, oldStr.c_str());
 
 			if(LuaErrCheck(im_WriteL, lua_pcall(im_WriteL, 3, 0, 0), true)){

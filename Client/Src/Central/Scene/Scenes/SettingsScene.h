@@ -56,6 +56,22 @@ private:
 		"Scar Vol",
 		"Sniper Vol",
 	};
+	cstr const keyNames[(int)SettingsType::Amt]{
+		"isPausedBGM",
+		"soundVol",
+		"rolloffFactor",
+		"dopplerFactorDopplerEffect",
+		"distFactorDopplerEffect",
+		"coinVol",
+		"scopeVol",
+		"popVol",
+		"selectVol",
+		"BGMVol",
+		"reloadVol",
+		"shotgunVol",
+		"scarVol",
+		"sniperVol",
+	};
 
 	SettingsType currSettingsType;
 

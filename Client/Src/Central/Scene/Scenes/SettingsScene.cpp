@@ -96,10 +96,13 @@ void SettingsScene::Update(){
 		isDown = false;
 	}
 
+	static cstr fPath = "Scripts/Audio.lua";
+
 	static bool isLeft = false;
 	if(!isLeft && Key(VK_LEFT)){
 		switch(currSettingsType){
 			case SettingsType::IsPausedBGM:
+				luaManager->WriteOverwrite<bool>(fPath, keyNames[(int)currSettingsType], !luaManager->Read<bool>(fPath, keyNames[(int)currSettingsType], true), true);
 				break;
 			case SettingsType::SoundVol:
 			case SettingsType::RolloffFactor:
@@ -108,8 +111,7 @@ void SettingsScene::Update(){
 				break;
 			case SettingsType::DistFactor:
 				break;
-			default:
-		};
+		}
 
 		isLeft = true;
 	} else if(isLeft && !Key(VK_LEFT)){
