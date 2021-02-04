@@ -6,6 +6,7 @@ class StateEnemyChase final{ //Static class
 	_6_DELETED(StateEnemyChase)
 public:
 	static float distSquaredThreshold;
+	static float lifeThreshold;
 	static Entity* targetEntity;
 
 	static void Enter(Entity* const entity);

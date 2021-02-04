@@ -200,6 +200,7 @@ void EntityManager::Update(const Cam& cam){
 						case Entity::EntityType::ThinObj:
 							nearbyMovableEntity->colour = glm::vec4(PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), PseudorandMinMax(0.0f, 1.0f), 0.5f);
 							break;
+						case Entity::EntityType::EnemyBody:
 						case Entity::EntityType::EnemyPart:
 							--nearbyMovableEntity->life;
 

@@ -197,6 +197,8 @@ const Entity* EntityFactory::CreateEnemyBody(const EntityCreationAttribs& attrib
 	Entity* const& entity = ActivateEntity(true);
 
 	entity->type = Entity::EntityType::EnemyBody;
+	entity->life = 100.0f;
+	entity->maxLife = 100.0f;
 	entity->colour = attribs.colour;
 	entity->diffuseTexIndex = attribs.diffuseTexIndex;
 	entity->scale = attribs.scale;
