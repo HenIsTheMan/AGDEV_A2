@@ -13,6 +13,7 @@
 #include "../../../Experimental/StrType.hpp"
 
 #include "../../../State/States/StateEnemyIdle.h"
+#include "../../../State/States/StateEnemyPatrol.h"
 
 #ifndef DEBUGGING
 	#define DEBUGGING
@@ -262,6 +263,7 @@ void GameScene::Update(){
 	SceneSupport::Update();
 
 	StateEnemyIdle::elapsedTime = elapsedTime;
+	StateEnemyPatrol::targetEntity = const_cast<Entity*>(myPlayer);
 
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::CoinSpriteAni])->Update();
 	static_cast<SpriteAni*>(Meshes::meshes[(int)MeshType::FireSpriteAni])->Update();
@@ -871,7 +873,7 @@ void GameScene::CreateEntities(){
 	const Entity* const enemyBody = entityFactory->CreateEnemyBody({
 		glm::vec3(
 			0.0f,
-			terrainYScale * 2.0f,
+			terrainYScale * 1.5f,
 			terrainZScale * 0.4f
 		),
 		glm::vec3(xyScaleEnemyBody, xyScaleEnemyBody, 5.0f),

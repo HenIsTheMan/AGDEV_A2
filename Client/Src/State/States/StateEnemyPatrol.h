@@ -7,6 +7,8 @@
 class StateEnemyPatrol final{ //Static class
 	_6_DELETED(StateEnemyPatrol)
 public:
+	static float distSquaredThreshold;
+	static Entity* targetEntity;
 	static WayptManager* const wayptManager;
 
 	static void Enter(Entity* const entity);
