@@ -11,8 +11,6 @@ for r = 0, rows do
 	end
 end
 
--- wayptPos = shuffle(wayptPos)
-
 function AmtOfWaypts()
 	return #wayptPos
 end

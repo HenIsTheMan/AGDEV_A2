@@ -189,7 +189,11 @@ void GameScene::EarlyInit(){
 	wayptManager->ReserveWaypts(999);
 
 	const int amtOfWaypts = luaManager->CallLuaFunc<int>("Scripts/Waypts.lua", "AmtOfWaypts", {}, true);
-	const std::vector<glm::vec3> wayptPos = luaManager->ReadFromJaggedArr<glm::vec3>("Scripts/Waypts.lua", "wayptPos", 1, amtOfWaypts, 1, 3, true);
+	std::vector<glm::vec3> wayptPos = luaManager->ReadFromJaggedArr<glm::vec3>("Scripts/Waypts.lua", "wayptPos", 1, amtOfWaypts, 1, 3, true);
+
+	std::random_shuffle(wayptPos.begin(), wayptPos.end());
+	wayptPos.erase(wayptPos.begin(), wayptPos.begin() + wayptPos.size() / 2);
+
 	const int wayptPosSize = (int)wayptPos.size();
 
 	for(int i = 0; i < wayptPosSize; ++i){
