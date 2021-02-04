@@ -11,7 +11,8 @@ extern int windowHeight;
 
 SettingsScene::SettingsScene():
 	SceneSupport(),
-	backColor(glm::vec4(1.0f))
+	backColor(glm::vec4(1.0f)),
+	currSettingsType((SettingsType)0)
 {
 }
 
@@ -76,6 +77,24 @@ void SettingsScene::Update(){
 		backScaleFactor = 1.f;
 		backColor = glm::vec4(1.f);
 	}
+
+	static bool isUp = false;
+	if(!isUp && Key(VK_UP)){
+		currSettingsType = (int)currSettingsType == 0 ? SettingsType((int)SettingsType::Amt - 1) : SettingsType((int)currSettingsType - 1);
+
+		isUp = true;
+	} else if(isUp && !Key(VK_UP)){
+		isUp = false;
+	}
+
+	static bool isDown = false;
+	if(!isDown && Key(VK_DOWN)){
+		currSettingsType = (int)currSettingsType == (int)SettingsType::Amt - 1 ? (SettingsType)0 : SettingsType((int)currSettingsType + 1);
+
+		isDown = true;
+	} else if(isDown && !Key(VK_DOWN)){
+		isDown = false;
+	}
 }
 
 void SettingsScene::LateUpdate(){
@@ -106,6 +125,18 @@ void SettingsScene::Render(){
 	modelStack.PopModel();
 
 	glDepthFunc(GL_GREATER);
+
+	for(size_t i = 0; i < (int)SettingsType::Amt; ++i){
+		textChief.RenderText(textSP, {
+			txts[i],
+			(float)windowWidth * 0.3f,
+			(float)windowHeight * (0.7f / (float)SettingsType::Amt) * float((int)SettingsType::Amt - 1 - (float)i) + (float)windowHeight * 0.1f,
+			1.5f - 0.05f * (float)SettingsType::Amt,
+			i == (int)currSettingsType ? glm::vec4(1.0f) : glm::vec4(glm::vec3(0.67f), 1.0f),
+			0,
+			TextChief::TextAlignment::Center
+		});
+	}
 
 	textChief.RenderText(textSP, {
 		"Back",

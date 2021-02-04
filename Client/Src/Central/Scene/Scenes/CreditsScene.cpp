@@ -111,7 +111,7 @@ void CreditsScene::Render(){
 
 	const int creditsTxtsSize = LuaManager::GetObjPtr()->CallLuaFunc<int>("Scripts/CreditsTxts.lua", "GetCreditsTxtsSize", {}, true);
 	const std::vector<cstr> txts = LuaManager::GetObjPtr()->ReadFromArr<cstr>("Scripts/CreditsTxts.lua", "creditsTxts", 1, creditsTxtsSize, true);
-	for(size_t i = 0; i < creditsTxtsSize; ++i){
+	for(int i = 0; i < creditsTxtsSize; ++i){
 		textChief.RenderText(textSP, {
 			txts[i],
 			(float)windowWidth * 0.5f,

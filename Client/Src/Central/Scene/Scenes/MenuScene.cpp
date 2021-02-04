@@ -175,7 +175,7 @@ void MenuScene::Render(){
 
 	glDepthFunc(GL_GREATER);
 
-	for(size_t i = 0; i < (int)MenuButtons::Amt; ++i){
+	for(int i = 0; i < (int)MenuButtons::Amt; ++i){
 		textChief.RenderText(textSP, {
 			menuButtonTexts[i],
 			(float)windowWidth * 0.5f,

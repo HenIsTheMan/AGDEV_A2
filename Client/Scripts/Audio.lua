@@ -5,7 +5,7 @@ soundVol = 1.0 -- 0.0 - 1.0
 rolloffFactor = 0.7 -- 0.0 - 10.0
 
 dopplerFactorDopplerEffect = 10.0 -- 0.0 - 10.0
-distFactorDopplerEffect = 0.3048
+distFactorDopplerEffect = 1.0 -- 0.3048 for...
 
 ---[[ 0.0 - 1.0
 

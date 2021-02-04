@@ -23,6 +23,42 @@ public:
 	void Render() override;
 	void PostRender() override;
 private:
+	enum struct SettingsType: int{
+		IsPausedBGM,
+		SoundVol,
+		RolloffFactor,
+		DopplerFactorDopplerEffect,
+		DistFactor,
+		CoinVol,
+		ScopeVol,
+		PopVol,
+		SelectVol,
+		BGMVol,
+		ReloadVol,
+		ShotgunVol,
+		ScarVol,
+		SniperVol,
+		Amt
+	};
+	const str txts[(int)SettingsType::Amt]{
+		"Pause BGM",
+		"Global Vol",
+		"Rolloff Factor",
+		"Doppler Factor",
+		"Dist Factor",
+		"Coin Vol",
+		"Scope Vol",
+		"Pop Vol",
+		"Select Vol",
+		"BGM Vol",
+		"Reload Vol",
+		"Shotgun Vol",
+		"Scar Vol",
+		"Sniper Vol",
+	};
+
+	SettingsType currSettingsType;
+
 	float backScaleFactor;
 	glm::vec4 backColor;
 };
