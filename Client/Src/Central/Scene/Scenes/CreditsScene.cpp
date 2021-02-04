@@ -3,6 +3,8 @@
 #include "../../App.h"
 #include "../SceneManager.h"
 
+#include "../../../Lua/LuaManager.h"
+
 extern float leftRightMB;
 extern float windowMouseX;
 extern float windowMouseY;
@@ -107,12 +109,36 @@ void CreditsScene::Render(){
 
 	glDepthFunc(GL_GREATER);
 
+	const int creditsTxtsSize = LuaManager::GetObjPtr()->CallLuaFunc<int>("Scripts/CreditsTxts.lua", "GetCreditsTxtsSize", {}, true);
+	const std::vector<cstr> txts = LuaManager::GetObjPtr()->ReadFromArr<cstr>("Scripts/CreditsTxts.lua", "creditsTxts", 1, creditsTxtsSize, true);
+	for(size_t i = 0; i < creditsTxtsSize; ++i){
+		textChief.RenderText(textSP, {
+			txts[i],
+			(float)windowWidth * 0.5f,
+			(float)windowHeight * (0.5f / (float)creditsTxtsSize) * float(creditsTxtsSize - 1 - (float)i) + (float)windowHeight * 0.3f,
+			1.5f,
+			glm::vec4(0.67f),
+			0,
+			TextChief::TextAlignment::Center
+		});
+	}
+
 	textChief.RenderText(textSP, {
 		"Back",
 		(float)windowWidth * 0.05f,
 		(float)windowHeight * 0.05f,
 		backScaleFactor,
 		backColor,
+		0,
+		TextChief::TextAlignment::Center
+	});
+
+	textChief.RenderText(textSP, {
+		"Credits",
+		(float)windowWidth * 0.5f, 
+		(float)windowHeight * 0.85f,
+		2.0f,
+		glm::vec4(1.0f, 0.0f, 1.0f, 1.0f),
 		0,
 		TextChief::TextAlignment::Center
 	});

@@ -150,5 +150,6 @@
     <None Include="Scripts\Terrain.lua" />
     <None Include="Scripts\WriteToLuaFile.lua" />
     <None Include="Src\Lua\LuaManager.inl" />
+    <None Include="Scripts\CreditsTxts.lua" />
   </ItemGroup>
 </Project>
